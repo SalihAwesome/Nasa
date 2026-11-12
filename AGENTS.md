@@ -66,7 +66,8 @@ Three people build the units, each with an agent of their own. Claude is the rev
 
 ## Commands
 
-The repo has no code yet. U01 adds these commands and this section must match them after U01 lands.
+The workflow in `.github/workflows/ci.yml` runs these on every pull request.
 
-- `npm test` and `npm run build` in `app/`.
-- `pytest` in `pipeline/`.
+- In `app/`, run `npm ci` once. Then `npm test` runs Vitest once and exits, and `npm run build` type-checks and writes `app/dist/`.
+- In `pipeline/`, run `python -m pip install --group dev` once. It needs pip 25.1 or later. Then `python -m pytest` runs the tests.
+- Mark a test that needs files under `data/raw/` with `@pytest.mark.raw_data("name")`. It skips with the missing file's name when the file is absent, as it always is in the workflow.

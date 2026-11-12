@@ -1,0 +1,14 @@
+[dependency-groups]
+dev = [
+    "requests>=2.32",
+    "numpy>=2.0",
+    "pytest>=8.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+    "raw_data(*paths): needs these files under data/raw/. Skips when any of them is absent.",
+]
