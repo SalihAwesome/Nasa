@@ -320,6 +320,16 @@ scale. After decoding a negative azimuth, add 360 to obtain the compass angle.
 The row order, angular encoding and default sampling are in
 `app/public/data/sun/earth-paths-manifest.json`.
 
+## Browser links for the pod
+
+Checked on 13 November 2026 in desktop Chrome 157.0.8103.51 with a fresh headless profile. A temporary WebSocket server listened on the laptop's private IPv4 address and sent one text frame. From an HTTP localhost page, Chrome received the frame. From an HTTPS test origin, Chrome initially reported `net::ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS`. After granting the HTTPS origin local-network access through the browser automation context, Chrome received the same frame.
+
+Use localhost for the direct Wi-Fi link during the field demo. A hosted HTTPS page can also connect if Chrome grants it local-network access. USB serial and replay are available when the Wi-Fi link is blocked. The WebSocket probe used a temporary server. The physical pod and USB reconnect checks remain open.
+
+Both origins reported a secure context, exposed `navigator.serial.requestPort`, and returned an empty list from `navigator.serial.getPorts()` in the fresh profile. Chrome documents selecting a port from a user action, opening it with `baudRate`, reading from its byte stream, and releasing the stream lock before closing the port.
+
+[WebSocket standard](https://websockets.spec.whatwg.org/) · [Chrome Web Serial](https://developer.chrome.com/docs/capabilities/serial) · [Chrome Local Network Access](https://developer.chrome.com/blog/local-network-access)
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
@@ -336,4 +346,3 @@ Confirm each of these with a real call or a real document before you use it. The
 - A download for slope and roughness on Earth, the Moon, and Mars, and one for bare ground. The brief names SRTM, LOLA, MOLA, and the MODIS vegetation index. On 12 November 2026 two pages of NASA Earth Observations, for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO`, returned the same 255,301 byte page with no data link, so that site is not a confirmed source.
 - The coordinates of the four known sites in `docs/project-brief.md`. The brief gives names and source links only.
 - The board name that `arduino-cli` uses for the NodeMCU ESP-32S, and a WebSocket library for it.
-- Whether a page served over HTTPS can open a `ws://` link to the pod.
