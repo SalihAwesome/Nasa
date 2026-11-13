@@ -31,6 +31,16 @@ Values for latitude 25.3, longitude 51.5 (near Doha). Use them as test values.
 | `PS` | kPa | 101.62 | 99.47 | 101.32 | 100.67 |
 | `ALLSKY_SFC_UV_INDEX` | `W m-2 x 40` | 0.81 | 2.0 | 0.89 | 1.46 |
 
+### Simulator baseline
+
+Called again on 13 November 2026 for the D10 test site.
+
+```sh
+curl "https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=TS,TS_RANGE,T2M,T2M_RANGE,RH2M,PS,ALLSKY_SFC_UV_INDEX&community=AG&latitude=25.3&longitude=51.5&format=JSON"
+```
+
+The November response gives `T2M` 24.95 C and `RH2M` 56.98%. The other values match the November column above. U03 uses these climatology values to seed its simulated readings.
+
 ### Parameter definitions
 
 ```
