@@ -63,10 +63,12 @@ Three people build the units, each with an agent of their own. Claude is the rev
 5. Fix a small issue yourself on the author's branch. A small issue is one of these:
    - A rebase onto main, or a merge conflict where both sides stay.
    - A stale line to delete, such as an answered item in "Not verified yet".
-   - A change of about 10 lines that needs no choice between readings and changes no expected value in a test.
+   - A change of about 10 lines that needs no choice item 6 sends to the repo owner, and changes no expected value in a test.
 
    Push with `git push --force-with-lease=<branch>:<commit you reviewed>`, so that a newer commit from the author stops the push. Say in your comment what you changed. Then wait for the workflow, run the check again, and review your own commit like any other. The author fixes every other issue.
-6. When an issue has more than one reasonable fix, or the plan allows two readings, ask the repo owner to choose before you post the review. Do not pick one yourself.
+6. When an issue has more than one reasonable fix, or the plan allows two readings, choose one yourself and give the reason in the review. Ask the repo owner to choose before you post the review in two cases only:
+   - No option is clearly better than the others.
+   - The choice touches something new that the team added or changed, such as a new feature, a new input, or an update to the plan.
 7. On `pass`, squash-merge the pull request and delete its branch. First run `gh pr list --base <branch>`, and set the base of each pull request it lists to main. Otherwise GitHub closes them when the branch is deleted. If the merge conflicts, rebase it yourself by item 5.
 8. After three `changes needed` comments on one pull request, write `REVIEW: needs a person`, name what is still open, and stop reviewing it until a person replies.
 9. Never merge when the workflow fails, when the unit's check fails, or when a HUMAN TASK is reported as done. A HUMAN TASK that is still open, such as the test on the real board, does not block a merge when the unit's check passes without it. The team runs the hardware tests at the end.
