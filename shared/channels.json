@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ground_temp",
+    "label": "Ground temperature, day-to-night range",
+    "unit": "C",
+    "podFields": ["tg"],
+    "powerParameter": "TS_RANGE",
+    "powerHourlyParameter": "TS",
+    "powerScale": 1,
+    "medaFile": "CAL_TIRS",
+    "medaColumn": "GROUND_TEMP",
+    "cardNumber": "range",
+    "onCard": true,
+    "status": "default"
+  },
+  {
+    "id": "reflectivity",
+    "label": "Ground reflectivity",
+    "unit": "ratio",
+    "podFields": ["lux_dn", "lux_up"],
+    "powerParameter": "ALLSKY_SRF_ALB",
+    "powerHourlyParameter": "ALLSKY_SRF_ALB",
+    "powerScale": 1,
+    "medaFile": null,
+    "medaColumn": null,
+    "cardNumber": "daylight_mean",
+    "onCard": true,
+    "status": "default",
+    "reasons": {
+      "medaFile": "No MEDA file gives this quantity. See docs/verified-facts.md.",
+      "medaColumn": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    }
+  },
+  {
+    "id": "uv",
+    "label": "UV index",
+    "unit": "UV index",
+    "podFields": ["uv"],
+    "powerParameter": "ALLSKY_SFC_UV_INDEX",
+    "powerHourlyParameter": "ALLSKY_SFC_UV_INDEX",
+    "powerScale": 1,
+    "medaFile": null,
+    "medaColumn": null,
+    "cardNumber": "daily_mean",
+    "onCard": true,
+    "status": "default",
+    "reasons": {
+      "medaFile": "No MEDA file gives this quantity. See docs/verified-facts.md.",
+      "medaColumn": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    }
+  },
+  {
+    "id": "air_temp",
+    "label": "Air temperature",
+    "unit": "C",
+    "podFields": ["ta"],
+    "powerParameter": "T2M",
+    "powerHourlyParameter": "T2M",
+    "powerScale": 1,
+    "medaFile": "CAL_ATS",
+    "medaColumn": "ATS_LOCAL_TEMP1",
+    "cardNumber": "daily_mean",
+    "onCard": true,
+    "status": "default"
+  },
+  {
+    "id": "humidity",
+    "label": "Humidity",
+    "unit": "%",
+    "podFields": ["rh"],
+    "powerParameter": "RH2M",
+    "powerHourlyParameter": "RH2M",
+    "powerScale": 1,
+    "medaFile": "DER_RHS",
+    "medaColumn": "LOCAL_RELATIVE_HUMIDITY",
+    "cardNumber": "daily_mean",
+    "onCard": true,
+    "status": "default"
+  },
+  {
+    "id": "pressure",
+    "label": "Pressure",
+    "unit": "hPa",
+    "podFields": ["p"],
+    "powerParameter": "PS",
+    "powerHourlyParameter": "PS",
+    "powerScale": 10,
+    "medaFile": "DER_PS",
+    "medaColumn": "PRESSURE",
+    "cardNumber": "daily_mean",
+    "onCard": true,
+    "status": "default"
+  },
+  {
+    "id": "ground_temp_10cm",
+    "label": "Ground temperature at 10 cm",
+    "unit": "C",
+    "podFields": ["t10"],
+    "powerParameter": null,
+    "powerHourlyParameter": null,
+    "powerScale": null,
+    "medaFile": null,
+    "medaColumn": null,
+    "cardNumber": null,
+    "onCard": false,
+    "status": "default",
+    "reasons": {
+      "powerParameter": "No POWER counterpart for the pod's 10 cm ground probe in the plan.",
+      "powerHourlyParameter": "No POWER counterpart for the pod's 10 cm ground probe in the plan.",
+      "powerScale": "No POWER counterpart for the pod's 10 cm ground probe in the plan.",
+      "medaFile": "No rover counterpart. See docs/mission-plan.md.",
+      "medaColumn": "No rover counterpart. See docs/mission-plan.md.",
+      "cardNumber": "Not on the card."
+    }
+  }
+]
