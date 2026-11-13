@@ -1,0 +1,30 @@
+{
+  "status": "default",
+  "year": 2026,
+  "day_of_month": 15,
+  "longitude_deg": 0,
+  "time_zone": "UTC",
+  "latitude_start_deg": -90,
+  "latitude_step_deg": 0.5,
+  "latitude_count": 361,
+  "month_start": 1,
+  "month_count": 12,
+  "file": "earth-paths.bin",
+  "layout": [
+    "month",
+    "latitude",
+    "sample",
+    "angle"
+  ],
+  "angles": [
+    "azimuth",
+    "elevation"
+  ],
+  "dtype": "int16",
+  "byte_order": "little",
+  "degrees_per_count": 0.01,
+  "sample_start_minute_utc": 0,
+  "sample_step_minutes": 30,
+  "samples_per_path": 48,
+  "azimuth_encoding": "Signed compass degrees in [-180, 180). Add 360 to a negative decoded angle."
+}
