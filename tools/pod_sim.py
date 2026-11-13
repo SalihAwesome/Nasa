@@ -7,13 +7,14 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-OUTPUT = Path(__file__).resolve().parents[1] / "app" / "public" / "data" / "sim"
+ROOT = Path(__file__).resolve().parents[1]
+OUTPUT = ROOT / "app" / "public" / "data" / "sim"
 COLUMNS = "ts,lux_up,lux_dn,tg,tamb,uv,ta,rh,p,t10"
 MINUTES_PER_DAY = 24 * 60
 LIVE_INTERVAL_SECONDS = 2
 
-# D7 in docs/software-plan.md.
-SUN_EVENT_LUX = 400
+# D7, stored in shared/pod_settings.json.
+SUN_EVENT_LUX = json.loads((ROOT / "shared" / "pod_settings.json").read_text(encoding="utf-8"))["sunEventLux"]["value"]
 
 # November POWER climatology at the D10 test site. See docs/verified-facts.md.
 GROUND_MEAN_C = 25.64

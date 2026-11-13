@@ -3,7 +3,10 @@
 import { describe, expect, test } from 'vitest'
 import { readFileSync } from 'node:fs'
 import truth from '../../public/data/sim/pod-sim.truth.json'
+import podSettings from '../../../shared/pod_settings.json'
 import { parsePodLine } from './parse'
+
+const sunEventLux = podSettings.sunEventLux.value
 
 const columns = 'ts,lux_up,lux_dn,tg,tamb,uv,ta,rh,p,t10'
 const timestamp = '2026-11-14T02:51:00Z'
@@ -76,18 +79,18 @@ describe('pod simulator log', () => {
     })
   })
 
-  test('crosses 400 lux at the rise and set times and peaks at the expected time', () => {
+  test('crosses the sunrise threshold at the rise and set times and peaks at the expected time', () => {
     const sunrise = records.findIndex(record => record.ts === truth.sunrise)
     const peak = records.findIndex(record => record.ts === truth.peak)
     const sunset = records.findIndex(record => record.ts === truth.sunset)
-    expect(records[sunrise - 1].lux_up).toBeLessThan(400)
-    expect(records[sunrise].lux_up).toBe(400)
+    expect(records[sunrise - 1].lux_up).toBeLessThan(sunEventLux)
+    expect(records[sunrise].lux_up).toBe(sunEventLux)
     expect(records[peak].lux_up).toBe(truth.peak_lux)
     expect(records[peak - 1].lux_up).toBe(records[peak + 1].lux_up)
     expect(records[peak - 1].lux_up).toBeLessThan(truth.peak_lux)
-    expect(records[sunset - 1].lux_up).toBeGreaterThan(400)
-    expect(records[sunset].lux_up).toBe(400)
-    expect(records[sunset + 1].lux_up).toBeLessThan(400)
+    expect(records[sunset - 1].lux_up).toBeGreaterThan(sunEventLux)
+    expect(records[sunset].lux_up).toBe(sunEventLux)
+    expect(records[sunset + 1].lux_up).toBeLessThan(sunEventLux)
   })
 
   test('preserves the corrected reflectivity and delays the smaller soil temperature swing', () => {
