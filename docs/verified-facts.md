@@ -230,6 +230,44 @@ Called on 12 November 2026.
 | `https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson` | 200 | 138,160 bytes |
 | `https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_land.geojson` | 200 | 1,636,166 bytes |
 
+## U28 environment and package inspection
+
+Checked on 13 November 2026 in the U28 checkout. These are software observations,
+not scientific inputs. `git checkout main` and `git pull` completed before work.
+The GitHub pull-request API returned U01 PR #2 as merged on 12 November 2026,
+with merge commit `985eaee93d30ea142097ecc37f2803a54eefc724`; that commit is in main.
+
+Commands run:
+
+```
+node --version
+python --version
+python -m pip --version
+```
+
+The configured tools returned Node v24.12.0, Python 3.14.10, and pip 26.2.2.
+Python and pip were invoked from the Python 3.14 installation on the D drive;
+the pre-existing default Python was 3.13.1 and was not used for the pipeline check.
+
+After `npm ci`, a Node command read each package's installed `package.json`
+and its `exports`, and dynamically imported the React entry points:
+
+```js
+import fs from 'node:fs'
+for (const name of ['react', 'react-dom', 'vitest', 'vite', 'typescript']) {
+  const pkg = JSON.parse(fs.readFileSync(`node_modules/${name}/package.json`, 'utf8'))
+  console.log(name, pkg.version, pkg.exports)
+}
+for (const name of ['react', 'react-dom/client', 'react-dom/server']) {
+  console.log(name, Object.keys(await import(name)))
+}
+```
+
+Results: React 19.3.1, React DOM 19.3.1, Vitest 5.1.0, Vite 8.3.8,
+TypeScript 7.0.2. React exports `useEffect` and `useSyncExternalStore`;
+React DOM's client entry exports `createRoot`, and its server entry exports
+`renderToStaticMarkup`. No npm package was added or updated for U28.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
