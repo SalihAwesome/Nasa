@@ -1,0 +1,6 @@
+{
+  "sunEventLux": { "value": 400, "unit": "lux", "status": "default" },
+  "reflectivityMinLux": { "value": 1000, "unit": "lux", "status": "default" },
+  "reflFactorFallback": { "value": 0.27, "unit": "ratio", "status": "default" },
+  "taOffsetFallbackC": { "value": 0, "unit": "C", "status": "default" }
+}

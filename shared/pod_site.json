@@ -1,0 +1,8 @@
+{
+  "lat": 25.3,
+  "lon": 51.5,
+  "start": "2026-11-14T00:00:00Z",
+  "exclude": [],
+  "status": "default",
+  "reason": "D10 test site only. The team has not supplied the real field position or UTC log start."
+}

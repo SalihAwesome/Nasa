@@ -1,0 +1,66 @@
+[
+  {
+    "id": "power",
+    "name": "NASA POWER",
+    "url": "https://power.larc.nasa.gov/api",
+    "usedFor": "Earth climatology and hourly values",
+    "accessed": "2026-11-12",
+    "files": ["app/public/data/earth/*"]
+  },
+  {
+    "id": "horizons",
+    "name": "JPL Horizons",
+    "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "usedFor": "Target Sun paths and reference Earth Sun angles",
+    "accessed": "2026-11-12",
+    "files": ["app/public/data/sun/shackleton*.json", "app/public/data/sun/jezero*.json"]
+  },
+  {
+    "id": "meda",
+    "name": "MEDA archive",
+    "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/",
+    "usedFor": "Jezero reference measurements",
+    "accessed": "2026-11-12",
+    "files": ["app/public/data/mars/*"]
+  },
+  {
+    "id": "naturalearth_50m",
+    "name": "Natural Earth, 50m land",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_land.geojson",
+    "usedFor": "Land-cell mask",
+    "accessed": "2026-11-12",
+    "files": ["app/public/data/earth/cells.bin"]
+  },
+  {
+    "id": "naturalearth_110m",
+    "name": "Natural Earth, 110m land",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson",
+    "usedFor": "Map land outline",
+    "accessed": "2026-11-12",
+    "files": ["app/public/data/geo/ne_110m_land.geojson"]
+  },
+  {
+    "id": "pod",
+    "name": "Collected by the team",
+    "url": null,
+    "usedFor": "Original pod field log",
+    "accessed": null,
+    "files": ["app/public/data/pod/qatar.csv"],
+    "reasons": {
+      "url": "Team field measurements have no external source URL.",
+      "accessed": "The team has not supplied the real field log."
+    }
+  },
+  {
+    "id": "computed",
+    "name": "Computed by this project's pipeline",
+    "url": null,
+    "usedFor": "Earth Sun calculations and reductions of fetched source data",
+    "accessed": null,
+    "files": ["app/public/data/sun/earth-*", "app/public/data/sun/pod-prediction.json", "app/public/data/earth/*", "app/public/data/mars/*"],
+    "reasons": {
+      "url": "Local pipeline computations have no external source URL.",
+      "accessed": "U02 defines the registry; these pipeline outputs have not been generated on main."
+    }
+  }
+]
