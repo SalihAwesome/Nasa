@@ -32,12 +32,12 @@ def test_loads_all_four_registries_and_preserves_u02_contract():
         ["pressure", ["p"], "PS", "PS", 10, "DER_PS", "PRESSURE", "daily_mean", True],
         ["ground_temp_10cm", ["t10"], None, None, None, None, None, None, False],
     ]
-    assert [s["id"] for s in data["sources"]] == ["power", "horizons", "meda", "naturalearth_50m", "naturalearth_110m", "pod", "computed"]
+    assert [s["id"] for s in data["sources"] if s["files"]] == ["power", "horizons", "meda", "naturalearth_50m", "naturalearth_110m", "pod", "computed"]
     site = data["podSite"]
     assert [site["lat"], site["lon"], site["start"], site["exclude"], site["status"]] == [25.3, 51.5, "2026-11-14T00:00:00Z", [], "default"]
     assert [(s["value"], s["status"]) for s in data["podSettings"].values()] == [(400, "default"), (1000, "default"), (0.27, "default"), (0, "default")]
     assert all(c["status"] == "default" for c in data["channels"])
-    assert all(s["accessed"] == "2026-11-12" for s in data["sources"] if s["url"] is not None)
+    assert all(s["accessed"] == "2026-11-12" for s in data["sources"] if s["url"] is not None and s["files"])
 
 
 def test_rejects_channel_with_no_unit():
@@ -120,3 +120,17 @@ def test_preserves_missing_field_site_without_substituting_defaults():
 def test_rejects_wrong_root_type(name, parse):
     with pytest.raises(RegistryError):
         parse(None)
+
+
+def test_loads_reused_firmware_libraries_and_requires_a_version_for_empty_files():
+    libraries = [source for source in load_registries()["sources"] if not source["files"]]
+    assert len(libraries) == 10
+    one_wire = next(source for source in libraries if source["id"] == "onewire")
+    assert one_wire["version"] == "2.3.8"
+    assert one_wire["url"] == "https://github.com/PaulStoffregen/OneWire"
+    unversioned = dict(one_wire)
+    del unversioned["version"]
+    with pytest.raises(RegistryError, match="files"):
+        parse_sources([unversioned])
+    with pytest.raises(RegistryError, match="version"):
+        parse_sources([{**one_wire, "version": ""}])

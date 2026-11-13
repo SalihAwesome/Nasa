@@ -62,5 +62,95 @@
       "url": "Local pipeline computations have no external source URL.",
       "accessed": "U02 defines the registry; these pipeline outputs have not been generated on main."
     }
+  },
+  {
+    "id": "arduino-esp32",
+    "name": "Arduino core for ESP32",
+    "version": "3.3.12",
+    "url": "https://github.com/espressif/arduino-esp32",
+    "usedFor": "ESP32 board support, Wi-Fi, WebServer, LittleFS, Wire, and UTC synchronization",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "bh1750",
+    "name": "BH1750",
+    "version": "1.3.0",
+    "url": "https://github.com/claws/BH1750",
+    "usedFor": "Up-facing and down-facing light readings",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "adafruit-mlx90614",
+    "name": "Adafruit MLX90614 Library",
+    "version": "2.1.7",
+    "url": "https://github.com/adafruit/Adafruit-MLX90614-Library",
+    "usedFor": "Ground and infrared sensor body temperatures",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "adafruit-bmp280",
+    "name": "Adafruit BMP280 Library",
+    "version": "3.0.0",
+    "url": "https://github.com/adafruit/Adafruit_BMP280_Library",
+    "usedFor": "Atmospheric pressure",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "dht-sensor-library",
+    "name": "DHT sensor library",
+    "version": "1.4.7",
+    "url": "https://github.com/adafruit/DHT-sensor-library",
+    "usedFor": "Air temperature and relative humidity",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "adafruit-unified-sensor",
+    "name": "Adafruit Unified Sensor",
+    "version": "1.1.15",
+    "url": "https://github.com/adafruit/Adafruit_Sensor",
+    "usedFor": "Dependency of the DHT and BMP280 libraries",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "adafruit-busio",
+    "name": "Adafruit BusIO",
+    "version": "1.17.4",
+    "url": "https://github.com/adafruit/Adafruit_BusIO",
+    "usedFor": "Dependency of the MLX90614 and BMP280 libraries",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "onewire",
+    "name": "OneWire",
+    "version": "2.3.8",
+    "url": "https://github.com/PaulStoffregen/OneWire",
+    "usedFor": "Bus for the buried DS18B20 probe",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "dallas-temperature",
+    "name": "DallasTemperature",
+    "version": "4.0.6",
+    "url": "https://github.com/milesburton/Arduino-Temperature-Control-Library",
+    "usedFor": "Buried DS18B20 temperature",
+    "accessed": "2026-11-13",
+    "files": []
+  },
+  {
+    "id": "websockets",
+    "name": "WebSockets",
+    "version": "2.7.2",
+    "url": "https://github.com/Links2004/arduinoWebSockets",
+    "usedFor": "WebSocket server for live pod readings",
+    "accessed": "2026-11-13",
+    "files": []
   }
 ]
