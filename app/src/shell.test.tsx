@@ -7,16 +7,16 @@ import App from './App'
 afterEach(() => vi.unstubAllGlobals())
 
 test.each([
-  ['#/map', 'Site finder'],
-  ['#/card/site', 'Fidelity card'],
-  ['#/sun', 'Sun panel'],
-  ['#/truth', 'Ground truth'],
-  ['#/live', 'Live panel'],
-])('renders %s with its heading', (hash, heading) => {
+  ['#/map', 'Site finder', 'Not available yet'],
+  ['#/card/site', 'Fidelity card', 'Not available yet'],
+  ['#/sun', 'Sun panel', 'Not available yet'],
+  ['#/truth', 'Ground truth', 'Pod log'],
+  ['#/live', 'Live panel', 'Not available yet'],
+])('renders %s with its heading', (hash, heading, sectionHeading) => {
   vi.stubGlobal('window', { location: { hash } })
   const html = renderToStaticMarkup(<App />)
   expect(html).toMatch(new RegExp(`<h1[^>]*>${heading}</h1>`))
-  expect(html).toContain('Not available yet')
+  expect(html).toMatch(new RegExp(`<h2[^>]*>${sectionHeading}</h2>`))
 })
 
 test('starts at the site finder when the URL has no hash', () => {
