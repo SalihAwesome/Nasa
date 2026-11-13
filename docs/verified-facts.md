@@ -268,6 +268,35 @@ TypeScript 7.0.2. React exports `useEffect` and `useSyncExternalStore`;
 React DOM's client entry exports `createRoot`, and its server entry exports
 `renderToStaticMarkup`. No npm package was added or updated for U28.
 
+## U14 Earth angle check
+
+Called Horizons on 13 November 2026 with the common observer parameters above
+and the Earth site `CENTER='coord@399'`, `SITE_COORD='51.5,25.3,0'`.
+Set `APPARENT='AIRLESS'`, `START_TIME='2026-11-14 00:00'`,
+`STOP_TIME='2026-11-14 20:00'`, and `STEP_SIZE='4 h'`.
+The response contained exactly six airless azimuth/elevation rows, including
+negative nighttime elevations. The complete response is saved at
+`pipeline/tests/fixtures/horizons-earth-2026-11-14.txt`.
+
+U14 uses the US Naval Observatory's [Computing Approximate Solar Coordinates](https://aa.usno.navy.mil/faq/sun_approx)
+for the apparent ecliptic longitude, declination, and equation of time, and its
+[altitude and azimuth equations](https://aa.usno.navy.mil/faq/alt_az) for the
+horizon projection. The local hour angle uses the equation of time and east
+longitude. The model omits atmospheric refraction and does not resolve terrain.
+
+D5's longitude-zero rows are representative daily paths. Longitude is modelled
+as an hour-angle shift within those rows. Solar declination and the equation of
+time change through the day, so the representative paths are an approximation
+when reused at other longitudes. To evaluate a particular time and location,
+pass the longitude and timestamp to `sun_position`.
+
+U14's Earth path file stores signed azimuth and elevation in little-endian
+Int16 hundredths of a degree. Ali confirmed using the signed azimuth range
+`[-180, 180)` because compass angles near 360 degrees exceed Int16 at this
+scale. After decoding a negative azimuth, add 360 to obtain the compass angle.
+The row order, angular encoding and default sampling are in
+`app/public/data/sun/earth-paths-manifest.json`.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
