@@ -113,6 +113,19 @@ curl "https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=T2M,RH2M,
 - Lag measured at 05:50 UTC on 12 November 2026: the last valid hour for `T2M` and `TS` was `2026111023` UTC, which is 31 hours earlier. Later hours hold `-999.0`.
 - `ALLSKY_SFC_SW_DWN`, `ALLSKY_SRF_ALB`, and `ALLSKY_SFC_UV_INDEX` had no valid hourly value at all from 20 October to 12 November 2026.
 
+### U20 point requests
+
+On 13 November 2026, POWER returned HTTP 200 for these requests at the D10 test site.
+
+```sh
+curl "https://power.larc.nasa.gov/api/temporal/climatology/point?community=AG&latitude=25.3&longitude=51.5&format=JSON&parameters=TS_RANGE,ALLSKY_SRF_ALB,ALLSKY_SFC_UV_INDEX,T2M,RH2M,PS"
+curl "https://power.larc.nasa.gov/api/temporal/hourly/point?community=AG&latitude=25.3&longitude=51.5&format=JSON&parameters=TS,ALLSKY_SRF_ALB,ALLSKY_SFC_UV_INDEX,T2M,RH2M,PS&start=20261109&end=20261109&time-standard=UTC"
+```
+
+The saved raw responses are in `pipeline/tests/fixtures/power-point-climatology.json` and `pipeline/tests/fixtures/power-point-hourly-20261109.json`. The climatology header gives January 2001 through December 2025. November values are `TS_RANGE` 14.5 C, `ALLSKY_SRF_ALB` 0.14, `ALLSKY_SFC_UV_INDEX` 0.89, `T2M` 24.95 C, `RH2M` 56.98%, and `PS` 101.32 kPa.
+
+The hourly response header reports UTC. On 9 November, `TS`, `T2M`, `RH2M`, and `PS` each had 24 valid values. Albedo and UV each had 24 fill values. Repeating the hourly request with both dates set to `20261114` returned an empty object for each parameter. A separate 9 November UTC request with `parameters=ALLSKY_SFC_SW_DWN` returned the hourly unit `MJ/hr` and 24 fill values.
+
 ## JPL Horizons
 
 Called on 12 November 2026. Endpoint: `https://ssd.jpl.nasa.gov/api/horizons.api`.

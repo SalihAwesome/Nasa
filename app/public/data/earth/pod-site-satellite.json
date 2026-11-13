@@ -1,0 +1,95 @@
+{
+  "site": {
+    "lat": 25.3,
+    "lon": 51.5,
+    "start": "2026-11-14T00:00:00Z",
+    "status": "default",
+    "reason": "D10 test site only. The team has not supplied the real field position or UTC log start."
+  },
+  "channels": {
+    "ground_temp": {
+      "unit": "C",
+      "climatology": {
+        "value": 14.5,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 14.5,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    },
+    "reflectivity": {
+      "unit": "ratio",
+      "climatology": {
+        "value": 0.14,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 0.14,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    },
+    "uv": {
+      "unit": "UV index",
+      "climatology": {
+        "value": 0.89,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 0.89,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    },
+    "air_temp": {
+      "unit": "C",
+      "climatology": {
+        "value": 24.95,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 24.95,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    },
+    "humidity": {
+      "unit": "%",
+      "climatology": {
+        "value": 56.98,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 56.98,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    },
+    "pressure": {
+      "unit": "hPa",
+      "climatology": {
+        "value": 1013.2,
+        "month": "NOV",
+        "period": "2001 to 2025"
+      },
+      "hourly": null,
+      "cardNumber": {
+        "value": 1013.2,
+        "basis": "monthly climatology, 2001 to 2025"
+      },
+      "reason": "POWER has no hourly value for these hours yet."
+    }
+  }
+}
