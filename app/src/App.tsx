@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from 'react'
+import { useEffect, useRef, useSyncExternalStore } from 'react'
 import './styles/tokens.css'
 import './styles/shell.css'
 
@@ -41,10 +41,14 @@ function App() {
   const hash = useSyncExternalStore(subscribe, readHash, readHash)
   const route = resolveView(hash)
   const view = route === 'missing' ? null : views[route]
+  const previousHash = useRef(hash)
 
   useEffect(() => {
     document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
-    document.getElementById('view-heading')?.focus()
+    if (previousHash.current !== hash) {
+      previousHash.current = hash
+      document.getElementById('view-heading')?.focus()
+    }
   }, [hash, view])
 
   return (
@@ -55,7 +59,6 @@ function App() {
       }}>Skip to content</a>
       <header className="app-header">
         <a className="brand" href="#/map">Proving Ground<span>Earth tests. Planetary questions.</span></a>
-        <span className="shell-status">In development</span>
       </header>
       <nav className="app-nav" aria-label="Main navigation">
         {navigation.map(item => <a key={item.key} href={item.href}
