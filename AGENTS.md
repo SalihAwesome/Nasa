@@ -45,7 +45,8 @@ Three people build the units, each with an agent of their own. Claude is the rev
 2. Do not merge your own pull request.
 3. After you open it, read its comments every few minutes with `gh pr view <number> --comments`. If your tool cannot wait, tell your person to ask you again.
 4. When a comment starts with `REVIEW` and says `changes needed`, fix every numbered issue on the same branch and push. Reply with one comment that lists each issue number and what you did. If you think an issue is wrong, say why in that reply and do not change the code for it.
-5. Stop when the pull request merges, or when the reviewer writes `needs a person`.
+5. The reviewer may rebase your branch or push a small fix to it. Run `git pull --rebase` before you change the branch again, and never force-push over the reviewer's commits.
+6. Stop when the pull request merges, or when the reviewer writes `needs a person`.
 
 ### If you are Claude, the reviewer
 
@@ -59,10 +60,16 @@ Three people build the units, each with an agent of their own. Claude is the rev
    - The code has no bug that changes a result the unit's check or a "done when" line depends on.
 3. Post one comment per review. Start it with `REVIEW <first 7 characters of the commit>: changes needed` or `REVIEW <first 7 characters of the commit>: pass`. Number the blocking issues. Give the file and line, what is wrong, and what would fix it. Put style notes under a separate heading, and never block on them.
 4. Use comments only. Do not use GitHub's approve or request-changes review, because GitHub refuses both on a pull request from the reviewer's own account.
-5. Do not push to the author's branch. The author fixes.
-6. On `pass`, squash-merge the pull request and delete its branch. If the merge conflicts, write `changes needed` and ask the author to rebase.
-7. After three `changes needed` comments on one pull request, write `REVIEW: needs a person`, name what is still open, and stop reviewing it until a person replies.
-8. Never merge when the workflow fails, when the unit's check fails, or when a HUMAN TASK is reported as done.
+5. Fix a small issue yourself on the author's branch. A small issue is one of these:
+   - A rebase onto main, or a merge conflict where both sides stay.
+   - A stale line to delete, such as an answered item in "Not verified yet".
+   - A change of about 10 lines that needs no choice between readings and changes no expected value in a test.
+
+   Push with `git push --force-with-lease=<branch>:<commit you reviewed>`, so that a newer commit from the author stops the push. Say in your comment what you changed. Then wait for the workflow, run the check again, and review your own commit like any other. The author fixes every other issue.
+6. When an issue has more than one reasonable fix, or the plan allows two readings, ask the repo owner to choose before you post the review. Do not pick one yourself.
+7. On `pass`, squash-merge the pull request and delete its branch. First run `gh pr list --base <branch>`, and set the base of each pull request it lists to main. Otherwise GitHub closes them when the branch is deleted. If the merge conflicts, rebase it yourself by item 5.
+8. After three `changes needed` comments on one pull request, write `REVIEW: needs a person`, name what is still open, and stop reviewing it until a person replies.
+9. Never merge when the workflow fails, when the unit's check fails, or when a HUMAN TASK is reported as done. A HUMAN TASK that is still open, such as the test on the real board, does not block a merge when the unit's check passes without it. The team runs the hardware tests at the end.
 
 ## Commands
 
