@@ -1,0 +1,41 @@
+[
+  {
+    "id": "power",
+    "weights": {
+      "ground_temp": { "value": 0.5, "status": "default" },
+      "uv": { "value": 0.5, "status": "default" }
+    },
+    "enabled": true,
+    "notBuilt": ["Bare ground", "Sunlight", "Airborne dust"]
+  },
+  {
+    "id": "mobility",
+    "weights": {
+      "dryness": { "value": 1, "status": "default" }
+    },
+    "enabled": false,
+    "reason": "Disabled until U31 supplies slope and roughness. Dryness alone does not rank terrain.",
+    "notBuilt": ["Slope and roughness", "Bare ground"]
+  },
+  {
+    "id": "communications",
+    "weights": {},
+    "enabled": false,
+    "reason": "Not built. The project brief lists this test as should-have.",
+    "notBuilt": ["Slope and roughness", "Bare ground"]
+  },
+  {
+    "id": "navigation",
+    "weights": {},
+    "enabled": false,
+    "reason": "Not built. The project brief lists this test as should-have.",
+    "notBuilt": ["Slope and roughness", "Bare ground", "Sun path as a navigation row"]
+  },
+  {
+    "id": "science_tools",
+    "weights": {},
+    "enabled": false,
+    "reason": "Not built. The project brief lists this test as should-have.",
+    "notBuilt": ["Bare ground", "Sunlight", "Surface dryness as a science row"]
+  }
+]
