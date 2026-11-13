@@ -1,0 +1,2 @@
+# U05 numeric layers must never undergo line-ending conversion or text merging.
+app/public/data/earth/*.bin binary

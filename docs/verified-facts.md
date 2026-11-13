@@ -339,6 +339,38 @@ Called on 12 November 2026.
 | `https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson` | 200 | 138,160 bytes |
 | `https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_land.geojson` | 200 | 1,636,166 bytes |
 
+### U05 land grid and monthly binary layers
+
+Computed on 14 November 2026 by `python pipeline/pack.py`, using the complete
+U04 cache on machine `YAHIA`. The initial fetch printed `0 fetched, 3888 cached`.
+
+The Natural Earth 50m URL above returned HTTP 200 and 1,636,166 bytes. Its
+GeoJSON has 1,420 features, with Polygon and MultiPolygon geometries. The raw
+response is saved at `data/raw/naturalearth/ne_50m_land.geojson`.
+
+The D13 even-odd land rule, including its pole-row copies, retained **68,816
+unique land cells**. This replaces the earlier uncounted estimate of about
+62,000. No threshold or land rule was changed to obtain that count.
+
+- `cells.bin`: 550,528 bytes, little-endian Float32 latitude/longitude pairs,
+  ordered by latitude then longitude.
+- `month-01.bin` through `month-12.bin`: 825,792 bytes each, all below 2 MB.
+  Each holds six quantity blocks as little-endian Int16, in the order U05 gives.
+- `manifest.json` records the count, order, units, scales, offsets, fill value,
+  source parameters, source grids and the climatology period 2001 through 2025.
+- The January cell at latitude 25.5, longitude 51.25 reads back as range
+  13.52 C, air temperature 17.51 C, pressure 1016.2 hPa, UV 0.81, and
+  reflectivity 0.13, within each scale step, in both Python and TypeScript.
+- Latitude 0, longitude -140 is excluded. Latitude -89.5, longitude 0 is
+  included. Missing polar-night albedo remains missing.
+
+D12 joining, D13 land selection and D17 encoding choices are labelled
+`status: default` in the manifest. Its per-quantity status applies to the
+packing scale, offset and fill encoding, not to the verified POWER mapping.
+Encoding rounds to nearest integer with ties to even and rejects overflow or
+a valid value colliding with -32768. The loader returns null for that fill
+value, with the layer's `missingReason` applying to each null.
+
 ## U28 environment and package inspection
 
 Checked on 13 November 2026 in the U28 checkout. These are software observations,
@@ -425,7 +457,6 @@ Confirm each of these with a real call or a real document before you use it. The
 - Whether sol 300 has valid values through the whole day in `CAL_TIRS`, `CAL_ATS`, `DER_PS`, and `DER_RHS`.
 - The minimum size of a POWER regional request. One reviewer reported that POWER rejects a box smaller than 2 degrees per side. The 10 degree tiles in the plan are not affected.
 - The source for the Moon site coordinates `222.69, -89.45` and for the Jezero coordinates `77.45 E, 18.44 N`. The Jezero value passed the MEDA cross-check above. Neither has a citation.
-- The count of land cells. The plan says about 62,000. Nobody has counted.
 - The exact relation between `SCLK` and UTC.
 - The behavior of the Web Serial API after a cable drop.
 - The grid of `GWETTOP` and of `AOD_55` on the regional endpoint. Only the point endpoint was called.

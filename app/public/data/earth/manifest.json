@@ -1,0 +1,146 @@
+{
+  "cellCount": 68816,
+  "cellsFile": "cells.bin",
+  "cellCoordinates": [
+    "latitude",
+    "longitude"
+  ],
+  "cellsDtype": "float32",
+  "dtype": "int16",
+  "byteOrder": "little",
+  "layout": "quantity-major",
+  "quantityOrder": [
+    "ground_temp",
+    "reflectivity",
+    "uv",
+    "air_temp",
+    "humidity",
+    "pressure"
+  ],
+  "quantities": [
+    {
+      "id": "ground_temp",
+      "unit": "C",
+      "scale": 0.01,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "TS_RANGE",
+      "powerScale": 1,
+      "sourceGrid": {
+        "latitudeStep": 0.5,
+        "longitudeStep": 0.625
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    },
+    {
+      "id": "reflectivity",
+      "unit": "ratio",
+      "scale": 0.0001,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "ALLSKY_SRF_ALB",
+      "powerScale": 1,
+      "sourceGrid": {
+        "latitudeStep": 1,
+        "longitudeStep": 1
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    },
+    {
+      "id": "uv",
+      "unit": "UV index",
+      "scale": 0.01,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "ALLSKY_SFC_UV_INDEX",
+      "powerScale": 1,
+      "sourceGrid": {
+        "latitudeStep": 1,
+        "longitudeStep": 1
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    },
+    {
+      "id": "air_temp",
+      "unit": "C",
+      "scale": 0.01,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "T2M",
+      "powerScale": 1,
+      "sourceGrid": {
+        "latitudeStep": 0.5,
+        "longitudeStep": 0.625
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    },
+    {
+      "id": "humidity",
+      "unit": "%",
+      "scale": 0.01,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "RH2M",
+      "powerScale": 1,
+      "sourceGrid": {
+        "latitudeStep": 0.5,
+        "longitudeStep": 0.625
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    },
+    {
+      "id": "pressure",
+      "unit": "hPa",
+      "scale": 0.1,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "PS",
+      "powerScale": 10,
+      "sourceGrid": {
+        "latitudeStep": 0.5,
+        "longitudeStep": 0.625
+      },
+      "missingReason": "POWER returned fill value -999; no source value is available."
+    }
+  ],
+  "monthFiles": [
+    "month-01.bin",
+    "month-02.bin",
+    "month-03.bin",
+    "month-04.bin",
+    "month-05.bin",
+    "month-06.bin",
+    "month-07.bin",
+    "month-08.bin",
+    "month-09.bin",
+    "month-10.bin",
+    "month-11.bin",
+    "month-12.bin"
+  ],
+  "period": {
+    "start": "20010101",
+    "end": "20251231"
+  },
+  "sourceId": "power",
+  "landSourceId": "naturalearth_50m",
+  "defaults": {
+    "join": {
+      "status": "default",
+      "rule": "D12: floor(latitude)+0.5 and floor(longitude)+0.5; latitude 90 uses 89.5"
+    },
+    "land": {
+      "status": "default",
+      "rule": "D13: even-odd polygon rings; pole flags copy the adjacent half-degree row"
+    },
+    "packing": {
+      "status": "default",
+      "rule": "D17: per-quantity scales, zero offset, nearest integer with ties to even; -32768 is missing"
+    }
+  }
+}
