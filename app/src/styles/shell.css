@@ -1,0 +1,43 @@
+* { box-sizing: border-box; }
+html { color-scheme: light; scrollbar-color: var(--color-border) var(--color-background); }
+body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-body); font-size: var(--text-body); line-height: var(--line-body); }
+::selection { color: var(--color-text); background: var(--color-accent-soft); }
+a { color: var(--color-accent); text-underline-offset: var(--space-1); }
+a:hover { text-decoration-thickness: var(--border-width); color: var(--color-text); }
+:focus-visible { outline: var(--focus-width) solid var(--color-focus); outline-offset: var(--space-1); }
+.app-shell { max-width: var(--content-max); margin-inline: auto; padding: var(--space-8); }
+.app-header { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding-bottom: var(--space-8); }
+.brand { color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-title); text-decoration: none; }
+.brand span { display: block; font-family: var(--font-body); font-size: var(--text-small); color: var(--color-muted); }
+.shell-status { font-size: var(--text-label); color: var(--color-muted); }
+.app-nav { display: flex; flex-wrap: wrap; gap: var(--space-2); padding-block: var(--space-2); border-block: var(--border-width) solid var(--color-border); }
+.app-nav a { display: flex; align-items: center; min-height: var(--control-min); padding: var(--space-2) var(--space-4); border-radius: var(--radius-small); color: var(--color-muted); text-decoration: none; font-weight: var(--weight-medium); }
+.app-nav a[aria-current='page'], .app-nav a:hover { color: var(--color-accent); background: var(--color-accent-soft); }
+main { padding-block: var(--space-12); }
+h1 { font-family: var(--font-heading); font-size: var(--text-heading); font-weight: var(--weight-regular); line-height: var(--line-heading); margin: 0 0 var(--space-4); text-wrap: balance; }
+h2 { font-size: var(--text-title); font-weight: var(--weight-medium); line-height: var(--line-heading); margin: 0 0 var(--space-3); }
+p { margin: 0; max-width: var(--reading-max); }
+.view-description { font-size: var(--text-lead); color: var(--color-muted); }
+.placeholder { margin-top: var(--space-8); padding: var(--space-12); border: var(--border-width) dashed var(--color-border); border-radius: var(--radius-panel); background: var(--color-surface); }
+.placeholder p { color: var(--color-muted); }
+.back-link { display: inline-block; margin-bottom: var(--space-6); padding-block: var(--space-2); min-height: var(--control-min); }
+.app-footer { border-top: var(--border-width) solid var(--color-border); padding-top: var(--space-6); color: var(--color-muted); font-size: var(--text-label); }
+.evidence-key { list-style: none; padding: 0; margin: var(--space-4) 0; display: flex; flex-wrap: wrap; gap: var(--space-6); }
+.evidence-key li { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+.evidence-tag { display: inline-block; padding: var(--space-1) var(--space-2); border-radius: var(--radius-small); font-size: var(--text-small); font-weight: var(--weight-medium); }
+.evidence-tag--estimate { color: var(--color-estimate-text); background: var(--color-estimate-background); }
+.evidence-tag--measured { color: var(--color-measured-text); background: var(--color-measured-background); }
+.evidence-tag--simulated { color: var(--color-simulated-text); background: var(--color-simulated-background); }
+.skip-link { position: absolute; top: var(--space-2); left: var(--space-2); padding: var(--space-3); background: var(--color-surface); transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+@media (max-width: 40rem) {
+  .app-shell { padding: var(--space-4); }
+  .app-header { align-items: start; padding-block: var(--space-4) var(--space-6); }
+  .shell-status { max-width: 8ch; text-align: right; }
+  .app-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-nav a { padding-inline: var(--space-3); }
+  main { padding-block: var(--space-8); }
+  h1 { font-size: var(--text-heading); }
+  .placeholder { padding: var(--space-6); }
+  .evidence-key { flex-direction: column; gap: var(--space-3); }
+}
