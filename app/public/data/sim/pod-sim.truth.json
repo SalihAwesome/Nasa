@@ -1,0 +1,18 @@
+{
+  "start": "2026-11-14T00:00:00Z",
+  "sunrise": "2026-11-14T02:51:00Z",
+  "peak": "2026-11-14T08:19:00Z",
+  "sunset": "2026-11-14T13:47:00Z",
+  "peak_lux": 80000,
+  "lux_max": 120000,
+  "soil_delay_minutes": 120,
+  "soil_range_ratio": 0.3,
+  "reflectivity": 0.3,
+  "pole_height_m": 1.0,
+  "tilt_deg": 30,
+  "facing_deg": 180,
+  "refl_factor": 0.27,
+  "ta_offset_c": 0.5,
+  "simulated": true,
+  "status": "default"
+}
