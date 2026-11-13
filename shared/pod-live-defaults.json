@@ -1,0 +1,7 @@
+{
+  "status": "default",
+  "webSocketPort": 81,
+  "serialBaudRate": 115200,
+  "reconnectDelayMs": 1000,
+  "recordLimit": 600
+}
