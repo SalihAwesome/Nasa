@@ -285,6 +285,37 @@ default status. The API call verifies that the queries return these paths.
 | 2026-Nov-14 08:19 | `t` | 180.204314 | 46.438803 |
 | 2026-Nov-14 13:47 | `s` | 250.142435 | -0.972968 |
 
+## U17 pod-site Sun prediction
+
+Checked on 14 November 2026 using the Earth rise, transit, and set recipe
+above. `python pipeline/sun_predict.py` queries the location and exact
+24-hour window from `shared/pod_site.json`. The current D10 defaults are
+latitude 25.3, longitude 51.5, and start `2026-11-14T00:00:00Z`.
+The real field location and log start remain NEEDS HUMAN.
+
+The query uses `APPARENT='AIRLESS'`, `STEP_SIZE='1 m'`, and
+`R_T_S_ONLY='TVH'`, from 14 November 00:00 UT to 15 November 00:00 UT.
+The raw response is saved beside the output as
+`app/public/data/sun/pod-prediction-horizons.txt`, and an exact copy is the
+test fixture `pipeline/tests/fixtures/horizons-pod-events-2026-11-14.txt`.
+Its full request URL is recorded in `pod-prediction.json`.
+
+| Event | U14 model prediction in UT | Horizons in UT | Model minus Horizons |
+| --- | --- | --- | --- |
+| Sunrise | 02:50 | 02:51 | -1 minute |
+| Peak | 08:18 | 08:19 | -1 minute |
+| Sunset | 13:46 | 13:47 | -1 minute |
+
+The model calls the shared `sun_position` function once per minute.
+The output contains 1,440 elevation samples in the half-open log window.
+An extra endpoint calculation detects a crossing during the final minute.
+Rise and set use D6's -0.833-degree centre-elevation threshold and report
+the start of the crossing minute. Peak is the highest sampled elevation
+within the window. `shared/sun_prediction_settings.json` labels the sampling
+and threshold choices as defaults. Missing crossings remain null with reasons.
+The parser checks the reference window, and the command rejects event gaps
+larger than U17's two-minute tolerance when both events are available.
+
 ## MEDA archive
 
 Called on 12 November 2026. Base URL: `https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/`.
