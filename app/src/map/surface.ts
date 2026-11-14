@@ -21,7 +21,7 @@ export function globePoint(view: GlobeView, width: number, height: number, x: nu
 const vertex = 'attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }'
 const fragment = [
   'precision highp float;',
-  'uniform vec2 u_resolution; uniform vec2 u_camera; uniform float u_radius; uniform sampler2D u_surface;',
+  'uniform vec2 u_resolution; uniform vec2 u_camera; uniform float u_radius; uniform sampler2D u_surface; uniform float u_earth;',
   'const float PI = 3.141592653589793;',
   'void main() {',
   'vec2 p = (gl_FragCoord.xy - u_resolution * 0.5) / u_radius;',
@@ -35,12 +35,17 @@ const fragment = [
   'vec2 uv = vec2(atan(world.y, world.x) / (2.0 * PI) + 0.5, 0.5 - asin(clamp(world.z, -1.0, 1.0)) / PI);',
   'vec3 color = texture2D(u_surface, uv).rgb;',
   'float light = 0.75 + 0.25 * max(0.0, dot(vec3(p, depth), normalize(vec3(-0.3, 0.45, 1.0))));',
-  'gl_FragColor = vec4(color * light, 1.0);',
+  // Lift the dark Blue Marble midtones in display space; this is a visual treatment,
+  // independent of the scientific score layer. Other worlds retain their texture.
+  'vec3 displayColor = mix(color, pow(color, vec3(0.68)), u_earth);',
+  'float ocean = smoothstep(0.015, 0.055, color.b - max(color.r, color.g)) * u_earth;',
+  'displayColor = mix(displayColor, max(displayColor, vec3(0.055, 0.24, 0.40)), ocean);',
+  'gl_FragColor = vec4(displayColor * light, 1.0);',
   '}',
 ].join('\n')
 
 // Rendering is demand-driven. GPU resources are released when a globe unmounts.
-export function createSurface(canvas: HTMLCanvasElement, url: string, onReady: () => void, onError: () => void) {
+export function createSurface(canvas: HTMLCanvasElement, url: string, onReady: () => void, onError: () => void, earth = false) {
   const gl = canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: false })
   if (!gl) { onError(); return null }
   const shaders: WebGLShader[] = []
@@ -68,6 +73,7 @@ export function createSurface(canvas: HTMLCanvasElement, url: string, onReady: (
     return null
   }
   gl.useProgram(program)
+  gl.uniform1f(gl.getUniformLocation(program, 'u_earth'), earth ? 1 : 0)
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW)
   const position = gl.getAttribLocation(program, 'a_position')

@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, PointerEvent } from 'react'
 import type { Cell } from './model'
 import type { GlobeView } from './globe'
@@ -16,9 +16,20 @@ function cameraAt(view: GlobeView, lon: number, lat: number, zoom = view.zoom): 
   return { lon: ((longitude + 180) % 360 + 360) % 360 - 180, lat: latitude, zoom: Math.max(1, Math.min(24, zoom)) }
 }
 
-export function PlanetGlobe({ body, selection, landmarks, onSelect }: {
+type PlanetGlobeProps = {
   body: World; selection: Cell; landmarks: readonly GlobeLandmark[]; onSelect: (point: Cell) => void
-}) {
+}
+
+const GoogleEarthView = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  ? lazy(() => import('./GoogleEarthView').then(module => ({ default: module.GoogleEarthView }))) : null
+
+export function PlanetGlobe(props: PlanetGlobeProps) {
+  return props.body === 'earth' && GoogleEarthView
+    ? <Suspense fallback={<p role="status">Loading Google Earth view…</p>}><GoogleEarthView selection={props.selection} landmarks={props.landmarks} onSelect={props.onSelect} initialRange={1000000} /></Suspense>
+    : <LocalPlanetGlobe {...props} />
+}
+
+function LocalPlanetGlobe({ body, selection, landmarks, onSelect }: PlanetGlobeProps) {
   const stage = useRef<HTMLDivElement>(null)
   const surface = useRef<HTMLCanvasElement>(null)
   const overlay = useRef<HTMLCanvasElement>(null)
@@ -59,7 +70,7 @@ export function PlanetGlobe({ body, selection, landmarks, onSelect }: {
     setLoad('loading')
     const renderer = createSurface(base, import.meta.env.BASE_URL + 'data/surfaces/' + body + '.jpg',
       () => { if (active) { setLoad('ready'); schedule() } },
-      () => { if (active) setLoad('error') })
+      () => { if (active) setLoad('error') }, body === 'earth')
     draw.current = () => {
       const { width, height } = host.getBoundingClientRect()
       if (!width || !height) return

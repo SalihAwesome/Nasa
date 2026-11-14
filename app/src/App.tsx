@@ -24,9 +24,9 @@ const views = {
 
 const navigation = [
   { key: 'map', label: 'Find test sites', href: '#/map' },
-  { key: 'sun', label: 'Compare sunlight', href: '#/sun' },
-  { key: 'truth', label: 'Field measurements', href: '#/truth' },
-  { key: 'live', label: 'Live sensor readings', href: '#/live' },
+  { key: 'sun', label: 'Sunlight', href: '#/sun' },
+  { key: 'truth', label: 'Field data', href: '#/truth' },
+  { key: 'live', label: 'Sensor pod', href: '#/live' },
   { key: 'compare', label: 'Compare sites', href: '#/compare' },
 ]
 
@@ -57,6 +57,7 @@ function App() {
   const view = route === 'missing' ? null : views[route]
   const previousRoute = useRef(route)
   const [cardHandoff, setCardHandoff] = useState<CardHandoff>()
+  const [menuOpen, setMenuOpen] = useState(false)
   const [lightMode, setLightMode] = useState(() => {
     try { return window.localStorage.getItem('proving-ground-theme') === 'light' } catch { return false }
   })
@@ -82,16 +83,29 @@ function App() {
         document.getElementById('main-content')?.focus()
       }}>Skip to content</a>
       <header className="app-header">
-        <a className="brand" href="#/map">Proving Ground</a>
-      </header>
-      <nav className="app-nav" aria-label="Main navigation">
+        <a className="brand" href="#/map" onClick={() => setMenuOpen(false)}>
+          <svg className="brand-mark" aria-hidden="true" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" /><ellipse cx="16" cy="16" rx="15" ry="5" transform="rotate(-35 16 16)" /></svg>
+          Proving Ground
+        </a>
+        <nav id="main-navigation" className="app-nav" data-open={menuOpen} aria-label="Main navigation" onKeyDown={event => {
+          if (event.key === 'Escape') { setMenuOpen(false); document.getElementById('menu-toggle')?.focus() }
+        }}>
         {navigation.map(item => <a key={item.key} href={item.href}
+          onClick={() => setMenuOpen(false)}
           aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
           {item.label}
         </a>)}
-        <a className="ask-nav" href="#/ask" aria-current={route === 'ask' ? 'page' : undefined}>Ask Proving Ground</a>
-        <button className="theme-toggle" type="button" onClick={() => setLightMode(current => !current)}>{lightMode ? 'Dark mode' : 'Light mode'}</button>
-      </nav>
+        <a className="ask-nav" href="#/ask" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>Ask Proving Ground <span aria-hidden="true">↗</span></a>
+        </nav>
+        <div className="header-actions">
+          <button className="theme-toggle" type="button" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} onClick={() => setLightMode(current => !current)}>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">{lightMode ? <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /> : <><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></>}</svg>
+          </button>
+          <button id="menu-toggle" className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? 'Close' : 'Menu'}
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d={menuOpen ? 'M6 6l12 12M6 18 18 6' : 'M4 7h16M4 12h16M4 17h16'} /></svg>
+          </button>
+        </div>
+      </header>
       <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
         {view ? <>
           {route === 'card' && <a className="back-link" href="#/map">Back to the Earth test map</a>}

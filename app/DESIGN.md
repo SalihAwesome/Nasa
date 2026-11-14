@@ -24,13 +24,13 @@ never replace missing values with decorative data.
 
 | Token | Value | Role |
 |---|---|---|
-| `--color-background` | #080c12 | Page ground |
-| `--color-surface` | #111923 | Content surface |
+| `--color-background` | #0b111b | Page ground |
+| `--color-surface` | #131e2c | Content surface |
 | `--color-text` | #edf3fa | Primary text |
-| `--color-muted` | #a9b9cb | Secondary text, never lower opacity |
-| `--color-border` | #344354 | Decorative dividers |
-| `--color-accent` | #66e0c2 | Links and active navigation |
-| `--color-accent-soft` | #163730 | Active navigation background |
+| `--color-muted` | #b8c6d4 | Secondary text, never lower opacity |
+| `--color-border` | #304154 | Decorative dividers |
+| `--color-accent` | #8cdbed | Links and active navigation |
+| `--color-accent-soft` | #203646 | Active navigation background |
 | `--color-focus` | #ffcf52 | Keyboard focus |
 | `--color-score-0` | #172e35 | Score 0 |
 | `--color-score-025` | #24504e | Score 0.25 |
@@ -67,11 +67,11 @@ styles. Pod, satellite and Mars retain their colors across all views. Sun and fi
 
 | Token | Value | Role |
 |---|---|---|
-| `--font-body` | 'Segoe UI', system-ui, sans-serif | Interface and prose |
-| `--font-heading` | 'Segoe UI', system-ui, sans-serif | View heading and wordmark |
+| `--font-body` | 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif | Interface and prose |
+| `--font-heading` | var(--font-body) | View heading and wordmark |
 | `--font-data` | Consolas, monospace | Readings and code |
-| `--text-small` | 0.8125rem | Tags and brand description |
-| `--text-label` | 0.875rem | Supporting labels |
+| `--text-small` | 0.875rem | Tags and brand description |
+| `--text-label` | 0.9375rem | Supporting labels |
 | `--text-body` | 1rem | Body text and navigation |
 | `--text-lead` | 1.125rem | View purpose |
 | `--text-title` | 1.5rem | Section heading and brand |
@@ -89,7 +89,7 @@ styles. Pod, satellite and Mars retain their colors across all views. Sun and fi
 | `--space-12` | 3rem | Sections |
 | `--space-16` | 4rem | Reserved major separation |
 | `--radius-small` | 0.25rem | Controls and tags |
-| `--radius-panel` | 0.75rem | Content panel |
+| `--radius-panel` | 1rem | Content panel |
 | `--border-width` | 1px | Dividers |
 | `--focus-width` | 3px | Focus ring |
 | `--control-min` | 2.75rem | Minimum control height |
@@ -97,7 +97,7 @@ styles. Pod, satellite and Mars retain their colors across all views. Sun and fi
 | `--reading-max` | 65ch | Maximum prose measure |
 
 Fonts are local fallbacks, so the shell does not need a font service or network
-access. Navigation uses a compact desktop row and two mobile columns. Sun comparisons
+access. Navigation uses one desktop row and a disclosure menu below 78rem; its links stack on phones. Sun comparisons
 stack below 52rem. Use visible focus rings and actual links. Motion follows user
 input; reduced motion uses sample stepping instead of continuous playback.
 
@@ -133,3 +133,15 @@ changes missing data into data. This unit's evidence key documents the styles.
 checks that every token named here exists in the CSS, and calculates the text to
 background contrast. The requirement is at least 4.5:1. Full validation also runs
 `npm test`, `npm run build` and the pipeline's `python -m pytest`.
+
+## November workspace redesign
+
+The operating workspace uses a single navigation row with shorter tool names, a separate theme control, and an accessible Menu disclosure at smaller widths. IBM Plex Sans is self-hosted. Headings use a restrained responsive scale so the mission controls and Earth are easier to reach. Light mode uses cool white and blue surfaces. Score, evidence, pod and planetary series colors retain their meanings.
+
+Earth imagery receives a display-only midtone lift and a blue-ocean floor in the surface shader, consistently in the finder and comparison views. This presentation treatment does not change source textures, scores or readings. Moon and Mars retain the original surface treatment. A brighter blue fallback is used when the Earth texture is unavailable. Motion respects reduced-motion preferences.
+
+## Google Earth imagery follow-up
+
+With a local Google Maps browser key configured, Earth uses Google satellite/hybrid imagery by default, with an optional 3D terrain view in the finder and Earth comparison panels. A two-button map-layer selector keeps the existing full local score map available as Match colors. Google's imagery uses its own native controls, labels and attribution; no CSS filter or Earth texture shader is applied to it. Moon and Mars continue to use local renderers. Google requires internet access; empty-key builds retain the original local maps. See `docs/google-earth.md`.
+
+The Google integration is a paused draft. The final satellite-default view still requires browser verification; see `docs/earth-map-checkpoint.md`.
