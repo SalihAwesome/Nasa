@@ -8,6 +8,12 @@ function isPodField(field: string, record: PodRecord): field is keyof PodRecord 
   return Object.hasOwn(record, field)
 }
 
+export function podChannelValue(record: PodLog['records'][number], channel: Pick<Channel, 'cardNumber' | 'podFields'>): number | null {
+  if (channel.cardNumber === 'daylight_mean') return record.reflectivity.value
+  const field = channel.podFields[0]
+  return isPodField(field, record) && field !== 'ts' ? record[field] : null
+}
+
 /** D16, using U19's daylight and saturation filtering for reflectivity. */
 export function reduceChannel(
   records: Readonly<PodLog['records']>,
@@ -23,7 +29,7 @@ export function reduceChannel(
     return { value: null, reason: 'No numeric pod field for this channel' }
   }
   const values = records.flatMap(record => {
-    const value = method === 'daylight_mean' ? record.reflectivity.value : record[field]
+    const value = podChannelValue(record, channel)
     return value === null ? [] : [value]
   })
   if (!values.length) {
