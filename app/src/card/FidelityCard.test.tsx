@@ -83,12 +83,67 @@ test('the chosen MEDA sol is read from the shipped manifest', async () => {
   expect(requested.some(path => path.endsWith(`/mars/${manifest.cardFile}`))).toBe(true)
 })
 
+test('REVIEW 1: Shackleton pod power includes the three saved Sun scores and omits only the missing channel targets', async () => {
+  const selection = readCardSelection('#/card/pod?target=shackleton&test=power')
+  const data = await loadCardData(selection, assets)
+  const card = buildCard(data, selection)
+  expect(typeof card.combined.score).toBe('number')
+  expect(card.combined.missing).toEqual(['ground_temp', 'uv'])
+  const earthFile = JSON.parse(publicFile('data/sun/earth-rows.json').toString())
+  const settings = loadTargetSettings().targets.find(target => target.id === selection.target)!
+  const earthRow = earthFile.months[selection.month - earthFile.month_start][(card.cell.lat - earthFile.latitude_start_deg) / earthFile.latitude_step_deg]
+  const html = renderToStaticMarkup(<FidelityCard card={card} />)
+  for (const [id, setting] of Object.entries(settings.sun)) {
+    const file = JSON.parse(readFileSync(new URL(`../../../${setting.valueFile}`, import.meta.url), 'utf8'))
+    const row = card.sunRows.find(row => row.id === id)!
+    expect(row.earth.value).toBe(earthRow[id])
+    expect(row.target.value).toBe(file.numbers[id])
+    expect(row.tolerance.value).toBe(setting.tolerance)
+    expect(html).toContain(`data-sun-quantity="${id}"`)
+    expect(html).toContain(row.label)
+  }
+  const available = card.sunRows.filter(row => typeof row.score === 'number')
+  const numerator = available.reduce((sum, row) => sum + (row.score as number) * row.weight!.value, 0)
+  const denominator = available.reduce((sum, row) => sum + row.weight!.value, 0)
+  expect(card.combined.score).toBeCloseTo(numerator / denominator)
+  console.info(`U11 review 1: Shackleton pod power ${card.combined.score}; omitted ${card.combined.missing.join(', ')}; ${card.sunRows.length} Sun scores.`)
+})
+
+test('REVIEW 1: polar-night Sun values retain their saved reasons and readable omitted labels', async () => {
+  const selection = readCardSelection('#/card/pod?target=shackleton&test=power&month=1')
+  const data = await loadCardData(selection, assets)
+  const file = JSON.parse(publicFile('data/sun/earth-rows.json').toString())
+  const rows = file.months[selection.month - file.month_start]
+  const index = data.cells.findIndex(cell => rows[(cell.lat - file.latitude_start_deg) / file.latitude_step_deg].low_sun_share === null)
+  expect(index).toBeGreaterThanOrEqual(0)
+  const card = buildCard(data, { ...selection, site: { kind: 'cell', index } })
+  const saved = rows[(card.cell.lat - file.latitude_start_deg) / file.latitude_step_deg]
+  const html = renderToStaticMarkup(<FidelityCard card={card} />)
+  const omitted = html.split('Omitted from the mean: ')[1].split('</p>')[0]
+  for (const id of ['low_sun_share', 'horizon_sweep']) {
+    const row = card.sunRows.find(row => row.id === id)!
+    expect(row.earth.value).toBeNull()
+    expect(row.earth.reason).toBe(saved.reasons[id])
+    expect(typeof row.score).not.toBe('number')
+    expect(card.combined.missing).toContain(id)
+    expect(omitted).toContain(row.label)
+    expect(omitted).not.toContain(id)
+    const rendered = html.split(`data-sun-quantity="${id}"`)[1].split('</dd>')[0]
+    expect(rendered).toContain(saved.reasons[id])
+    expect(rendered).toContain('no score')
+  }
+})
+
 test('power counts only its weighted rows, exposes missing weights and lists every notBuilt item', async () => {
   const selection = podSelection()
   const card = buildCard(await loadCardData(selection, assets), selection)
   expect(card.rows.filter(row => row.counts).map(row => row.id)).toEqual(['ground_temp', 'uv'])
-  expect(card.combined.missing).toContain('uv')
-  expect(card.combined.score).toBe(card.rows.find(row => row.id === 'ground_temp')!.score)
+  expect(card.combined.missing).toEqual(['uv'])
+  const available = [...card.rows, ...card.sunRows].filter(row => row.counts && typeof row.score === 'number')
+  expect(available.map(row => row.id)).toEqual(['ground_temp', 'peak_elevation', 'low_sun_share', 'horizon_sweep'])
+  const weightedScore = available.reduce((sum, row) => sum + (row.score as number) * row.weight!.value, 0)
+  const totalWeight = available.reduce((sum, row) => sum + row.weight!.value, 0)
+  expect(card.combined.score).toBeCloseTo(weightedScore / totalWeight)
   const html = renderToStaticMarkup(<FidelityCard card={card} />)
   for (const quantity of card.test.notBuilt) expect(html).toContain(quantity)
   expect(html).toContain('weight')
@@ -107,17 +162,18 @@ test('pod and cell URLs select the same packed cell, and D18 ties choose higher 
   expect(() => buildCard(data, { ...cellSelection, site: { kind: 'cell', index: data.cells.length } })).toThrow()
 })
 
-test('Shackleton stays missing; long reasons remain intact and all rows still render', async () => {
+test('Shackleton channel values stay missing; long reasons remain intact and all rows still render', async () => {
   const selection = readCardSelection('#/card/pod?target=shackleton&month=1')
   const card = buildCard(await loadCardData(selection, assets), selection)
   expect(card.rows.every(row => row.target.value === null && row.target.reason)).toBe(true)
-  expect(typeof card.combined.score).not.toBe('number')
+  expect(card.rows.every(row => typeof row.score !== 'number')).toBe(true)
   const simulated = { simulated: true, reason: card.rows[0].target.reason!.repeat(40) }
   const stressed = { ...card, rows: card.rows.map((row, i) => i ? row : { ...row, target: { ...row.target, reason: simulated.reason } }) }
   const html = renderToStaticMarkup(<FidelityCard card={stressed} />)
   expect(html).toContain(simulated.reason)
   expect(html.match(/<tr data-channel=/g)).toHaveLength(6)
-  expect(html).not.toContain('data-score="0"')
+  const channelRows = html.split('<tbody>')[1].split('</tbody>')[0]
+  expect(channelRows).not.toContain('data-score="0"')
 })
 
 test('a genuine Earth fill value shows its saved reason and no score', async () => {

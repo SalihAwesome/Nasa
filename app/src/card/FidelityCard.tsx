@@ -45,8 +45,20 @@ export function FidelityCard({ card }: { card: CardModel }) {
       </p></div>
       <div>{!card.test.enabled && <p>{card.test.reason}</p>}
         <p>Weights and tolerances are defaults. The weighted mean uses only rows with a score.</p>
-        {card.combined.missing.length > 0 && <p>Omitted from the mean: {card.combined.missing.map(id => card.rows.find(row => row.id === id)?.label ?? id).join(', ')}.</p>}
+        {card.combined.missing.length > 0 && <p>Omitted from the mean: {card.combined.missing.map(id => [...card.rows, ...card.sunRows].find(row => row.id === id)?.label ?? id).join(', ')}.</p>}
         <p>Not built for this test: {card.test.notBuilt.join(', ')}.</p></div>
+    </section>
+    <section className="card-sun" aria-labelledby="card-sun-heading">
+      <h3 id="card-sun-heading">Sun comparisons</h3>
+      <p>Precomputed Sun estimates for the selected Earth month and target window.</p>
+      <dl>{card.sunRows.map(row => <div key={row.id} data-sun-quantity={row.id}>
+        <dt>{row.label}</dt>
+        <dd><span>Earth: <Value reading={row.earth} /></span><span>Target: <Value reading={row.target} /></span>
+          <span>Tolerance: {number(row.tolerance.value)} {row.tolerance.unit} ({row.tolerance.status})</span>
+          <span>Score: {typeof row.score === 'number' ? <span className="card-score" data-score={row.score}>{number(row.score)}</span> : 'no score'}</span>
+          <span>{row.counts ? `Counts · weight ${row.weight?.value} (${row.weight?.status})` : 'Does not count'}</span>
+        </dd>
+      </div>)}</dl>
     </section>
     <div className="card-table-scroll" role="region" aria-label="Channel comparisons" tabIndex={0}>
       <table className="card-table"><caption>Each channel keeps its own score. Only marked rows count toward the selected test.</caption>

@@ -13,6 +13,12 @@
 .card-combined { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 3fr); gap: var(--space-6); padding: var(--space-6); background: var(--color-accent-soft); border-block: var(--border-width) solid var(--color-border); font-size: var(--text-label); }
 .card-total { font-family: var(--font-data); font-size: var(--text-title); }
 .card-combined p + p { margin-top: var(--space-2); }
+.card-sun { padding: var(--space-6); font-size: var(--text-label); }
+.card-sun > p { color: var(--color-muted); }
+.card-sun dl { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+.card-sun dt { font-weight: var(--weight-medium); }
+.card-sun dd { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-2) 0 0; }
+.card-sun .card-number { display: inline; }
 .card-table-scroll { overflow-x: auto; }
 .card-table { width: 100%; min-width: 48rem; border-collapse: collapse; table-layout: fixed; font-size: var(--text-label); }
 .card-table caption { padding: var(--space-4) var(--space-6); text-align: left; color: var(--color-muted); }
