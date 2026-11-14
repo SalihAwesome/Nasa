@@ -1,0 +1,3160 @@
+{
+  "sol": 300,
+  "sourceId": "meda",
+  "timeScale": "LMST",
+  "settings": {
+    "status": "default",
+    "referenceSol": 300,
+    "lastFallbackSol": 310,
+    "binMinutes": 10,
+    "minimumBins": 72,
+    "downloadChunkBytes": 524288,
+    "groundShadowColumn": "TIRS_GROUND_FOOTPRINT_NOT_IN_SHADOW"
+  },
+  "channels": {
+    "ground_temp": {
+      "missing": false,
+      "unit": "C",
+      "sourceUnit": "kelvin",
+      "sourceColumn": "GROUND_TEMP",
+      "bins": [
+        {
+          "lmstHour": 0.08333333333333333,
+          "value": -71.33508116883117,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.25,
+          "value": -71.64589951377631,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.4166666666666667,
+          "value": -71.97784090909087,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.5833333333333334,
+          "value": -72.25620745542943,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.75,
+          "value": -72.55413961038967,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.9166666666666666,
+          "value": -72.87325769854132,
+          "count": 617
+        },
+        {
+          "lmstHour": 1.0833333333333333,
+          "value": -73.08943113772455,
+          "count": 334
+        },
+        {
+          "lmstHour": 1.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.4166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.5833333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.9166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 2.0833333333333335,
+          "value": -74.65779411764701,
+          "count": 612
+        },
+        {
+          "lmstHour": 2.25,
+          "value": -74.86760129659655,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.4166666666666665,
+          "value": -75.10323051948049,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.5833333333333335,
+          "value": -75.38941653160458,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.75,
+          "value": -75.67366883116881,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.9166666666666665,
+          "value": -75.96450567260936,
+          "count": 617
+        },
+        {
+          "lmstHour": 3.0833333333333335,
+          "value": -76.15553977272731,
+          "count": 352
+        },
+        {
+          "lmstHour": 3.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.4166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.5833333333333335,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.9166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 4.083333333333333,
+          "value": -77.30403508771927,
+          "count": 171
+        },
+        {
+          "lmstHour": 4.25,
+          "value": -77.54987034035653,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.416666666666667,
+          "value": -77.73694805194798,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.583333333333333,
+          "value": -77.88209415584419,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.75,
+          "value": -77.96536466774708,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.916666666666667,
+          "value": -77.98441558441563,
+          "count": 616
+        },
+        {
+          "lmstHour": 5.083333333333333,
+          "value": -77.85560777957859,
+          "count": 617
+        },
+        {
+          "lmstHour": 5.25,
+          "value": -77.58588235294117,
+          "count": 170
+        },
+        {
+          "lmstHour": 5.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.083333333333333,
+          "value": -70.46180180180181,
+          "count": 111
+        },
+        {
+          "lmstHour": 6.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.083333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 7.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.083333333333334,
+          "value": -28.319999999999965,
+          "count": 1
+        },
+        {
+          "lmstHour": 8.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.083333333333334,
+          "value": -10.307959770114921,
+          "count": 348
+        },
+        {
+          "lmstHour": 9.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 10.083333333333334,
+          "value": 1.6329022988505963,
+          "count": 348
+        },
+        {
+          "lmstHour": 10.25,
+          "value": 3.7522112211221357,
+          "count": 303
+        },
+        {
+          "lmstHour": 10.416666666666666,
+          "value": 4.557212317666152,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.583333333333334,
+          "value": 5.834269480519508,
+          "count": 616
+        },
+        {
+          "lmstHour": 10.75,
+          "value": 6.80764991896275,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.916666666666666,
+          "value": 7.973344155844184,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.083333333333334,
+          "value": 8.945753646677499,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.25,
+          "value": 9.661883116883146,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.416666666666666,
+          "value": 10.490794165316045,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.583333333333334,
+          "value": 10.740438311688353,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.75,
+          "value": 10.99941653160457,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.916666666666666,
+          "value": 11.23394480519485,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.083333333333334,
+          "value": 11.29980551053485,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.25,
+          "value": 11.480746753246754,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.416666666666666,
+          "value": 11.371588330632118,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.583333333333334,
+          "value": 11.002435064935085,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.75,
+          "value": 10.533133116883139,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.916666666666666,
+          "value": 10.127179902755282,
+          "count": 617
+        },
+        {
+          "lmstHour": 13.083333333333334,
+          "value": 9.93019762845853,
+          "count": 253
+        },
+        {
+          "lmstHour": 13.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 14.083333333333334,
+          "value": 3.734918300653618,
+          "count": 612
+        },
+        {
+          "lmstHour": 14.25,
+          "value": 2.3566612641815468,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.416666666666666,
+          "value": 0.8186850649350891,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.583333333333334,
+          "value": -0.7707455429497326,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.75,
+          "value": -2.7026461038960767,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.916666666666666,
+          "value": -4.826612641815218,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.083333333333334,
+          "value": -6.713863636363615,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.25,
+          "value": -8.757763371150705,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.416666666666666,
+          "value": -10.782061688311664,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.583333333333334,
+          "value": -12.918249594813593,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.75,
+          "value": -15.21038961038959,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.916666666666666,
+          "value": -17.857682333873555,
+          "count": 617
+        },
+        {
+          "lmstHour": 16.083333333333332,
+          "value": -20.92779220779218,
+          "count": 616
+        },
+        {
+          "lmstHour": 16.25,
+          "value": -22.692702702702682,
+          "count": 37
+        },
+        {
+          "lmstHour": 16.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 17.083333333333332,
+          "value": -38.25704248366014,
+          "count": 612
+        },
+        {
+          "lmstHour": 17.25,
+          "value": -40.70145867098862,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.416666666666668,
+          "value": -42.91665584415581,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.583333333333332,
+          "value": -45.1820097244732,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.75,
+          "value": -47.229496753246735,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.916666666666668,
+          "value": -49.129448946515424,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.083333333333332,
+          "value": -50.795324675324686,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.25,
+          "value": -52.22730956239867,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.416666666666668,
+          "value": -53.68092532467534,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.583333333333332,
+          "value": -54.94588330632086,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.75,
+          "value": -56.08954545454549,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.916666666666668,
+          "value": -57.00651539708261,
+          "count": 617
+        },
+        {
+          "lmstHour": 19.083333333333332,
+          "value": -57.71956521739127,
+          "count": 345
+        },
+        {
+          "lmstHour": 19.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 20.083333333333332,
+          "value": -62.119477124183,
+          "count": 612
+        },
+        {
+          "lmstHour": 20.25,
+          "value": -62.73708265802268,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.416666666666668,
+          "value": -63.26623376623377,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.583333333333332,
+          "value": -63.81084278768229,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.75,
+          "value": -64.34412337662334,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.916666666666668,
+          "value": -64.85673701298697,
+          "count": 616
+        },
+        {
+          "lmstHour": 21.083333333333332,
+          "value": -65.23005665722373,
+          "count": 353
+        },
+        {
+          "lmstHour": 21.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 22.083333333333332,
+          "value": -67.55474714518765,
+          "count": 613
+        },
+        {
+          "lmstHour": 22.25,
+          "value": -67.83133116883123,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.416666666666668,
+          "value": -68.11230145867096,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.583333333333332,
+          "value": -68.41887987012983,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.75,
+          "value": -68.77437601296604,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.916666666666668,
+          "value": -69.11370129870123,
+          "count": 616
+        },
+        {
+          "lmstHour": 23.083333333333332,
+          "value": -69.35630681818178,
+          "count": 352
+        },
+        {
+          "lmstHour": 23.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        }
+      ],
+      "sourceFile": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.CSV",
+      "sourceLabel": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.xml"
+    },
+    "reflectivity": {
+      "missing": true,
+      "value": null,
+      "unit": "ratio",
+      "sourceFile": null,
+      "sourceColumn": null,
+      "reason": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    },
+    "uv": {
+      "missing": true,
+      "value": null,
+      "unit": "UV index",
+      "sourceFile": null,
+      "sourceColumn": null,
+      "reason": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    },
+    "air_temp": {
+      "missing": false,
+      "unit": "C",
+      "sourceUnit": "kelvin",
+      "sourceColumn": "ATS_LOCAL_TEMP1",
+      "bins": [
+        {
+          "lmstHour": 0.08333333333333333,
+          "value": -69.51538961038956,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.25,
+          "value": -69.91416531604541,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.4166666666666667,
+          "value": -70.34498376623375,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.5833333333333334,
+          "value": -71.95098865478126,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.75,
+          "value": -71.5885876623376,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.9166666666666666,
+          "value": -72.26533225283633,
+          "count": 617
+        },
+        {
+          "lmstHour": 1.0833333333333333,
+          "value": -73.04663663663669,
+          "count": 333
+        },
+        {
+          "lmstHour": 1.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.4166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.5833333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.9166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 2.0833333333333335,
+          "value": -73.51926590538338,
+          "count": 613
+        },
+        {
+          "lmstHour": 2.25,
+          "value": -73.71181523500809,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.4166666666666665,
+          "value": -74.8538474025975,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.5833333333333335,
+          "value": -76.08141004862242,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.75,
+          "value": -76.2610227272728,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.9166666666666665,
+          "value": -74.54698541329009,
+          "count": 617
+        },
+        {
+          "lmstHour": 3.0833333333333335,
+          "value": -74.31356125356129,
+          "count": 351
+        },
+        {
+          "lmstHour": 3.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.4166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.5833333333333335,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.9166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 4.083333333333333,
+          "value": -76.85901162790698,
+          "count": 172
+        },
+        {
+          "lmstHour": 4.25,
+          "value": -76.10525121555918,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.416666666666667,
+          "value": -75.66620129870135,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.583333333333333,
+          "value": -75.51983766233762,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.75,
+          "value": -75.3903079416531,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.916666666666667,
+          "value": -75.25772727272727,
+          "count": 616
+        },
+        {
+          "lmstHour": 5.083333333333333,
+          "value": -75.40246353322527,
+          "count": 617
+        },
+        {
+          "lmstHour": 5.25,
+          "value": -74.97295857988166,
+          "count": 169
+        },
+        {
+          "lmstHour": 5.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.083333333333333,
+          "value": -73.06537459283389,
+          "count": 614
+        },
+        {
+          "lmstHour": 6.25,
+          "value": -71.26644480519478,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.416666666666667,
+          "value": -70.11810372771474,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.583333333333333,
+          "value": -68.27884740259736,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.75,
+          "value": -66.16581847649917,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.916666666666667,
+          "value": -63.485876623376676,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.083333333333333,
+          "value": -61.38717990275521,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.25,
+          "value": -60.271266233766205,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.416666666666667,
+          "value": -58.80792544570501,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.583333333333333,
+          "value": -55.597207792207755,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.75,
+          "value": -54.0611021069692,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.916666666666667,
+          "value": -51.25602272727269,
+          "count": 616
+        },
+        {
+          "lmstHour": 8.083333333333334,
+          "value": -53.65626760563377,
+          "count": 142
+        },
+        {
+          "lmstHour": 8.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.083333333333334,
+          "value": -39.0408045977011,
+          "count": 348
+        },
+        {
+          "lmstHour": 9.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 10.083333333333334,
+          "value": -29.00129310344823,
+          "count": 348
+        },
+        {
+          "lmstHour": 10.25,
+          "value": -27.949901639344226,
+          "count": 305
+        },
+        {
+          "lmstHour": 10.416666666666666,
+          "value": -28.070713128038882,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.583333333333334,
+          "value": -27.330860389610358,
+          "count": 616
+        },
+        {
+          "lmstHour": 10.75,
+          "value": -32.41764991896271,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.916666666666666,
+          "value": -29.272224025974005,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.083333333333334,
+          "value": -25.394424635332214,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.25,
+          "value": -24.756769480519466,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.416666666666666,
+          "value": -22.7413290113452,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.583333333333334,
+          "value": -22.467061688311638,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.75,
+          "value": -24.568962722852472,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.916666666666666,
+          "value": -21.455308441558422,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.083333333333334,
+          "value": -20.340696920583436,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.25,
+          "value": -27.163538961038928,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.416666666666666,
+          "value": -21.843954619124798,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.583333333333334,
+          "value": -14.655974025974016,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.75,
+          "value": -16.090649350649326,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.916666666666666,
+          "value": -13.859627228525106,
+          "count": 617
+        },
+        {
+          "lmstHour": 13.083333333333334,
+          "value": -19.126996047430804,
+          "count": 253
+        },
+        {
+          "lmstHour": 13.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 14.083333333333334,
+          "value": -4.839673735725915,
+          "count": 613
+        },
+        {
+          "lmstHour": 14.25,
+          "value": -6.035721231766592,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.416666666666666,
+          "value": -8.243376623376598,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.583333333333334,
+          "value": -6.069967585089118,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.75,
+          "value": -6.300633116883093,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.916666666666666,
+          "value": -6.346158833063183,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.083333333333334,
+          "value": -6.246607142857125,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.25,
+          "value": -7.27695299837923,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.416666666666666,
+          "value": -10.324545454545435,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.583333333333334,
+          "value": -9.073824959481332,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.75,
+          "value": -9.993490259740241,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.916666666666666,
+          "value": -11.435769854132873,
+          "count": 617
+        },
+        {
+          "lmstHour": 16.083333333333332,
+          "value": -13.26949675324674,
+          "count": 616
+        },
+        {
+          "lmstHour": 16.25,
+          "value": -14.131388888888868,
+          "count": 36
+        },
+        {
+          "lmstHour": 16.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 17.083333333333332,
+          "value": -24.88570962479605,
+          "count": 613
+        },
+        {
+          "lmstHour": 17.25,
+          "value": -27.045105348460265,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.416666666666668,
+          "value": -28.69719155844155,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.583333333333332,
+          "value": -30.822074554294947,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.75,
+          "value": -33.064886363636376,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.916666666666668,
+          "value": -35.72961102106971,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.083333333333332,
+          "value": -37.83801948051952,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.25,
+          "value": -40.09233387358181,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.416666666666668,
+          "value": -43.40300324675323,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.583333333333332,
+          "value": -46.804927066450546,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.75,
+          "value": -49.32834415584418,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.916666666666668,
+          "value": -51.08209076175034,
+          "count": 617
+        },
+        {
+          "lmstHour": 19.083333333333332,
+          "value": -51.52790697674414,
+          "count": 344
+        },
+        {
+          "lmstHour": 19.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 20.083333333333332,
+          "value": -55.20916802610106,
+          "count": 613
+        },
+        {
+          "lmstHour": 20.25,
+          "value": -56.23285251215557,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.416666666666668,
+          "value": -56.27459415584417,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.583333333333332,
+          "value": -57.95688816855749,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.75,
+          "value": -59.57022727272724,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.916666666666668,
+          "value": -60.742954545454516,
+          "count": 616
+        },
+        {
+          "lmstHour": 21.083333333333332,
+          "value": -61.423551136363635,
+          "count": 352
+        },
+        {
+          "lmstHour": 21.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 22.083333333333332,
+          "value": -61.62421824104235,
+          "count": 614
+        },
+        {
+          "lmstHour": 22.25,
+          "value": -61.93589285714288,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.416666666666668,
+          "value": -62.92478119935167,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.583333333333332,
+          "value": -62.948457792207805,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.75,
+          "value": -66.32226904376019,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.916666666666668,
+          "value": -64.51844155844152,
+          "count": 616
+        },
+        {
+          "lmstHour": 23.083333333333332,
+          "value": -64.45501424501424,
+          "count": 351
+        },
+        {
+          "lmstHour": 23.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        }
+      ],
+      "sourceFile": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.CSV",
+      "sourceLabel": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.xml"
+    },
+    "humidity": {
+      "missing": false,
+      "unit": null,
+      "sourceUnit": null,
+      "sourceColumn": "LOCAL_RELATIVE_HUMIDITY",
+      "bins": [
+        {
+          "lmstHour": 0.08333333333333333,
+          "value": 5.832581168831176,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.25,
+          "value": 6.171766612641822,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.4166666666666667,
+          "value": 6.389172077922063,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.5833333333333334,
+          "value": 6.135591572123183,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.75,
+          "value": 7.303149350649352,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.9166666666666666,
+          "value": 7.781717990275534,
+          "count": 617
+        },
+        {
+          "lmstHour": 1.0833333333333333,
+          "value": 7.623343750000004,
+          "count": 320
+        },
+        {
+          "lmstHour": 1.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.4166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.5833333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.9166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 2.0833333333333335,
+          "value": 11.28735880398671,
+          "count": 602
+        },
+        {
+          "lmstHour": 2.25,
+          "value": 12.251944894651547,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.4166666666666665,
+          "value": 10.55597402597403,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.5833333333333335,
+          "value": 8.936466774716385,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.75,
+          "value": 8.819967532467544,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.9166666666666665,
+          "value": 9.844230145867096,
+          "count": 617
+        },
+        {
+          "lmstHour": 3.0833333333333335,
+          "value": 11.172149532710266,
+          "count": 321
+        },
+        {
+          "lmstHour": 3.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.4166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.5833333333333335,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.9166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 4.083333333333333,
+          "value": 19.895714285714284,
+          "count": 161
+        },
+        {
+          "lmstHour": 4.25,
+          "value": 17.446337115072943,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.416666666666667,
+          "value": 15.622840909090895,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.583333333333333,
+          "value": 16.44668831168831,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.75,
+          "value": 17.254149108589946,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.916666666666667,
+          "value": 19.670470779220775,
+          "count": 616
+        },
+        {
+          "lmstHour": 5.083333333333333,
+          "value": 18.19797406807131,
+          "count": 617
+        },
+        {
+          "lmstHour": 5.25,
+          "value": 17.419712230215815,
+          "count": 139
+        },
+        {
+          "lmstHour": 5.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.083333333333333,
+          "value": 4.308623548922049,
+          "count": 603
+        },
+        {
+          "lmstHour": 6.25,
+          "value": 2.576412337662338,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.416666666666667,
+          "value": 1.2392868719611034,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.583333333333333,
+          "value": 0.9723214285714314,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.75,
+          "value": 0.6644732576985383,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.916666666666667,
+          "value": 0.528912337662337,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.083333333333333,
+          "value": 0.36575364667747273,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.25,
+          "value": 0.23246753246753193,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.416666666666667,
+          "value": 0.14351701782820156,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.583333333333333,
+          "value": 0.10530844155844177,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.75,
+          "value": 0.0666288492706647,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.916666666666667,
+          "value": 0.05490259740259708,
+          "count": 616
+        },
+        {
+          "lmstHour": 8.083333333333334,
+          "value": 0.03312499999999991,
+          "count": 112
+        },
+        {
+          "lmstHour": 8.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.083333333333334,
+          "value": 0.0,
+          "count": 307
+        },
+        {
+          "lmstHour": 9.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 10.083333333333334,
+          "value": 0.0,
+          "count": 307
+        },
+        {
+          "lmstHour": 10.25,
+          "value": 0.0,
+          "count": 294
+        },
+        {
+          "lmstHour": 10.416666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.583333333333334,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 10.75,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.916666666666666,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.083333333333334,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.25,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.416666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.583333333333334,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.75,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.916666666666666,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.083333333333334,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.25,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.416666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.583333333333334,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.75,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.916666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 13.083333333333334,
+          "value": 0.0,
+          "count": 223
+        },
+        {
+          "lmstHour": 13.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 14.083333333333334,
+          "value": 0.0,
+          "count": 602
+        },
+        {
+          "lmstHour": 14.25,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.416666666666666,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.583333333333334,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.75,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.916666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.083333333333334,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.25,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.416666666666666,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.583333333333334,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.75,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.916666666666666,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 16.083333333333332,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 16.25,
+          "value": 0.0,
+          "count": 6
+        },
+        {
+          "lmstHour": 16.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 17.083333333333332,
+          "value": 0.0,
+          "count": 602
+        },
+        {
+          "lmstHour": 17.25,
+          "value": 0.0,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.416666666666668,
+          "value": 0.0,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.583333333333332,
+          "value": 1.620745542949757e-05,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.75,
+          "value": 0.012516233766233611,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.916666666666668,
+          "value": 0.03690437601296578,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.083333333333332,
+          "value": 0.0796590909090905,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.25,
+          "value": 0.1397082658022691,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.416666666666668,
+          "value": 0.17030844155844083,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.583333333333332,
+          "value": 0.2553484602917346,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.75,
+          "value": 0.42444805194805235,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.916666666666668,
+          "value": 0.5136952998379251,
+          "count": 617
+        },
+        {
+          "lmstHour": 19.083333333333332,
+          "value": 0.655955414012738,
+          "count": 314
+        },
+        {
+          "lmstHour": 19.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 20.083333333333332,
+          "value": 2.1691528239202698,
+          "count": 602
+        },
+        {
+          "lmstHour": 20.25,
+          "value": 2.3115721231766666,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.416666666666668,
+          "value": 2.575795454545471,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.583333333333332,
+          "value": 2.4365316045380836,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.75,
+          "value": 2.2062662337662533,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.916666666666668,
+          "value": 2.1312175324675335,
+          "count": 616
+        },
+        {
+          "lmstHour": 21.083333333333332,
+          "value": 2.124472049689435,
+          "count": 322
+        },
+        {
+          "lmstHour": 21.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 22.083333333333332,
+          "value": 5.211044776119398,
+          "count": 603
+        },
+        {
+          "lmstHour": 22.25,
+          "value": 5.049788961038961,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.416666666666668,
+          "value": 5.401345218800645,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.583333333333332,
+          "value": 5.448538961038947,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.75,
+          "value": 4.620388978930309,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.916666666666668,
+          "value": 5.302646103896089,
+          "count": 616
+        },
+        {
+          "lmstHour": 23.083333333333332,
+          "value": 6.061152647975079,
+          "count": 321
+        },
+        {
+          "lmstHour": 23.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        }
+      ],
+      "reasons": {
+        "unit": "The MEDA label gives no unit.",
+        "sourceUnit": "The MEDA label gives no unit."
+      },
+      "note": "unit not stated in the MEDA label",
+      "sourceFile": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.CSV",
+      "sourceLabel": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.xml"
+    },
+    "pressure": {
+      "missing": false,
+      "unit": "hPa",
+      "sourceUnit": "pascal",
+      "sourceColumn": "PRESSURE",
+      "bins": [
+        {
+          "lmstHour": 0.08333333333333333,
+          "value": 6.332765584415573,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.25,
+          "value": 6.3374432739059925,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.4166666666666667,
+          "value": 6.336752272727261,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.5833333333333334,
+          "value": 6.338751215559155,
+          "count": 617
+        },
+        {
+          "lmstHour": 0.75,
+          "value": 6.338915909090897,
+          "count": 616
+        },
+        {
+          "lmstHour": 0.9166666666666666,
+          "value": 6.339595786061593,
+          "count": 617
+        },
+        {
+          "lmstHour": 1.0833333333333333,
+          "value": 6.341235423197493,
+          "count": 319
+        },
+        {
+          "lmstHour": 1.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.4166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.5833333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 1.9166666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 2.0833333333333335,
+          "value": 6.328938032786879,
+          "count": 610
+        },
+        {
+          "lmstHour": 2.25,
+          "value": 6.329470664505656,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.4166666666666665,
+          "value": 6.330272077922065,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.5833333333333335,
+          "value": 6.3276457050243335,
+          "count": 617
+        },
+        {
+          "lmstHour": 2.75,
+          "value": 6.326073214285725,
+          "count": 616
+        },
+        {
+          "lmstHour": 2.9166666666666665,
+          "value": 6.326422852512171,
+          "count": 617
+        },
+        {
+          "lmstHour": 3.0833333333333335,
+          "value": 6.326135312499998,
+          "count": 320
+        },
+        {
+          "lmstHour": 3.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.4166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.5833333333333335,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 3.9166666666666665,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 4.083333333333333,
+          "value": 6.336373964497045,
+          "count": 169
+        },
+        {
+          "lmstHour": 4.25,
+          "value": 6.33620437601296,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.416666666666667,
+          "value": 6.336963798701284,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.583333333333333,
+          "value": 6.3406107142857175,
+          "count": 616
+        },
+        {
+          "lmstHour": 4.75,
+          "value": 6.347956888168557,
+          "count": 617
+        },
+        {
+          "lmstHour": 4.916666666666667,
+          "value": 6.35196737012987,
+          "count": 616
+        },
+        {
+          "lmstHour": 5.083333333333333,
+          "value": 6.356147974068088,
+          "count": 617
+        },
+        {
+          "lmstHour": 5.25,
+          "value": 6.359390579710143,
+          "count": 138
+        },
+        {
+          "lmstHour": 5.416666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.583333333333333,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 5.916666666666667,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 6.083333333333333,
+          "value": 6.394313584288046,
+          "count": 611
+        },
+        {
+          "lmstHour": 6.25,
+          "value": 6.3959803571428555,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.416666666666667,
+          "value": 6.400518476499179,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.583333333333333,
+          "value": 6.404344805194802,
+          "count": 616
+        },
+        {
+          "lmstHour": 6.75,
+          "value": 6.404702917341972,
+          "count": 617
+        },
+        {
+          "lmstHour": 6.916666666666667,
+          "value": 6.406024025974028,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.083333333333333,
+          "value": 6.405962884927071,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.25,
+          "value": 6.404635714285707,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.416666666666667,
+          "value": 6.399882658022677,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.583333333333333,
+          "value": 6.395017370129853,
+          "count": 616
+        },
+        {
+          "lmstHour": 7.75,
+          "value": 6.391939059967578,
+          "count": 617
+        },
+        {
+          "lmstHour": 7.916666666666667,
+          "value": 6.386991233766242,
+          "count": 616
+        },
+        {
+          "lmstHour": 8.083333333333334,
+          "value": 6.382624324324325,
+          "count": 111
+        },
+        {
+          "lmstHour": 8.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 8.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.083333333333334,
+          "value": 6.300129617834396,
+          "count": 314
+        },
+        {
+          "lmstHour": 9.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 9.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 10.083333333333334,
+          "value": 6.201432484076425,
+          "count": 314
+        },
+        {
+          "lmstHour": 10.25,
+          "value": 6.191033112582788,
+          "count": 302
+        },
+        {
+          "lmstHour": 10.416666666666666,
+          "value": 6.190102755267427,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.583333333333334,
+          "value": 6.185541883116876,
+          "count": 616
+        },
+        {
+          "lmstHour": 10.75,
+          "value": 6.184645867098862,
+          "count": 617
+        },
+        {
+          "lmstHour": 10.916666666666666,
+          "value": 6.183624188311685,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.083333333333334,
+          "value": 6.183589465153967,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.25,
+          "value": 6.182180357142846,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.416666666666666,
+          "value": 6.181351377633708,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.583333333333334,
+          "value": 6.181178246753247,
+          "count": 616
+        },
+        {
+          "lmstHour": 11.75,
+          "value": 6.182841815235004,
+          "count": 617
+        },
+        {
+          "lmstHour": 11.916666666666666,
+          "value": 6.183159253246749,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.083333333333334,
+          "value": 6.181447487844402,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.25,
+          "value": 6.179719318181808,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.416666666666666,
+          "value": 6.178466774716366,
+          "count": 617
+        },
+        {
+          "lmstHour": 12.583333333333334,
+          "value": 6.17636753246752,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.75,
+          "value": 6.177281655844141,
+          "count": 616
+        },
+        {
+          "lmstHour": 12.916666666666666,
+          "value": 6.1775904376012845,
+          "count": 617
+        },
+        {
+          "lmstHour": 13.083333333333334,
+          "value": 6.175942342342347,
+          "count": 222
+        },
+        {
+          "lmstHour": 13.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.416666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.583333333333334,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 13.916666666666666,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 14.083333333333334,
+          "value": 6.149644262295069,
+          "count": 610
+        },
+        {
+          "lmstHour": 14.25,
+          "value": 6.141730794165321,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.416666666666666,
+          "value": 6.135855844155854,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.583333333333334,
+          "value": 6.13148055105348,
+          "count": 617
+        },
+        {
+          "lmstHour": 14.75,
+          "value": 6.125890746753251,
+          "count": 616
+        },
+        {
+          "lmstHour": 14.916666666666666,
+          "value": 6.121216045380877,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.083333333333334,
+          "value": 6.114704058441553,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.25,
+          "value": 6.108512965964351,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.416666666666666,
+          "value": 6.103003733766238,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.583333333333334,
+          "value": 6.100208265802284,
+          "count": 617
+        },
+        {
+          "lmstHour": 15.75,
+          "value": 6.096930519480524,
+          "count": 616
+        },
+        {
+          "lmstHour": 15.916666666666666,
+          "value": 6.093211507293349,
+          "count": 617
+        },
+        {
+          "lmstHour": 16.083333333333332,
+          "value": 6.090485876623372,
+          "count": 616
+        },
+        {
+          "lmstHour": 16.25,
+          "value": 6.087680000000001,
+          "count": 5
+        },
+        {
+          "lmstHour": 16.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 16.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 17.083333333333332,
+          "value": 6.075032622950822,
+          "count": 610
+        },
+        {
+          "lmstHour": 17.25,
+          "value": 6.076930956239886,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.416666666666668,
+          "value": 6.0783853896103786,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.583333333333332,
+          "value": 6.079828363046998,
+          "count": 617
+        },
+        {
+          "lmstHour": 17.75,
+          "value": 6.084981168831171,
+          "count": 616
+        },
+        {
+          "lmstHour": 17.916666666666668,
+          "value": 6.095858833063216,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.083333333333332,
+          "value": 6.1101698051948015,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.25,
+          "value": 6.132647001620748,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.416666666666668,
+          "value": 6.158207467532484,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.583333333333332,
+          "value": 6.18546758508915,
+          "count": 617
+        },
+        {
+          "lmstHour": 18.75,
+          "value": 6.211537987012988,
+          "count": 616
+        },
+        {
+          "lmstHour": 18.916666666666668,
+          "value": 6.23120162074553,
+          "count": 617
+        },
+        {
+          "lmstHour": 19.083333333333332,
+          "value": 6.244312140575076,
+          "count": 313
+        },
+        {
+          "lmstHour": 19.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 19.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 20.083333333333332,
+          "value": 6.283178688524591,
+          "count": 610
+        },
+        {
+          "lmstHour": 20.25,
+          "value": 6.28108265802269,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.416666666666668,
+          "value": 6.277374350649335,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.583333333333332,
+          "value": 6.269977795786056,
+          "count": 617
+        },
+        {
+          "lmstHour": 20.75,
+          "value": 6.265063474025976,
+          "count": 616
+        },
+        {
+          "lmstHour": 20.916666666666668,
+          "value": 6.258024350649347,
+          "count": 616
+        },
+        {
+          "lmstHour": 21.083333333333332,
+          "value": 6.249108099688473,
+          "count": 321
+        },
+        {
+          "lmstHour": 21.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 21.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 22.083333333333332,
+          "value": 6.249128314238954,
+          "count": 611
+        },
+        {
+          "lmstHour": 22.25,
+          "value": 6.253197727272735,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.416666666666668,
+          "value": 6.26448525121555,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.583333333333332,
+          "value": 6.274206493506496,
+          "count": 616
+        },
+        {
+          "lmstHour": 22.75,
+          "value": 6.283365640194485,
+          "count": 617
+        },
+        {
+          "lmstHour": 22.916666666666668,
+          "value": 6.2909165584415625,
+          "count": 616
+        },
+        {
+          "lmstHour": 23.083333333333332,
+          "value": 6.296899375000004,
+          "count": 320
+        },
+        {
+          "lmstHour": 23.25,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.416666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.583333333333332,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.75,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        },
+        {
+          "lmstHour": 23.916666666666668,
+          "value": null,
+          "count": 0,
+          "reason": "No valid MEDA measurements in this 10-minute bin."
+        }
+      ],
+      "sourceFile": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.CSV",
+      "sourceLabel": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.xml"
+    }
+  }
+}
