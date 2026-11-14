@@ -2,6 +2,7 @@ import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { PodLogPanel } from './pod/PodLogPanel'
 import { SunPanel } from './sun/SunPanel'
 import { MobilityAvailability } from './mobility/TestSelector'
+import { CardPanel } from './card/FidelityCard'
 import './styles/tokens.css'
 import './styles/shell.css'
 
@@ -75,7 +76,9 @@ function App() {
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
           {route === 'map' && <MobilityAvailability />}
-          {route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} /> : <section className="placeholder" aria-labelledby="placeholder-title">
+          {route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
+            : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <CardPanel hash={hash} />
+            : <section className="placeholder" aria-labelledby="placeholder-title">
             <h2 id="placeholder-title">Not available yet</h2>
             <p>This view is still being built. No data is loaded here.</p>
           </section>}
