@@ -100,6 +100,26 @@ test('U22 applies the calibration notes and preserves missing readings', async (
   expect(emptyHtml).not.toContain('data-error-bar=')
 })
 
+test('U22 combines the measured ground score with all three U11 Sun scores', async () => {
+  const card = await loadSelectedCard(selection, assets(csv))
+  const cellSelection = readCardSelection(`#/card/cell/${card.cell.index}?month=${card.month}`)
+  const cell = await loadSelectedCard(cellSelection, assets(csv))
+  expect(card.sunRows).toEqual(cell.sunRows)
+  expect(card.sunRows).toHaveLength(3)
+  expect(card.combined.missing).toEqual(['uv'])
+
+  const weighted = [...card.rows, ...card.sunRows].flatMap(row =>
+    row.counts && row.weight && typeof row.score === 'number'
+      ? [{ score: row.score, weight: row.weight.value }]
+      : [],
+  )
+  expect(weighted).toHaveLength(4)
+  const sum = weighted.reduce((total, row) => total + row.score * row.weight, 0)
+  const weights = weighted.reduce((total, row) => total + row.weight, 0)
+  expect(card.combined.score).toBeCloseTo(sum / weights)
+  console.info(`U22 Power score: ${card.combined.score} from the measured ground score and three Sun scores. Missing: ${card.combined.missing.join(', ')}.`)
+})
+
 test('U22 uses the field log when present and keeps the cell card estimated', async () => {
   // Keep the fixture marked as simulated even when served at the field path.
   const field = await loadSelectedCard(selection, async url => {
