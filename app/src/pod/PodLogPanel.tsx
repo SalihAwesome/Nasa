@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { DragEvent } from 'react'
 import { fetchPodLog, importConfiguredPodLog } from './importLog'
 import type { PodLog } from './importLog'
+import { GroundTemperature } from './GroundTemperature'
 
 type LoadState =
   | { kind: 'loading' }
@@ -79,6 +80,7 @@ export function PodLogPanel() {
         {state.kind === 'error' && <p>{state.message}</p>}
         {state.kind === 'ready' && <PodLogSummary log={state.log} />}
       </div>
+      {state.kind === 'ready' && <GroundTemperature log={state.log} />}
     </section>
   )
 }

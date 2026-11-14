@@ -42,6 +42,12 @@ font sizes. Keep the token table and CSS in sync.
 | `--color-mars` | #a04423 | Mars curve |
 | `--color-sun` | #ffcf52 | Current Sun marker and glow |
 | `--color-sun-outline` | #80500e | Sun marker edge |
+| `--color-temperature-plot` | #102d3c | Ground temperature plot background |
+| `--color-temperature-text` | #e0f1fa | Plot labels and series keys |
+| `--color-temperature-grid` | #355669 | Plot grid |
+| `--color-temperature-cold` | #44baff | Cold curve segments |
+| `--color-temperature-mild` | #40e5bd | Mild curve segments |
+| `--color-temperature-warm` | #ff9c49 | Warm curve segments |
 | `--color-estimate-text` | #234d7a | Estimate label text |
 | `--color-estimate-background` | #e4eef8 | Estimate label surface |
 | `--color-measured-text` | #175642 | Measured label text |

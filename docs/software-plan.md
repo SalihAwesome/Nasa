@@ -121,6 +121,7 @@ The plan chose these values. None has a scientific source. Each one goes into it
 | D19 | When the log header has no correction factor, use 0.27, the starting value in the mission plan, and show "correction factor not measured" on the reflectivity row. When it has no air-temperature offset, use 0 and show "offset not measured" on the air temperature row. | `shared/pod_settings.json` |
 | D20 | Dryness: the tolerance is a soil wetness of 0.2, and the Int16 scale is 0.0001. Slope, roughness, and bare ground get a tolerance when U31 confirms their units. | `shared/targets.json` |
 | D18 | The cell of a point is the cell whose center is nearest in latitude and nearest in longitude. On a tie, take the higher value. For the test site, that is latitude 25.5, longitude 51.25. | `pipeline/pack.py`, `app/src/data/earth.ts` |
+| D21 | Color bands on the U23 ground temperature chart: cold below 20 C, mild from 20 C to below 30 C, warm from 30 C. The team chose these edges for display only. No score or test uses them. | `shared/ground_temperature_bands.json` |
 
 ### The card number per channel [DEFAULT D16]
 
