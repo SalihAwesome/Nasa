@@ -123,10 +123,7 @@ export function CardPanel({ hash }: { hash: string }) {
   catch (error) { return <section className="card-panel"><h2>Site comparison</h2><p role="alert">{String(error)}</p><a href="#/card/pod">Open the Qatar card</a></section> }
   const isPod = selection.site.kind === 'pod'
   if (isPod) selection = { ...selection, target: 'jezero' }
-  const availableTests = cardTests.filter(test => test.enabled)
   const unavailableTests = cardTests.filter(test => !test.enabled)
-  const onlyTest = availableTests.length === 1 ? availableTests[0] : undefined
-  if (onlyTest) selection = { ...selection, test: onlyTest.id }
   const change = (patch: Partial<CardSelection>) => { window.location.hash = cardHash({ ...selection, ...patch }) }
   return <section className="card-panel" aria-labelledby="card-panel-heading">
     <h2 id="card-panel-heading">Site comparison</h2>
@@ -134,15 +131,17 @@ export function CardPanel({ hash }: { hash: string }) {
       {!isPod && <label>Target<select value={selection.target} onChange={event => change({ target: event.target.value as CardSelection['target'] })}>
         {Object.entries(targets).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
       </select></label>}
-      {!onlyTest && <label>Test<select value={selection.test} onChange={event => change({ test: event.target.value })} aria-describedby={unavailableTests.length ? 'card-test-availability' : undefined}>
-        {cardTests.map(test => <option key={test.id} value={test.id} disabled={!test.enabled}>{tests[test.id]}{!test.enabled && ` — ${test.reason}`}</option>)}
-      </select></label>}
+      <label>Test<select value={selection.test} onChange={event => change({ test: event.target.value })} aria-describedby={unavailableTests.length ? 'card-test-availability' : undefined}>
+        {cardTests.map(test => <option key={test.id} value={test.id} disabled={!isPod && !test.enabled}>
+          {tests[test.id]}{!test.enabled && ' (score unavailable)'}
+        </option>)}
+      </select></label>
       {!isPod && <label>Earth month<select value={selection.month} onChange={event => change({ month: Number(event.target.value) })}>
         {months.map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
       </select></label>}
     </div>
-    {unavailableTests.length > 0 && <details id="card-test-availability" open={Boolean(onlyTest)}>
-      <summary>{onlyTest ? `${tests[onlyTest.id]} is the only available test.` : 'Test availability'}</summary>
+    {unavailableTests.length > 0 && <details id="card-test-availability">
+      <summary>Test availability</summary>
       <ul>{unavailableTests.map(test => <li key={test.id}>{tests[test.id]}: {test.reason}</li>)}</ul>
     </details>}
     <SelectedCard key={cardHash(selection)} selection={selection} />

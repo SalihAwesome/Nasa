@@ -26,14 +26,16 @@ function renderedRow(html: string, id: string) {
   return html.split(`data-channel="${id}"`)[1]?.split('</tr>')[0] ?? ''
 }
 
-test('U22 shows the active test and why other tests are unavailable', () => {
-  const html = renderToStaticMarkup(<CardPanel hash="#/card/pod" />)
-  expect(html).not.toContain('<select')
-  expect(html).toContain('Power is the only available test.')
-  expect(html).toContain('<details id="card-test-availability" open="">')
-  for (const unavailable of cardTests.filter(test => !test.enabled)) {
-    expect(html).toContain(unavailable.reason)
-  }
+test('U22 lets users select Mobility and see why its score is unavailable', async () => {
+  const hash = '#/card/pod?test=mobility'
+  const controls = renderToStaticMarkup(<CardPanel hash={hash} />)
+  expect(controls).toContain('<option value="mobility" selected="">')
+  const card = await loadSelectedCard(readCardSelection(hash), assets(csv))
+  const html = renderToStaticMarkup(<FidelityCard card={card} />)
+  expect(card.test.id).toBe('mobility')
+  expect(typeof card.combined.score).not.toBe('number')
+  expect(html).toContain('Mobility match')
+  expect(html).toContain(cardTests.find(test => test.id === 'mobility')?.reason)
 })
 
 test('U22 shows six simulated measurements with satellite error bars and MEDA values or reasons', async () => {
