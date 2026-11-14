@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
-import { buildCard, cardHash, cardTests, loadCardData, readCardSelection } from './cardData'
-import type { CardModel, CardSelection, Reading } from './cardData'
+import { cardHash, cardTests, loadSelectedCard, readCardSelection } from './cardData'
+import type { CardModel, CardRow, CardSelection, Reading } from './cardData'
 import './card.css'
 
 // Names: docs/project-brief.md. All scientific values/settings are loaded data.
@@ -18,6 +18,19 @@ function Value({ reading }: { reading: Reading }) {
   </>
 }
 
+function RowErrorBar({ row }: { row: CardRow }) {
+  const bar = row.errorBar
+  if (!bar) return null
+  if (bar.kind === 'missing') return <small>Error bar unavailable. {bar.reason}</small>
+
+  const unit = row.earth.unit
+  const total = bar.kind === 'gap-and-offset' ? bar.gap + bar.offset : bar.gap
+  return <small data-error-bar={total}>
+    Error bar ±{number(total)} {unit} ({bar.basis})
+    {bar.kind === 'gap-and-offset' && <><br />{number(bar.gap)} {unit} satellite gap + {number(bar.offset)} {unit} absolute offset</>}
+  </small>
+}
+
 /** Render only the saved Markdown link syntax; all other text stays escaped. */
 function SourceText({ text }: { text: string }) {
   const parts: ReactNode[] = []
@@ -30,12 +43,15 @@ function SourceText({ text }: { text: string }) {
 }
 
 export function FidelityCard({ card }: { card: CardModel }) {
+  const usesPodLog = card.simulated !== undefined
   return <article className="fidelity-card">
     <header className="card-heading">
       <div><h3>{card.isPod ? 'Qatar card' : `Land cell ${card.cell.index}`}</h3>
-        <p className="card-coordinates">{number(card.cell.lat)}°, {number(card.cell.lon)}° · {months[card.month - 1]}</p></div>
+        {card.simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
+        <p className="card-coordinates">{number(card.cell.lat)}°, {number(card.cell.lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p></div>
       <p>Against <strong>{targets[card.target]}</strong></p>
-      <p className="card-basis">Earth: NASA POWER monthly climatology, {card.period.start.slice(0, 4)}–{card.period.end.slice(0, 4)}.
+      <p className="card-basis">{usesPodLog ? 'Earth values from the pod log. Error bars use NASA POWER.'
+        : `Earth: NASA POWER monthly climatology, ${card.period.start.slice(0, 4)}–${card.period.end.slice(0, 4)}.`}
         {card.targetSol !== undefined && <> Target: MEDA sol {card.targetSol}.</>}</p>
       {card.siteNote && <p className="card-basis">{card.siteNote}</p>}
     </header>
@@ -65,7 +81,10 @@ export function FidelityCard({ card }: { card: CardModel }) {
         <thead><tr><th scope="col">Quantity</th><th scope="col">Earth value</th><th scope="col">Target value</th><th scope="col">Tolerance</th><th scope="col">Score</th><th scope="col">Test role</th></tr></thead>
         <tbody>{card.rows.map(row => <tr data-channel={row.id} key={row.id}>
           <th scope="row">{row.label}</th>
-          <td><Value reading={row.earth} /><span className={`evidence-tag evidence-tag--${row.evidence}`}>{row.evidence}</span></td>
+          <td><Value reading={row.earth} />
+            {(!usesPodLog || row.earth.value !== null) && <span className={`evidence-tag evidence-tag--${row.evidence}`}>{row.evidence}</span>}
+            <RowErrorBar row={row} />
+          </td>
           <td><Value reading={row.target} /></td>
           <td data-tolerance-status={row.tolerance.status}><span className="card-number">{number(row.tolerance.value)} {row.tolerance.unit}</span><small>{row.tolerance.status}</small></td>
           <td>{typeof row.score === 'number' ? <span className={`card-score${row.score === 0 ? ' card-score--zero' : ''}`} data-score={row.score}>{number(row.score)}</span>
@@ -89,8 +108,8 @@ function SelectedCard({ selection }: { selection: CardSelection }) {
   useEffect(() => {
     let active = true
     setCard(null); setError(null)
-    loadCardData(selection).then(data => {
-      if (active) setCard(buildCard(data, selection))
+    loadSelectedCard(selection).then(data => {
+      if (active) setCard(data)
     }).catch(error => { if (active) setError(error instanceof Error ? error.message : 'Could not load this card.') })
     return () => { active = false }
   }, [selection, attempt])
@@ -102,19 +121,21 @@ export function CardPanel({ hash }: { hash: string }) {
   let selection: CardSelection
   try { selection = readCardSelection(hash) }
   catch (error) { return <section className="card-panel"><h2>Site comparison</h2><p role="alert">{String(error)}</p><a href="#/card/pod">Open the Qatar card</a></section> }
+  const isPod = selection.site.kind === 'pod'
+  if (isPod) selection = { ...selection, target: 'jezero' }
   const change = (patch: Partial<CardSelection>) => { window.location.hash = cardHash({ ...selection, ...patch }) }
   return <section className="card-panel" aria-labelledby="card-panel-heading">
     <h2 id="card-panel-heading">Site comparison</h2>
     <div className="card-controls">
-      <label>Target<select value={selection.target} onChange={event => change({ target: event.target.value as CardSelection['target'] })}>
+      {!isPod && <label>Target<select value={selection.target} onChange={event => change({ target: event.target.value as CardSelection['target'] })}>
         {Object.entries(targets).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
-      </select></label>
+      </select></label>}
       <label>Test<select value={selection.test} onChange={event => change({ test: event.target.value })} aria-describedby="card-test-availability">
         {cardTests.map(test => <option key={test.id} value={test.id} disabled={!test.enabled}>{tests[test.id]}{!test.enabled && ` — ${test.reason}`}</option>)}
       </select></label>
-      <label>Earth month<select value={selection.month} onChange={event => change({ month: Number(event.target.value) })}>
+      {!isPod && <label>Earth month<select value={selection.month} onChange={event => change({ month: Number(event.target.value) })}>
         {months.map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
-      </select></label>
+      </select></label>}
     </div>
     <details id="card-test-availability"><summary>Test availability</summary><ul>{cardTests.filter(test => !test.enabled).map(test => <li key={test.id}>{tests[test.id]}: {test.reason}</li>)}</ul></details>
     <SelectedCard key={cardHash(selection)} selection={selection} />
