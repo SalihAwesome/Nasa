@@ -40,6 +40,8 @@ font sizes. Keep the token table and CSS in sync.
 | `--color-pod` | #176957 | Pod curve |
 | `--color-satellite` | #285f9c | Satellite curve |
 | `--color-mars` | #a04423 | Mars curve |
+| `--color-sun` | #ffcf52 | Current Sun marker and glow |
+| `--color-sun-outline` | #80500e | Sun marker edge |
 | `--color-estimate-text` | #234d7a | Estimate label text |
 | `--color-estimate-background` | #e4eef8 | Estimate label surface |
 | `--color-measured-text` | #175642 | Measured label text |

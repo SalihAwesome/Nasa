@@ -1,5 +1,6 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { PodLogPanel } from './pod/PodLogPanel'
+import { SunPanel } from './sun/SunPanel'
 import './styles/tokens.css'
 import './styles/shell.css'
 
@@ -40,17 +41,17 @@ function resolveView(hash: string) {
 
 function App() {
   const hash = useSyncExternalStore(subscribe, readHash, readHash)
-  const route = resolveView(hash)
+  const route = resolveView(hash.split('?')[0])
   const view = route === 'missing' ? null : views[route]
-  const previousHash = useRef(hash)
+  const previousRoute = useRef(route)
 
   useEffect(() => {
     document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
-    if (previousHash.current !== hash) {
-      previousHash.current = hash
+    if (previousRoute.current !== route) {
+      previousRoute.current = route
       document.getElementById('view-heading')?.focus()
     }
-  }, [hash, view])
+  }, [route, view])
 
   return (
     <div className="app-shell">
@@ -72,7 +73,7 @@ function App() {
           {route === 'card' && <a className="back-link" href="#/map">Back to site finder</a>}
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
-          {route === 'truth' ? <PodLogPanel /> : <section className="placeholder" aria-labelledby="placeholder-title">
+          {route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} /> : <section className="placeholder" aria-labelledby="placeholder-title">
             <h2 id="placeholder-title">Not available yet</h2>
             <p>This view is still being built. No data is loaded here.</p>
           </section>}
