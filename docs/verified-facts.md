@@ -458,6 +458,19 @@ the complete 10,298-byte humidity XML label byte for byte.
 
 ## Natural Earth
 
+Globe country labels: the [Natural Earth v5.1.1 110m Admin 0 countries GeoJSON](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.1/geojson/ne_110m_admin_0_countries.geojson)
+returned HTTP 200 with 177 features. Each supplied `NAME`, `LABEL_X`,
+`LABEL_Y` and `LABELRANK`; the local `app/public/data/geo/country-labels.json`
+keeps only those fields as `name`, `lon`, `lat` and `rank`, sorted by
+rank and name. Labels are cartographic context; no score or boundary is
+derived from this file.
+
+City and town labels: the [Natural Earth 10m populated places, simple, v5.1.2](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_populated_places_simple.geojson)
+returned HTTP 200 with 7,342 named points. The local
+`app/public/data/geo/city-labels.json` keeps `name`, point longitude and
+latitude, and `scalerank`. The coordinate lookup reports the nearest point
+in that dataset and its approximate distance. It does not resolve addresses.
+
 Called on 12 November 2026.
 
 | URL | Status | Size |

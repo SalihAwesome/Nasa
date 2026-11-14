@@ -539,11 +539,13 @@ Three people share the units. Each person runs an AI agent of their own. A fourt
 
 **Inputs.**
 - The URL of `ne_110m_land.geojson` [VERIFIED].
-- The projection `geoEqualEarth` from d3-geo [DEFAULT]. Read the installed d3-geo exports before you call it.
+- The globe's `geoOrthographic` projection from d3-geo [DEFAULT].
+- Natural Earth country label points and the four analog-site coordinates in `shared/validation_sites.json` [VERIFIED].
 
 **Build.**
 - [ ] Add a pipeline step that downloads `ne_110m_land.geojson` to `app/public/data/geo/`.
-- [ ] Draw the combined score per cell on a canvas, with the land outline on top. Compute the pixel position of each cell once and reuse it.
+- [ ] Draw match scores on a rotatable globe, using the Natural Earth land outline. Precompute the Earth-centered position of each cell and update its screen position when the view changes.
+- [ ] Rotate with a drag or the arrow keys, and zoom with pinch or the zoom controls. Label countries and the verified analog sites.
 - [ ] Add selectors for target and test, and a slider for the month. Show all five tests. Show each test that is not enabled as disabled, with its reason.
 - [ ] Show the top 20 cells for the chosen month in a ranked list beside the map.
 - [ ] Open the card at `#/card/cell/<index>` when the user clicks a cell or a list row.

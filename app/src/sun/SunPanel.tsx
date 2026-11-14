@@ -185,7 +185,7 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
     {fullscreenError && <p role="status" className="sun-note">{fullscreenError}</p>}
     {mode === 'sky'
       ? <div className="sun-toolbar sun-camera" role="group" aria-label="Shared camera">
-        <span className="sun-note">Drag either sky to rotate both.</span>
+        <span className="sun-note">Drag in any direction or focus a sky and use the arrow keys. Both views rotate together.</span>
         <button type="button" disabled={(camera.zoom ?? 1) >= 1.8} onClick={() => setCamera(current => zoomCamera(current, .1))}>Zoom in</button>
         <button type="button" disabled={(camera.zoom ?? 1) <= .7} onClick={() => setCamera(current => zoomCamera(current, -.1))}>Zoom out</button>
         <button type="button" onClick={() => setCamera(initialCamera)}>Reset view</button>

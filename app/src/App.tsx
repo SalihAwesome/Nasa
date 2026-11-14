@@ -7,6 +7,9 @@ import type { CardHandoff } from './pod/LivePanel'
 import './styles/tokens.css'
 import './styles/shell.css'
 import SiteFinder from './map/SiteFinder'
+import { CompareSites } from './map/CompareSites'
+import { ProjectAssistant } from './assistant/ProjectAssistant'
+import './styles/features.css'
 
 // View names and purpose: docs/mission-plan.md. Routes: software-plan.md, U28.
 const views = {
@@ -15,6 +18,8 @@ const views = {
   sun: { heading: 'Sun panel', description: 'Compare the target’s Sun path with the path at an Earth site.' },
   truth: { heading: 'Ground truth', description: 'Compare pod measurements with satellite estimates and a Mars reference.' },
   live: { heading: 'Live panel', description: 'Follow the sensor pod as measurements arrive.' },
+  compare: { heading: 'Compare two sites', description: 'Compare two Earth sites for the same target, test, and month.' },
+  ask: { heading: 'Ask Proving Ground', description: 'Ask about the website, its data, or how the project works.' },
 }
 
 const navigation = [
@@ -22,6 +27,7 @@ const navigation = [
   { key: 'sun', label: 'Sun panel', href: '#/sun' },
   { key: 'truth', label: 'Ground truth', href: '#/truth' },
   { key: 'live', label: 'Live panel', href: '#/live' },
+  { key: 'compare', label: 'Compare sites', href: '#/compare' },
 ]
 
 function readHash() {
@@ -39,6 +45,8 @@ function resolveView(hash: string) {
     case '#/sun': return 'sun'
     case '#/truth': return 'truth'
     case '#/live': return 'live'
+    case '#/compare': return 'compare'
+    case '#/ask': return 'ask'
     default: return /^#\/card\/[^/]+(?:\/[^/]+)*$/.test(hash) ? 'card' : 'missing'
   }
 }
@@ -49,6 +57,14 @@ function App() {
   const view = route === 'missing' ? null : views[route]
   const previousRoute = useRef(route)
   const [cardHandoff, setCardHandoff] = useState<CardHandoff>()
+  const [lightMode, setLightMode] = useState(() => {
+    try { return window.localStorage.getItem('proving-ground-theme') === 'light' } catch { return false }
+  })
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = lightMode ? 'light' : 'dark'
+    try { window.localStorage.setItem('proving-ground-theme', lightMode ? 'light' : 'dark') } catch { /* Use the theme for this visit. */ }
+  }, [lightMode])
 
   useEffect(() => {
     document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
@@ -73,6 +89,8 @@ function App() {
           aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
           {item.label}
         </a>)}
+        <a className="ask-nav" href="#/ask" aria-current={route === 'ask' ? 'page' : undefined}>Ask Proving Ground</a>
+        <button className="theme-toggle" type="button" onClick={() => setLightMode(current => !current)}>{lightMode ? 'Dark mode' : 'Light mode'}</button>
       </nav>
       <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
         {view ? <>
@@ -81,6 +99,8 @@ function App() {
           <p className="view-description">{view.description}</p>
           {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
             : route === 'live' ? <LivePanel onHandoff={setCardHandoff} />
+            : route === 'compare' ? <CompareSites hash={hash} />
+            : route === 'ask' ? <ProjectAssistant />
             : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <>
               {cardHandoff && /^#\/card\/pod(?:\?|$)/.test(hash) && <div className="live-handoff">
                 <LivePath handoff={cardHandoff} />

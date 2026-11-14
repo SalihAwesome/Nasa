@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { cardHash, cardTests, loadSelectedCard, readCardSelection } from './cardData'
 import type { CardModel, CardRow, CardSelection, Reading } from './cardData'
 import { coverage } from '../score/combine'
+import { loadPlaces, nearestPlace } from '../map/places'
 import './card.css'
 
 // Names: docs/project-brief.md. All scientific values/settings are loaded data.
@@ -50,11 +51,24 @@ function CoverageNote({ missing, card }: { missing: string[]; card: CardModel })
 
 export function FidelityCard({ card }: { card: CardModel }) {
   const usesPodLog = card.simulated !== undefined
+  const { lat, lon } = card.cell
+  const [place, setPlace] = useState<ReturnType<typeof nearestPlace>>(null)
+  useEffect(() => {
+    let active = true
+    setPlace(null)
+    loadPlaces().then(places => {
+      if (active) setPlace(nearestPlace({ lat, lon }, places))
+    }).catch(() => {})
+    return () => { active = false }
+  }, [lat, lon])
+  const compare = new URLSearchParams({ cell: String(card.cell.index), target: card.target, test: card.test.id, month: String(card.month) })
   return <article className="fidelity-card">
     <header className="card-heading">
       <div><h3>{card.isPod ? 'Qatar card' : `Land cell ${card.cell.index}`}</h3>
         {card.simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
-        <p className="card-coordinates">{number(card.cell.lat)}°, {number(card.cell.lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p></div>
+        <p className="card-coordinates">{number(lat)}°, {number(lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p>
+        {place && <p>Nearest mapped place: <strong>{place.name}</strong> · {place.distanceKm} km away</p>}
+        <a href={`#/compare?${compare}`}>Compare this location</a></div>
       <p>Against <strong>{targets[card.target]}</strong></p>
       <p className="card-basis">{usesPodLog ? 'Earth values from the pod log. Error bars use NASA POWER.'
         : `Earth: NASA POWER monthly climatology, ${card.period.start.slice(0, 4)}–${card.period.end.slice(0, 4)}.`}

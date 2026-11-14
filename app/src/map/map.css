@@ -13,7 +13,21 @@
 .map-caption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: var(--space-2); }
 .map-caption h2 { font-size: var(--text-lead); }
 .map-meta { font-size: var(--text-label); color: var(--color-muted); margin-block: var(--space-2); }
-.world-map { display: block; width: 100%; aspect-ratio: 960 / 500; cursor: crosshair; margin-block: var(--space-6); }
+.globe-explorer { margin-block: var(--space-4); }
+.globe-stage { overflow: hidden; border-radius: var(--radius-small); background: radial-gradient(ellipse at 48% 46%, var(--color-sky-glow), var(--color-background) 78%); }
+.earth-globe { display: block; width: 100%; height: clamp(20rem, 44vw, 37rem); cursor: grab; touch-action: none; }
+.earth-globe[data-dragging] { cursor: grabbing; }
+.earth-globe:focus-visible { outline-offset: calc(-1 * var(--focus-width)); }
+.globe-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-3); margin-top: var(--space-4); }
+.globe-sites { display: grid; gap: var(--space-1); min-width: 0; flex: 1 1 15rem; max-width: 23rem; font-size: var(--text-label); color: var(--color-muted); }
+.globe-sites select { min-height: var(--control-min); width: 100%; padding: var(--space-2) var(--space-3); color: var(--color-text); background: var(--color-background); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-small); font: inherit; text-overflow: ellipsis; }
+.globe-buttons { display: flex; gap: var(--space-2); }
+.globe-buttons button, .site-finder .globe-site-card { display: inline-flex; align-items: center; justify-content: center; width: auto; min-width: var(--control-min); font-size: var(--text-label); cursor: pointer; }
+.globe-buttons button:disabled { opacity: 0.55; cursor: default; }
+.globe-buttons button:not(:disabled):hover, .site-finder .globe-site-card:hover { background: var(--color-accent-soft); }
+.globe-buttons svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.site-finder .globe-site-card { justify-content: start; margin-top: var(--space-2); text-align: left; color: var(--color-accent); }
+.globe-help { margin-top: var(--space-3); }
 .map-legend { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; font-size: var(--text-small); }
 .legend-item { display: inline-flex; gap: var(--space-1); align-items: center; }
 .legend-item i { display: inline-block; width: var(--space-4); height: var(--space-4); border: var(--border-width) solid var(--color-border); }

@@ -1,13 +1,16 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { geoPath } from 'd3-geo'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import testData from '../../../shared/tests.json'
 import { loadRegistries } from '../data/registries'
 import { cardHash } from '../card/cardData'
 import { coverage } from '../score/combine'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
-import { computeScores, hitCell, MAP_HEIGHT, MAP_WIDTH, projectCells, rankCells } from './model'
+import { computeScores, rankCells } from './model'
 import type { TestDefinition } from './model'
+import { EarthGlobe } from './EarthGlobe'
+import { fieldSites } from './fieldSites'
+import { loadPlaces, nearestPlace } from './places'
+import type { Place } from './places'
 import './map.css'
 
 // Target/test names: docs/project-brief.md. Score scale: app/DESIGN.md.
@@ -16,16 +19,8 @@ const testLabels: Record<string, string> = { power: 'Power', mobility: 'Mobility
 const definitions: TestDefinition[] = testData
 const channels = loadRegistries().channels.filter(channel => channel.onCard)
 const stops = ['0', '025', '05', '075', '1']
+const noPlaces: Place[] = []
 const monthLabels = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat('en', { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, index))))
-
-function palette(styles: CSSStyleDeclaration) {
-  const colors = stops.map(stop => styles.getPropertyValue(`--color-score-${stop}`).trim())
-  const rgb = colors.map(hex => [1, 3, 5].map(offset => Number.parseInt(hex.slice(offset, offset + 2), 16)))
-  return Array.from({ length: 256 }, (_, index) => {
-    const position = index / 255 * (rgb.length - 1), low = Math.min(Math.floor(position), rgb.length - 2), share = position - low
-    return `rgb(${rgb[low].map((value, channel) => Math.round(value + (rgb[low + 1][channel] - value) * share)).join(',')})`
-  })
-}
 
 function TestAvailability() {
   return <details id="disabled-tests" className="test-availability"><summary>Test availability</summary>
@@ -38,15 +33,19 @@ export function MapView({ data }: { data: MapData }) {
   const [testId, setTestId] = useState(definitions.find(test => test.enabled)!.id)
   const [month, setMonth] = useState(1)
   const [hovered, setHovered] = useState<number | null>(null)
-  const canvas = useRef<HTMLCanvasElement>(null)
+  const [cities, setCities] = useState(noPlaces)
+  useEffect(() => {
+    let active = true
+    loadPlaces().then(items => { if (active) setCities(items) }).catch(() => {})
+    return () => { active = false }
+  }, [])
   const changeStarted = useRef<number | null>(null)
   const target = data.targets.find(target => target.id === targetId)!
   const definition = definitions.find(test => test.id === testId)!
   const layer = data.months[month - 1]
-  const projected = useMemo(() => projectCells(data.cells), [data.cells])
-  const outline = useMemo(() => geoPath(projected.projection)(data.land) ?? '', [projected, data.land])
+  const sites = useMemo(() => fieldSites(data), [data])
   // Score and rank the shipped months when the target/test changes. Slider
-  // updates reuse these results as well as the projected positions.
+  // updates reuse these results with the current globe orientation.
   const results = useMemo(() => data.months.map(layer => {
     const scores = computeScores(layer, target, data.targetNumbers[targetId], definition)
     return { scores, top: rankCells(scores), scoredCount: scores.filter(result => result.score !== null).length }
@@ -57,38 +56,13 @@ export function MapView({ data }: { data: MapData }) {
     return number?.value == null ? [`${id}: ${number?.reason ?? 'Target value is not available.'}`] : []
   }))], [definition, data.targetNumbers, targetId])
 
-  useLayoutEffect(() => {
-    const element = canvas.current, ctx = element?.getContext('2d')
-    if (!ctx || !element) return
-    const ratio = window.devicePixelRatio || 1
-    element.width = MAP_WIDTH * ratio
-    element.height = MAP_HEIGHT * ratio
-    ctx.scale(ratio, ratio)
-    const styles = getComputedStyle(element), colors = palette(styles)
-    ctx.clearRect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-    const missing = styles.getPropertyValue('--color-no-score').trim()
-    projected.positions.forEach(([x, y], index) => {
-      const value = scores[index].score
-      ctx.fillStyle = value === null ? missing : colors[Math.round(value * 255)]
-      ctx.fillRect(x - 1, y - 1, 2, 2)
-    })
-    ctx.beginPath()
-    geoPath(projected.projection, ctx)(data.land)
-    ctx.strokeStyle = styles.getPropertyValue('--color-text').trim()
-    ctx.lineWidth = 0.5
-    ctx.stroke()
+  function reportMonthChange() {
     const start = changeStarted.current
     if (start !== null) {
       changeStarted.current = null
       // Includes React work, scoring, ranking and canvas drawing up to the frame.
-      const frame = requestAnimationFrame(() => console.info(`U10 month change: ${monthLabels[month - 1]}; ${(performance.now() - start).toFixed(1)} ms`))
-      return () => cancelAnimationFrame(frame)
+      requestAnimationFrame(() => console.info(`U10 month change: ${monthLabels[month - 1]}; ${(performance.now() - start).toFixed(1)} ms`))
     }
-  }, [projected, scores, data.land, month])
-
-  function pointerCell(event: React.PointerEvent<HTMLCanvasElement> | React.MouseEvent<HTMLCanvasElement>) {
-    const rect = event.currentTarget.getBoundingClientRect()
-    return hitCell(projected.positions, (event.clientX - rect.left) / rect.width * MAP_WIDTH, (event.clientY - rect.top) / rect.height * MAP_HEIGHT)
   }
 
   const coverageText = (missing: readonly string[]) => {
@@ -96,6 +70,7 @@ export function MapView({ data }: { data: MapData }) {
     return `${scored} of ${total} quantities`
   }
   const cell = hovered === null ? null : data.cells[hovered]
+  const nearby = useMemo(() => cell && nearestPlace(cell, cities), [cell, cities])
   const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
   return <div className="site-finder">
     <div className="map-controls">
@@ -112,24 +87,26 @@ export function MapView({ data }: { data: MapData }) {
           onChange={event => { changeStarted.current = performance.now(); setMonth(Number(event.target.value)) }} />
       </label>
     </div>
-    <TestAvailability />
+    <div className="map-actions">
+      <TestAvailability />
+      <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month) })}`}>Compare sites</a>
+    </div>
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
         <div className="map-caption"><h2 id="map-title">{monthLabels[month - 1]} land-cell matches</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
-        <canvas ref={canvas} className="world-map" role="img" aria-label="World map of land-cell match scores. Select a land cell to open its fidelity card. Ranked cells are linked beside the map."
-          onPointerMove={event => setHovered(pointerCell(event))} onPointerLeave={() => setHovered(null)}
-          onClick={event => { const index = pointerCell(event); if (index !== null) window.location.hash = cellLink(index) }} />
+        <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
+          onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
         <div className="map-legend" aria-label="Match score legend"><span>Match</span>{stops.map((stop, index) => <span className="legend-item" key={stop}>
           <i style={{ background: `var(--color-score-${stop})` }} />{index / (stops.length - 1)}
         </span>)}<span className="legend-item"><i className="no-score-swatch" />No score</span></div>
-        <p className="map-meta">Equal Earth projection (default). Select a cell on the map or a ranked row to open its card.</p>
         <div className="cell-readout" aria-live="polite">
           {cell && hovered !== null ? <><strong>{cell.lat.toFixed(2)}°, {cell.lon.toFixed(3)}°</strong>
+            {nearby && <p>Nearest mapped place: {nearby.name} · {nearby.distanceKm} km away</p>}
             <span>{scores[hovered].score === null ? 'No score' : `Match ${scores[hovered].score.toFixed(3)} · ${coverageText(scores[hovered].missing)}`}</span>
             <dl>{channels.map(channel => <div key={channel.id}><dt>{channel.label}</dt><dd>{layer.layers[channel.id].values[hovered]?.toFixed(2) ?? layer.layers[channel.id].missingReason} {channel.unit}</dd></div>)}</dl>
             {scores[hovered].reason && <p>{scores[hovered].reason}</p>}
-          </> : <p>Point to a land cell to inspect its Earth estimates.</p>}
+          </> : <p>Point to a land cell or choose an analog site to see its Earth estimates.</p>}
         </div>
       </section>
       <aside className="rank-panel" aria-labelledby="ranking-title">
@@ -144,9 +121,7 @@ export function MapView({ data }: { data: MapData }) {
         <p className="map-meta">Not built for this test: {definition.notBuilt.join(', ')}.</p>
       </aside>
     </div>
-    <p className="map-meta">Land outline: Natural Earth. A grey cell has no score; it does not mean a zero match.</p>
-    {/* Outline computed once with the positions; included as a noninteractive fallback. */}
-    <noscript><svg viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-label="Land outline"><path d={outline} /></svg></noscript>
+    <p className="map-meta">Land outline and place labels: Natural Earth. Grey cells have no score.</p>
   </div>
 }
 

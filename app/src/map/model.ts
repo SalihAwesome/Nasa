@@ -1,4 +1,3 @@
-import { geoEqualEarth } from 'd3-geo'
 import type { EarthMonth } from '../data/earth'
 import type { Target } from '../data/targets'
 import { combine } from '../score/combine'
@@ -80,23 +79,6 @@ export function computeScores(month: EarthMonth, target: Target, numbers: Target
     combined.set(key, entry)
     return entry
   })
-}
-
-// Presentation dimensions, not measured values or scoring parameters.
-export const MAP_WIDTH = 960, MAP_HEIGHT = 500
-export function projectCells(cells: readonly Cell[]) {
-  const projection = geoEqualEarth().fitExtent([[12, 12], [MAP_WIDTH - 12, MAP_HEIGHT - 12]], { type: 'Sphere' })
-  const positions = cells.map(cell => projection([cell.lon, cell.lat])!)
-  return { projection, positions }
-}
-
-export function hitCell(positions: readonly [number, number][], x: number, y: number): number | null {
-  let closest: number | null = null, distance = 16 // four display pixels for pointer selection
-  positions.forEach(([px, py], index) => {
-    const squared = (px - x) ** 2 + (py - y) ** 2
-    if (squared < distance) { distance = squared; closest = index }
-  })
-  return closest
 }
 
 export function rankCells(scores: readonly CellScore[]) {

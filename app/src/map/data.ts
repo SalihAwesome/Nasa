@@ -6,6 +6,7 @@ import { readTargetNumbers } from './model'
 import type { TargetNumbers } from './model'
 import { loadSunData } from '../sun/sunData'
 import type { SunNumbers } from '../sun/sunData'
+import { parsePlaces } from './places'
 
 type SunQuantity = Exclude<keyof SunNumbers, 'reasons'>
 
@@ -23,12 +24,13 @@ async function request(path: string) {
 export async function loadMapData() {
   const manifest = parseEarthManifest(await (await request('earth/manifest.json')).json())
   const targets = parseTargets(targetData)
-  const [cells, land, months, targetNumbers, sun] = await Promise.all([
+  const [cells, land, countries, months, targetNumbers, sun] = await Promise.all([
     request(`earth/${manifest.cellsFile}`).then(r => r.arrayBuffer()).then(b => decodeCells(b, manifest)),
     request('geo/ne_110m_land.geojson').then(r => r.json()).then((data: unknown) => {
       if (!data || typeof data !== 'object' || !('type' in data) || data.type !== 'FeatureCollection' || !('features' in data) || !Array.isArray(data.features)) throw new Error('Local land outline is not a FeatureCollection.')
       return data as GeoPermissibleObjects
     }),
+    request('geo/country-labels.json').then(r => r.json()).then(parsePlaces),
     // Preload all shipped months; changing the slider never starts a fetch.
     Promise.all(manifest.monthFiles.map((_, i) => loadMonth(i + 1, { manifest, baseUrl: `${prefix}earth/` }))),
     Promise.all(targets.map(async target => {
@@ -72,7 +74,7 @@ export async function loadMapData() {
       }
     }
   }
-  return { manifest, targets, cells, land, months, targetNumbers }
+  return { manifest, targets, cells, land, countries, months, targetNumbers }
 }
 
 export type MapData = Awaited<ReturnType<typeof loadMapData>>

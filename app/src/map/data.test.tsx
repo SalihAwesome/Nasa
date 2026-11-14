@@ -34,6 +34,9 @@ test('loads all shipped months locally, reads U07 values, keeps its gaps missing
   }
   const html = renderToStaticMarkup(<MapView data={data} />)
   expect(html).toContain('<canvas')
+  expect(html).toContain('Interactive Earth globe')
+  expect(html).toContain('Atacama Desert, Chile')
+  expect(data.countries.find(country => country.name === 'Chile')).toBeDefined()
   expect(html).toContain('type="range"')
   expect(html).toContain('Top 20 cells')
   expect(html).toContain('No score') // Legend retains the missing-data color.
