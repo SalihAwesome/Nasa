@@ -355,6 +355,76 @@ Read from the `.xml` label beside each file. The label gives `<name>`, `<unit>`,
 
 A reviewer's call on 12 November 2026 listed `data_derived_env/sol_1740_1859/sol_1800/`. It holds `DER_ANCILLARY`, `DER_PS`, `DER_RHS`, and `DER_TIRS` only, each 2.5 to 5 MB. The set of files changes from sol to sol.
 
+### RDS wavelength bands checked for U07
+
+Checked on 14 November 2026. The archive's `document/` listing includes
+`meda_env_rdr_sis.pdf`. Its calibrated RDS table on pages 47 and 48 gives
+column meanings and units, without wavelength bands. The downloaded copy
+is retained under `data/raw/meda/document/`.
+[MEDA RDR specification](https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/document/meda_env_rdr_sis.pdf)
+
+Table 24 of Rodriguez-Manfredi et al. (2021), section 7, gives these bands.
+The following table retains the published wavelength notation in nanometres.
+[Instrument paper and table 24](https://pmc.ncbi.nlm.nih.gov/articles/PMC8550605/)
+
+| Detector | Wavelength in nm |
+| --- | --- |
+| TOP 1 | 255 +/- 5 |
+| TOP 2 | 295 +/- 5 |
+| TOP 3 | 250-400 |
+| TOP 4 | 450 +/- 40 |
+| TOP 5 | 650 +/- 25 |
+| TOP 6 | 750 +/- 10 |
+| TOP 7 | 190-1100 |
+| TOP 8 | 950 +/- 50 |
+| LAT 1 | 750 +/- 10, blinded detector |
+| LAT 2 through LAT 8 | 750 +/- 10 |
+
+Section 7 describes LAT 1 as blinded for radiation-damage monitoring.
+The table identifies TOP 3 with surface UV flux. Choosing a channel for the
+project's UV-index or reflectivity comparison remains a team decision.
+[Instrument paper](https://doi.org/10.1007/s11214-021-00816-9)
+
+### U07 sol 300 download and reduction
+
+Checked on 14 November 2026. The calibrated and derived directory listings
+above contained all four required CSV/XML pairs. The full downloads passed
+the native-unit checks against their XML labels. The first data records
+matched every sol 300 test value listed above. XML file sizes also matched
+the saved CSV byte counts.
+
+Run `python pipeline/fetch_meda.py --sol 300` from the repository root.
+The command selected sol 300 without a fallback. Default D11 requires at
+least 72 measured bins per channel. The output keeps all 144 ten-minute
+LMST bins, with a reason and a count of zero for every missing bin.
+
+| Product | Data records excluding the header | Channel | Measured bins |
+| --- | ---: | --- | ---: |
+| CAL_TIRS | 54,653 | ground_temp, after the shadow filter | 85 |
+| CAL_ATS | 54,654 | air_temp, ATS_LOCAL_TEMP1 | 96 |
+| DER_RHS | 54,242 | humidity | 96 |
+| DER_PS | 54,300 | pressure | 96 |
+
+The earlier row counts include the header. These counts are the
+`Table_Delimited` data-record counts in the labels and agree with the parser.
+Sol 300 has gaps in every channel. Empty bins remain missing.
+
+The Jezero card reports a ground-temperature range of 89.465162 C, an
+air-temperature mean of -45.771896 C, a humidity mean of 3.423849 with an
+unstated unit, and a pressure mean of 6.245185 hPa. The means weight each
+available bin equally, as D16 specifies. Humidity's native and output units
+are null with the required reason. UV and reflectivity are missing with
+reasons pending the team's comparison decision.
+
+`app/public/data/mars/manifest.json` records the chosen sol, filenames, URLs,
+CSV and XML SHA-256 hashes, coverage counts, and default settings.
+`docs/meda-files.md` lists the selected products. A cached rerun made no
+network requests and preserved the public files' bytes and modification times.
+The transport requests 524,288-byte ranges by default, a labelled default in
+`shared/meda_settings.json`. It checks range boundaries and source ETags before
+publishing a complete cache file. A live test with smaller ranges reproduced
+the complete 10,298-byte humidity XML label byte for byte.
+
 ## Natural Earth
 
 Called on 12 November 2026.
@@ -499,9 +569,7 @@ BH1750 `1.3.0` reads an unsigned 16-bit count. In continuous high-resolution mod
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
 
-- The wavelength band of each `RDS_TOP_n` and `RDS_LAT_n` channel, and which one, if any, is UV or total sunlight. The answer should be in the `document/` folder of the archive. Nobody has opened it.
 - The unit of `LOCAL_RELATIVE_HUMIDITY`. The label gives none. The sample value 5.76 looks like percent.
-- Whether sol 300 has valid values through the whole day in `CAL_TIRS`, `CAL_ATS`, `DER_PS`, and `DER_RHS`.
 - The minimum size of a POWER regional request. One reviewer reported that POWER rejects a box smaller than 2 degrees per side. The 10 degree tiles in the plan are not affected.
 - The source for the Moon site coordinates `222.69, -89.45` and for the Jezero coordinates `77.45 E, 18.44 N`. The Jezero value passed the MEDA cross-check above. Neither has a citation.
 - The exact relation between `SCLK` and UTC.

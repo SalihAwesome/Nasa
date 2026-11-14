@@ -1,2 +1,6 @@
 # U05 numeric layers must never undergo line-ending conversion or text merging.
 app/public/data/earth/*.bin binary
+
+# Preserve the downloaded NASA fixture bytes and their source XML whitespace.
+pipeline/tests/fixtures/meda-sol-300/*.CSV -text whitespace=cr-at-eol
+pipeline/tests/fixtures/meda-sol-300/*.xml -text whitespace=-blank-at-eol
