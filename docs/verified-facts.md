@@ -94,11 +94,11 @@ POWER serves two different grids. The plan must not assume one grid.
 | `T2M`, `TS_MAX` | 20.0, 20.5, 21.0 to 30.0. Step 0.5. | 45.0, 45.625, 46.25 to 55.0. Step 0.625. | 357 (21 by 17) |
 | `ALLSKY_SFC_SW_DWN`, `ALLSKY_SRF_ALB`, `ALLSKY_SFC_UV_INDEX` | 20.5, 21.5 to 29.5. Step 1. | 45.5, 46.5 to 54.5. Step 1. | 100 (10 by 10) |
 
-- On the meteorology grid, a tile includes both of its edges. Two neighbor tiles return the same edge cells. Remove the duplicates.
+- On the meteorology grid, a tile normally includes both edges. An exactly-zero lower bound omits that shared edge, as confirmed in the U04 calls below. Neighbor tiles otherwise return the same edge cells. Remove the duplicates.
 - Longitude runs from -180.0 to 179.375 on the meteorology grid. The tile from longitude 170 to 180 returns 16 columns, and it has no column at 180.0. Latitude runs from -90.0 to 90.0.
 - Polar tiles work. `T2M` for latitude 80 to 90, longitude 170 to 180 returned 336 cells. `T2M` for latitude -90 to -80, longitude -180 to -170 returned 357 cells.
 - `ALLSKY_SRF_ALB` for latitude 80 to 90 returned -999.0 for January in all 100 cells. The far north has no albedo in the polar night.
-- `TS_RANGE` and `PS` come on the meteorology grid. Nobody has requested `RH2M` from the regional endpoint.
+- `TS_RANGE` and `PS` come on the meteorology grid. The U04 call below also confirmed `RH2M` on that grid.
 
 The point endpoint returns the value of the grid cell. At a cell center, all 13 values of the two endpoints are equal.
 
@@ -135,6 +135,92 @@ curl "https://power.larc.nasa.gov/api/temporal/hourly/point?community=AG&latitud
 The saved raw responses are in `pipeline/tests/fixtures/power-point-climatology.json` and `pipeline/tests/fixtures/power-point-hourly-20261109.json`. The climatology header gives January 2001 through December 2025. November values are `TS_RANGE` 14.5 C, `ALLSKY_SRF_ALB` 0.14, `ALLSKY_SFC_UV_INDEX` 0.89, `T2M` 24.95 C, `RH2M` 56.98%, and `PS` 101.32 kPa.
 
 The hourly response header reports UTC. On 9 November, `TS`, `T2M`, `RH2M`, and `PS` each had 24 valid values. Albedo and UV each had 24 fill values. Repeating the hourly request with both dates set to `20261114` returned an empty object for each parameter. A separate 9 November UTC request with `parameters=ALLSKY_SFC_SW_DWN` returned the hourly unit `MJ/hr` and 24 fill values.
+
+### U04 regional RH2M grid verification
+
+Called on 13 November 2026 for U04:
+
+```
+https://power.larc.nasa.gov/api/temporal/climatology/regional?parameters=RH2M&community=AG&latitude-min=20&latitude-max=30&longitude-min=45&longitude-max=55&format=JSON
+```
+
+- HTTP 200 in 2.2 seconds. The raw response is saved unchanged as
+  `pipeline/tests/fixtures/power/rh2m-regional-20-30-45-55.json`.
+- 357 features: latitudes 20 through 30 inclusive in steps of 0.5 degrees,
+  longitudes 45 through 55 inclusive in steps of 0.625 degrees.
+- The `RH2M` unit is `%`. The response reports API v2.10.1, period
+  `20010101` through `20251231`, fill value `-999.0`, and time standard `LST`.
+- This confirms the UNVERIFIED RH2M grid input of U04; it agrees with the plan.
+- The first tile of the full U04 run, `TS_RANGE` at latitude -90 to -80 and
+  longitude -180 to -170, also returned 357 cells. Its unchanged raw response
+  is saved as `pipeline/tests/fixtures/power/ts-range-south-pole.json`.
+- The `TS_RANGE` tile at latitude 80 to 90 and longitude 170 to 180 returned
+  336 cells, with a maximum longitude of 179.375 and maximum latitude of 90.
+  Its unchanged response is `pipeline/tests/fixtures/power/ts-range-north-dateline.json`.
+- The first `ALLSKY_SRF_ALB` tile, latitude -90 to -80 and longitude -180 to
+  -170, returned 100 cells on the one-degree grid. Latitude centers run from
+  -89.5 to -80.5 and longitude centers from -179.5 to -170.5. Its unchanged
+  response is `pipeline/tests/fixtures/power/albedo-south-pole.json`.
+
+U04's retry delays (5, 20, 60 seconds; 60 seconds for HTTP 429) are plan defaults,
+not measured scientific values. `shared/power_fetch_settings.json` labels them
+`status: default`. The 60-second request timeout in that file is an operational
+default chosen by this implementation, not an API fact.
+
+### U04 zero-boundary regional requests
+
+The full fetch stopped on a grid mismatch at `TS_RANGE`, latitude -90 to -80,
+longitude 0 to 10. Three sequential calls on 13 November 2026 then confirmed
+that an exactly-zero lower bound excludes the zero row or column:
+
+| Parameter | Latitude bounds | Longitude bounds | Latitude centers | Longitude centers | Cells |
+|---|---|---|---|---|---|
+| `TS_RANGE` | -90, -80 | 0, 10 | -90 to -80, step 0.5 | 0.625 to 10, step 0.625 | 336 |
+| `TS_RANGE` | 0, 10 | 10, 20 | 0.5 to 10, step 0.5 | 10 to 20, step 0.625 | 340 |
+| `TS_RANGE` | 0, 10 | 0, 10 | 0.5 to 10, step 0.5 | 0.625 to 10, step 0.625 | 320 |
+
+Each request used the regional endpoint above, `parameters=TS_RANGE`,
+`community=AG`, `format=JSON`, and the four bounds in its row. Each returned
+HTTP 200. The unchanged raw responses are the fixtures
+`ts-range-lat-90-lon0.json`, `ts-range-lat0-lon10.json`, and
+`ts-range-lat0-lon0.json` under `pipeline/tests/fixtures/power/`.
+
+The preceding full-run tile, latitude -90 to -80 and longitude -10 to 0,
+includes longitude `-0.0`, so the shared edge is still present in the combined
+grid. This refines the earlier statement that all tile edges are included.
+U04 accepts this exact boundary rule; any other missing or displaced cell still
+stops the fetch. Existing tests were retained, and new failing fixture tests
+were added before implementing this confirmed rule.
+
+### U04 complete download and point comparison
+
+Completed on 13 November 2026 on machine `YAHIA`. All six U04 parameters have
+648 validated raw tiles each, 3,888 total, under `data/raw/power/`. The files
+total 288,425,945 bytes. The full run resumed the first 18 completed tiles and
+finished with `3870 fetched, 18 cached`. `failed.json` is an empty list.
+
+`python pipeline/fetch_power.py --check` revalidated the cache with network
+requests disabled during the fetch phase, then separately called the two point
+endpoints below. Its real output was:
+
+```text
+0 fetched, 3888 cached
+T2M at 25.5,51.25: 12/12 monthly values match; [17.51, 18.63, 22.21, 26.91, 32.1, 34.45, 36.14, 36.3, 34.1, 30.38, 24.95, 19.89]
+ALLSKY_SRF_ALB at 25.5,51.5: 12/12 monthly values match; [0.13, 0.15, 0.15, 0.15, 0.16, 0.16, 0.17, 0.16, 0.16, 0.14, 0.14, 0.13]
+```
+
+The point requests were:
+
+```
+https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=T2M&community=AG&latitude=25.5&longitude=51.25&format=JSON
+https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=ALLSKY_SRF_ALB&community=AG&latitude=25.5&longitude=51.5&format=JSON
+```
+
+Their raw responses are in `data/raw/power-check/T2M.json` and
+`data/raw/power-check/ALLSKY_SRF_ALB.json`. The cache and these responses are
+ignored by Git; U05 must reuse this machine's raw files. The complete run
+confirmed the documented meteorology and solar grids for all six parameters,
+including the zero-lower-bound rule on all four meteorology parameters.
 
 ## JPL Horizons
 
