@@ -1,0 +1,60 @@
+{
+  "sol": 300,
+  "sourceId": "meda",
+  "seriesFile": "meda-sol-300.json",
+  "cardFile": "jezero-card.json",
+  "settings": {
+    "status": "default",
+    "referenceSol": 300,
+    "lastFallbackSol": 310,
+    "binMinutes": 10,
+    "minimumBins": 72,
+    "downloadChunkBytes": 524288,
+    "groundShadowColumn": "TIRS_GROUND_FOOTPRINT_NOT_IN_SHADOW"
+  },
+  "coverage": {
+    "ground_temp": 85,
+    "air_temp": 96,
+    "humidity": 96,
+    "pressure": 96
+  },
+  "files": [
+    {
+      "kind": "CAL_TIRS",
+      "file": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.CSV",
+      "label": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.xml",
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.CSV",
+      "labelUrl": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.xml",
+      "sha256": "9b3ba13ab9764d222acb477e1e650e6b84a1c6e9777e2fe66ccd3892be952b46",
+      "labelSha256": "c96b0215795b56fdecc95c94a0baf10597d6cb8259d5f388ff720bcc1fea498c"
+    },
+    {
+      "kind": "CAL_ATS",
+      "file": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.CSV",
+      "label": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.xml",
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.CSV",
+      "labelUrl": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.xml",
+      "sha256": "c77ad13c75c4600009475065fecfd7b4be851c6614c667dae9fa2f820827b7ce",
+      "labelSha256": "4572d77b086922a5a4bc8db9d6b988460097f42694fa3d67cad11f083d2bc0f3"
+    },
+    {
+      "kind": "DER_RHS",
+      "file": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.CSV",
+      "label": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.xml",
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.CSV",
+      "labelUrl": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.xml",
+      "sha256": "12d4abcda2c98230065ac824004143a15f5912e9a4001bf51a77084580c6cda6",
+      "labelSha256": "246e11c15135e3a3027760dacc5768e75033bf0eddeb14d54ff82f0969343508"
+    },
+    {
+      "kind": "DER_PS",
+      "file": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.CSV",
+      "label": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.xml",
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.CSV",
+      "labelUrl": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.xml",
+      "sha256": "4ab0e74689c238e56d31b40a0f3fe1fdc2a28d4cbeb1190d7738720d49fc3696",
+      "labelSha256": "6585777862e32cec3781223bea5f3ce891d776c59b93d8c0e6437c78fa86b10f"
+    }
+  ],
+  "rejectedSols": []
+}

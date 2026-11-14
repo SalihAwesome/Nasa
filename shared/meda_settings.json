@@ -1,0 +1,9 @@
+{
+  "status": "default",
+  "referenceSol": 300,
+  "lastFallbackSol": 310,
+  "binMinutes": 10,
+  "minimumBins": 72,
+  "downloadChunkBytes": 524288,
+  "groundShadowColumn": "TIRS_GROUND_FOOTPRINT_NOT_IN_SHADOW"
+}

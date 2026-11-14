@@ -1,0 +1,80 @@
+{
+  "sol": 300,
+  "sourceId": "meda",
+  "settings": {
+    "status": "default",
+    "referenceSol": 300,
+    "lastFallbackSol": 310,
+    "binMinutes": 10,
+    "minimumBins": 72,
+    "downloadChunkBytes": 524288,
+    "groundShadowColumn": "TIRS_GROUND_FOOTPRINT_NOT_IN_SHADOW"
+  },
+  "channels": {
+    "ground_temp": {
+      "missing": false,
+      "unit": "C",
+      "sourceUnit": "kelvin",
+      "sourceColumn": "GROUND_TEMP",
+      "sourceFile": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.CSV",
+      "sourceLabel": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_TIRS________________P02.xml",
+      "value": 89.46516233766238,
+      "validBins": 85,
+      "reduction": "range"
+    },
+    "reflectivity": {
+      "missing": true,
+      "value": null,
+      "unit": "ratio",
+      "sourceFile": null,
+      "sourceColumn": null,
+      "reason": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    },
+    "uv": {
+      "missing": true,
+      "value": null,
+      "unit": "UV index",
+      "sourceFile": null,
+      "sourceColumn": null,
+      "reason": "No MEDA file gives this quantity. See docs/verified-facts.md."
+    },
+    "air_temp": {
+      "missing": false,
+      "unit": "C",
+      "sourceUnit": "kelvin",
+      "sourceColumn": "ATS_LOCAL_TEMP1",
+      "sourceFile": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.CSV",
+      "sourceLabel": "data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_ATS_________________P01.xml",
+      "value": -45.77189636062004,
+      "validBins": 96,
+      "reduction": "daily_mean"
+    },
+    "humidity": {
+      "missing": false,
+      "unit": null,
+      "sourceUnit": null,
+      "sourceColumn": "LOCAL_RELATIVE_HUMIDITY",
+      "reasons": {
+        "unit": "The MEDA label gives no unit.",
+        "sourceUnit": "The MEDA label gives no unit."
+      },
+      "note": "unit not stated in the MEDA label",
+      "sourceFile": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.CSV",
+      "sourceLabel": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_RHS_________________P01.xml",
+      "value": 3.423849033538143,
+      "validBins": 96,
+      "reduction": "daily_mean"
+    },
+    "pressure": {
+      "missing": false,
+      "unit": "hPa",
+      "sourceUnit": "pascal",
+      "sourceColumn": "PRESSURE",
+      "sourceFile": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.CSV",
+      "sourceLabel": "data_derived_env/sol_0300_0419/sol_0300/WE__0300___________DER_PS__________________P01.xml",
+      "value": 6.245184596503017,
+      "validBins": 96,
+      "reduction": "daily_mean"
+    }
+  }
+}
