@@ -1605,388 +1605,345 @@
       {
         "peak_elevation": -0.06468399342369324,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.5646825483531992,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.0646811030340926,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.5646796572461095,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.064678210768652,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.5646767633807697,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.0646753148608816,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.564673864986779,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.064672413535369,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.564670960282636,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.064669505003457,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.56466804747141,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.064666587458758,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.564665124736166,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.064663659072675,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.564662190235439,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.064660717989701,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.564659242098509,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.064657762322659,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.564656278420507,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.06465479014776,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.564653297257395,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.064651799499392,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.564650296620668,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.064648788364778,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.564647274471854,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.064645754678304,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.564644228716718,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.064642696315609,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.564641157199198,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.064639611087273,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.564638057694886,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.06463649673221,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.564634927904223,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.06463335091056,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.56463176544518,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.06463017119618,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.5646285678455,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.064626955068615,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.564625332534323,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.064389502263683,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.563861252103653,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.973478639191715,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ],
@@ -3669,235 +3626,209 @@
       {
         "peak_elevation": -0.07404975647817737,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.5738915491422037,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.073733314149188,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.5735750273933484,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.0734166647374215,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.573258201997829,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.0730996149299727,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.572940879213282,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.072781970436327,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.572622864081632,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.072463535510547,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.572303959947811,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.072144112465954,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.571983967969624,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.071823501179495,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.571662686616144,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.071501498583448,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.571339911151899,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.071177898141418,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.571015433103996,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.07085248930587,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.570689039709281,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.07052505695398,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.57003578161191,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.068429482707929,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.404560497183944,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ],
@@ -5685,46 +5616,41 @@
       {
         "peak_elevation": -0.01757931108444171,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.5169941255888696,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.0164088479769562,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.5143462860928352,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.8259199964062032,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ],
@@ -5732,181 +5658,161 @@
       {
         "peak_elevation": -9.69350763496439,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.369027616492966,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.870654250166883,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.371131036158031,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.871606599744213,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.372081017679133,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.872173584803422,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.3721735935878066,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.872173602355082,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.372173611106623,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.872173619843825,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.372173628568025,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.8721736372806013,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.3721736459828797,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.8721736546762253,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.372173663361949,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.8721736720414088,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.3721736807159164,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.8721736893867873,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.3721736980553651,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -7619,343 +7525,305 @@
       {
         "peak_elevation": -18.817934289997382,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.433838011656675,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.93457929010127,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.434769704804484,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.93495907883674,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.435147449299908,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.935334852599818,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.435521324476664,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.935706900034168,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.435891613767941,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.936075499592913,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.436258590869798,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.936440920430924,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.436610950053227,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.936669642596456,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.436728118990462,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.936786389284027,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.436844463392623,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.936902351105529,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.436960062092725,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.937017605911528,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.437074992013248,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.937132229749506,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.437189328378603,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.937246297071584,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.437303144918363,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.937359880933566,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.43741651406238,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.937473053186363,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.4375295071289464,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.9375858846611695,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.437642194507027,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.9376984453490604,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.4377546458336,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.9378108045762499,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.4378669301670688,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.9379230311758847,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.4379791161575685,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -9578,424 +9446,377 @@
       {
         "peak_elevation": -23.296622727680035,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -22.817615387544407,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -22.31761668261907,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -21.81761796844824,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -21.317619245324305,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.817620513532965,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.31762177335338,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.817623025058534,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.317624268915402,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.81762550518527,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.31762673412396,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.81762795598201,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.31762917100499,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.817630379433613,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.317631581504006,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.81763277744788,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.317633967492762,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.817635151862117,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.317636330775558,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.817637504449076,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.317638673095097,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.817639836922753,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.317640996137953,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.817642150943621,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.317643301539746,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.817644448123648,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.317645590890008,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.81764673003105,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.31764786573673,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.817648998194752,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.317650127590822,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.817651254108656,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.317652377930216,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.817653499235715,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.317654618203852,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.817655735011844,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.317656849835545,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.817657962849632,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.317659074227616,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.8176601841420434,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.3176612927645173,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.8176624002659003,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.31766350681631,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.8176646125853353,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.3176657177420534,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.8176668224551664,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.3176679268931471,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -11573,388 +11394,345 @@
       {
         "peak_elevation": -21.39115730342782,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.96923466892074,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.46956546047716,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.969639711624485,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.469713493381743,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.969786821316127,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.46985971066653,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.969932176357386,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.470004233011792,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.970075894964396,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.47014717627371,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.97021809073394,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.470288651886568,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.970358873031385,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.47042876723728,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.970498347352617,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.470567626015345,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.970636615662682,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.47070532854067,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.970773776713349,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.47084197207165,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.970909926342156,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.470977651095467,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.97104515775455,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.471112457602656,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.97117956179126,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.47124648134765,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.971313227182425,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.471379810096886,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.971446240790118,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.47151252986614,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.971578687840713,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.471644725148256,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.971710652148405,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.471776479132754,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.971842216331229,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.471907873918562,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.9719734620206695,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.472038990720874,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.9721044700661992,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.472169910073474,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.9722353207355834,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.47230071202745644,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -13552,253 +13330,225 @@
       {
         "peak_elevation": -13.796693688768608,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.448086536116053,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.94945270288045,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.449779044566174,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.949921231023463,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.450062893291623,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.950204055714686,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.450344742313623,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.950484976803338,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.450624782609378,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.950764182884217,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.45090320052307,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.951041858179525,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.451180178280643,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.951318183041959,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.451455894482012,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.9515933344367795,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.451730524573709,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.951867486405641,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.452004241304523,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.9521408105148166,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.4522772151669336,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.952413476290306,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.452549614826534,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.952685651642222,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.4528216075419083,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.952957503280732,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.4530933595771565,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -15471,55 +15221,49 @@
       {
         "peak_elevation": -2.7210042327298662,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.4084535628930075,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.910285268148484,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.4112032237926087,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.9113126198269285,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.41142198549694176,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
@@ -19017,163 +18761,145 @@
       {
         "peak_elevation": -0.1192252670382037,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.6190704187419301,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.1189155412443093,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.6187606109492072,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.1186056042282733,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.61845049740662,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.118295266748231,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.618139888441496,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.117984338584455,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.617828593170106,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.117672628071401,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.61751641902625,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.117359941622233,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.61720317128112,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.117046083243279,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.6163686294666055,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.114597238453976,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.436814287466762,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ],
@@ -20796,343 +20522,305 @@
       {
         "peak_elevation": -0.05160442660978555,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.5515147179294505,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.0514249941772182,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.5513352416820556,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.0512454467554617,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.5511555956830447,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.051065674716123,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.550975670063362,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.050885567882194,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.550795354270348,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.050705015257122,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.550614536794764,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.0505239047495305,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.550433104892852,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.050342122892216,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.55025094430195,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.050159554553932,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.550067938947988,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.049976082642313,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.549883970643448,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.049791587796342,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.549698918773906,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.04960594806658,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.549512659971482,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.049419038581329,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.549325067773156,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.049230731196577,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.549136012261927,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.049040894127813,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.548945359688588,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.04884939156116,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.548752972071638,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.048656083241397,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.548558706772717,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.048460824034045,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.54836241604458,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.04741076924296,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.424230447906208,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ],
@@ -22710,424 +22398,377 @@
       {
         "peak_elevation": -0.2812499215615952,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -0.7811541342390566,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.281058324121124,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -1.7809624766040362,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.2808665770613024,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -2.780770610834683,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.2806745632251966,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -3.7805784194841587,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.2804821648040035,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -4.780385784309205,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.280289263046903,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -5.780192585977656,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.280088444349996,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -6.779982066571808,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.279875467848986,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -7.779768631209069,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.279661539531206,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -8.779554175534823,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.279446521768266,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -9.779338560597031,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.279230274191947,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -10.779121644516888,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.279012653316375,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -11.778903282102785,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.278793512143194,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -12.77868332444605,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.278572699747233,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -13.778461618496,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.278350060840262,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -14.778238006611666,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.278125435309983,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -15.778012326087238,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.277898657731164,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -16.77778440864817,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.27766955684576,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -17.777554079914268,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.277437955008118,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -18.77732115882617,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.27720366759162,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -19.777085457030903,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.276966502352003,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -20.776846778221852,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -21.27672625874274,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -21.776604917428056,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -22.276482727176738,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -22.776359660247007,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       },
       {
         "peak_elevation": -23.250737933472795,
         "low_sun_share": null,
-        "horizon_sweep": null,
+        "horizon_sweep": 0,
         "reasons": {
-          "low_sun_share": "The Sun does not rise.",
-          "horizon_sweep": "The Sun does not rise."
+          "low_sun_share": "The Sun does not rise."
         }
       }
     ]

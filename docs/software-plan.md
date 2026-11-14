@@ -631,7 +631,7 @@ Three people share the units. Each person runs an AI agent of their own. A fourt
   - `peak_elevation`: the highest elevation, in degrees.
   - `low_sun_share`: of the samples with an elevation above zero, the fraction with an elevation below 10 degrees.
   - `horizon_sweep`: how much of the horizon the Sun sweeps, in degrees. The brief gives no formula. Use 360 minus the largest gap, going round the circle, between neighbouring azimuths of the samples with an elevation above zero [DEFAULT].
-- [ ] If no sample has an elevation above zero, `low_sun_share` and `horizon_sweep` are `null` with the reason "The Sun does not rise." If only one sample has, `horizon_sweep` is 0.
+- [ ] If no sample has an elevation above zero, `low_sun_share` is `null` with the reason "The Sun does not rise.", and `horizon_sweep` is 0, because the Sun sweeps no part of the horizon. If only one sample has, `horizon_sweep` is 0 too.
 - [ ] For each of the 361 latitude rows and each month, compute the three numbers by D5.
 - [ ] Write the three numbers to `app/public/data/sun/earth-rows.json`. The daily path depends on latitude and date only, so one row serves every cell at that latitude.
 - [ ] Write the path itself, as azimuth and elevation every 30 minutes, to `app/public/data/sun/earth-paths.bin` as Int16 in hundredths of a degree, with a manifest.

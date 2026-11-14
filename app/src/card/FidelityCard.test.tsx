@@ -120,18 +120,21 @@ test('REVIEW 1: polar-night Sun values retain their saved reasons and readable o
   const saved = rows[(card.cell.lat - file.latitude_start_deg) / file.latitude_step_deg]
   const html = renderToStaticMarkup(<FidelityCard card={card} />)
   const omitted = html.split('Omitted from the mean: ')[1].split('</p>')[0]
-  for (const id of ['low_sun_share', 'horizon_sweep']) {
-    const row = card.sunRows.find(row => row.id === id)!
-    expect(row.earth.value).toBeNull()
-    expect(row.earth.reason).toBe(saved.reasons[id])
-    expect(typeof row.score).not.toBe('number')
-    expect(card.combined.missing).toContain(id)
-    expect(omitted).toContain(row.label)
-    expect(omitted).not.toContain(id)
-    const rendered = html.split(`data-sun-quantity="${id}"`)[1].split('</dd>')[0]
-    expect(rendered).toContain(saved.reasons[id])
-    expect(rendered).toContain('no score')
-  }
+  const share = card.sunRows.find(row => row.id === 'low_sun_share')!
+  expect(share.earth.value).toBeNull()
+  expect(share.earth.reason).toBe(saved.reasons.low_sun_share)
+  expect(typeof share.score).not.toBe('number')
+  expect(card.combined.missing).toContain('low_sun_share')
+  expect(omitted).toContain(share.label)
+  expect(omitted).not.toContain('low_sun_share')
+  const rendered = html.split('data-sun-quantity="low_sun_share"')[1].split('</dd>')[0]
+  expect(rendered).toContain(saved.reasons.low_sun_share)
+  expect(rendered).toContain('no score')
+
+  const sweep = card.sunRows.find(row => row.id === 'horizon_sweep')!
+  expect(sweep.earth.value).toBe(0)
+  expect(sweep.score).toBe(Math.max(0, 1 - Math.abs(0 - sweep.target.value!) / sweep.tolerance.value))
+  expect(card.combined.missing).not.toContain('horizon_sweep')
 })
 
 test('power counts only its weighted rows, exposes missing weights and lists every notBuilt item', async () => {
