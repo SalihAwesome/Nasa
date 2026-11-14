@@ -1,81 +1,81 @@
 # Proving Ground design system
 
-U28 provides the app shell, route placeholders and reusable tokens. It does not
-implement the map, card calculations, Sun plots, field curves or pod connection.
-View names and purposes come from `docs/mission-plan.md`; hash routes and scope
-come from U28 in `docs/software-plan.md`.
+This local redesign follows the team's NASA Eyes reference and preserves the
+existing evidence, calculations and routes. It is a review preview, not a
+published release.
 
 ## Use scene and direction
 
-This is an operating interface for a student team inspecting evidence, including
-outdoors beside a sensor pod. Use a light paper background, dark green ink, a
-restrained serif heading and plain sans-serif controls. There is no marketing
-hero, decorative photography or animation. The empty panels explicitly say that
-their functionality is not available yet. The footer is a label key, not evidence
-that any data has been loaded.
+A dark exploration workspace for the team comparing Earth and planetary test
+conditions on a laptop or phone. Near-black canvas, slate panels, bright neutral
+text, teal actions and a warm yellow Sun. The sky comparison is the main visual
+experience, with synchronized rotation, bounded zoom, playback and a full-screen
+mode. Elevation charts remain available. Sources stay in expandable disclosures.
 
-These are presentation choices, not scientific values, scores, thresholds or
-measured data. No scientific DEFAULT from the plan is consumed by this unit.
-Future screens must use these tokens rather than introduce their own colors or
-font sizes. Keep the token table and CSS in sync.
+The current implementation uses system sans-serif type for compact, readable
+controls and headings. No new packages or external assets are required. The
+gradient in the sky viewport gives the geometry depth and is not scientific data.
+
+These are presentation choices, not scientific values, scores or thresholds.
+Use the shared tokens below across all routes. Keep evidence labels visible and
+never replace missing values with decorative data.
 
 ## Color tokens
 
 | Token | Value | Role |
 |---|---|---|
-| `--color-background` | #f5f4ee | Page ground |
-| `--color-surface` | #ffffff | Content surface |
-| `--color-text` | #203b36 | Primary text |
-| `--color-muted` | #52645e | Secondary text, never lower opacity |
-| `--color-border` | #cbd3cc | Decorative dividers |
-| `--color-accent` | #176957 | Links and active navigation |
-| `--color-accent-soft` | #e0ede6 | Active navigation background |
-| `--color-focus` | #974524 | Keyboard focus |
-| `--color-score-0` | #f0f5e5 | Score 0 |
-| `--color-score-025` | #c4dfc2 | Score 0.25 |
-| `--color-score-05` | #80baa1 | Score 0.5 |
-| `--color-score-075` | #3d8b78 | Score 0.75 |
-| `--color-score-1` | #155849 | Score 1 |
-| `--color-no-score` | #777b78 | Missing score, separate from zero |
-| `--color-pod` | #176957 | Pod curve |
-| `--color-satellite` | #285f9c | Satellite curve |
-| `--color-mars` | #a04423 | Mars curve |
+| `--color-background` | #080c12 | Page ground |
+| `--color-surface` | #111923 | Content surface |
+| `--color-text` | #edf3fa | Primary text |
+| `--color-muted` | #a9b9cb | Secondary text, never lower opacity |
+| `--color-border` | #344354 | Decorative dividers |
+| `--color-accent` | #66e0c2 | Links and active navigation |
+| `--color-accent-soft` | #163730 | Active navigation background |
+| `--color-focus` | #ffcf52 | Keyboard focus |
+| `--color-score-0` | #172e35 | Score 0 |
+| `--color-score-025` | #24504e | Score 0.25 |
+| `--color-score-05` | #357d70 | Score 0.5 |
+| `--color-score-075` | #53b69a | Score 0.75 |
+| `--color-score-1` | #83f1c7 | Score 1 |
+| `--color-no-score` | #6f7886 | Missing score, separate from zero |
+| `--color-pod` | #66e0c2 | Pod curve |
+| `--color-satellite` | #77bbff | Satellite curve |
+| `--color-mars` | #ffaa7c | Mars curve |
 | `--color-sun` | #ffcf52 | Current Sun marker and glow |
-| `--color-sun-outline` | #80500e | Sun marker edge |
-| `--color-temperature-plot` | #102d3c | Ground temperature plot background |
+| `--color-sun-outline` | #ffbb45 | Sun marker edge |
+| `--color-temperature-plot` | #0c1520 | Ground temperature plot background |
 | `--color-temperature-text` | #e0f1fa | Plot labels and series keys |
 | `--color-temperature-grid` | #355669 | Plot grid |
 | `--color-temperature-cold` | #44baff | Cold curve segments |
 | `--color-temperature-mild` | #40e5bd | Mild curve segments |
 | `--color-temperature-warm` | #ff9c49 | Warm curve segments |
-| `--color-estimate-text` | #234d7a | Estimate label text |
-| `--color-estimate-background` | #e4eef8 | Estimate label surface |
-| `--color-measured-text` | #175642 | Measured label text |
-| `--color-measured-background` | #e0eee4 | Measured label surface |
-| `--color-simulated-text` | #744b13 | Simulated label text |
-| `--color-simulated-background` | #fff0cc | Simulated label surface |
+| `--color-estimate-text` | #acd4ff | Estimate label text |
+| `--color-estimate-background` | #18334e | Estimate label surface |
+| `--color-measured-text` | #96efd2 | Measured label text |
+| `--color-measured-background` | #153c31 | Measured label surface |
+| `--color-simulated-text` | #ffdc8a | Simulated label text |
+| `--color-simulated-background` | #46361c | Simulated label surface |
 
-The score scale increases in darkness, with equally spaced stops from 0 to 1.
+The score scale increases in brightness, with equally spaced stops from 0 to 1.
 Later map units may interpolate the stops; missing scores must not use the zero
 color. Always show a labelled legend and the reason for a missing score. Never
 use color alone: curve legends must name their sources and distinguish line
-styles. Pod, satellite and Mars retain their colors across all views. Chart
-implementation belongs to later units; this shell contains no fabricated curves.
+styles. Pod, satellite and Mars retain their colors across all views. Sun and field charts use the existing pipeline data or explicitly labelled simulations.
 
 ## Type and spacing
 
 | Token | Value | Role |
 |---|---|---|
 | `--font-body` | 'Segoe UI', system-ui, sans-serif | Interface and prose |
-| `--font-heading` | Georgia, 'Times New Roman', serif | View heading and wordmark |
-| `--font-data` | Consolas, monospace | Future readings and code |
+| `--font-heading` | 'Segoe UI', system-ui, sans-serif | View heading and wordmark |
+| `--font-data` | Consolas, monospace | Readings and code |
 | `--text-small` | 0.8125rem | Tags and brand description |
 | `--text-label` | 0.875rem | Supporting labels |
 | `--text-body` | 1rem | Body text and navigation |
 | `--text-lead` | 1.125rem | View purpose |
 | `--text-title` | 1.5rem | Section heading and brand |
 | `--text-heading` | 2.5rem | View heading |
-| `--weight-regular` | 400 | Body and serif headings |
+| `--weight-regular` | 400 | Body text |
 | `--weight-medium` | 600 | Controls and section headings |
 | `--line-body` | 1.6 | Reading rhythm |
 | `--line-heading` | 1.15 | Heading rhythm |
@@ -92,13 +92,13 @@ implementation belongs to later units; this shell contains no fabricated curves.
 | `--border-width` | 1px | Dividers |
 | `--focus-width` | 3px | Focus ring |
 | `--control-min` | 2.75rem | Minimum control height |
-| `--content-max` | 75rem | Maximum content width |
+| `--content-max` | 96rem | Maximum content width |
 | `--reading-max` | 65ch | Maximum prose measure |
 
 Fonts are local fallbacks, so the shell does not need a font service or network
-access. The single layout breakpoint at 40rem switches navigation to two columns;
-it is a layout rule, not another type scale. Use visible focus rings and actual
-links. Avoid animation in this foundation.
+access. Navigation uses a compact desktop row and two mobile columns. Sun comparisons
+stack below 52rem. Use visible focus rings and actual links. Motion follows user
+input; reduced motion uses sample stepping instead of continuous playback.
 
 ## Routes and integration
 
@@ -115,8 +115,7 @@ finder. Unrecognised routes show an explicit recovery link.
 | `#/live` | Live panel |
 
 The card is a detail view of the site finder and keeps its navigation item active.
-A future map unit supplies real site-card links. U28 does not invent a site id in
-the interface. Route changes update the document title and focus the heading.
+The map supplies links to scored land-cell cards. Route changes update the document title and focus the heading.
 
 Use `.evidence-tag` with `.evidence-tag--estimate`, `.evidence-tag--measured` or
 `.evidence-tag--simulated`. Keep the literal tag text visible. A label never

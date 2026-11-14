@@ -25,6 +25,7 @@
 .cell-readout dd { margin: 0; font-family: var(--font-data); }
 .rank-panel h2 { font-size: var(--text-lead); }
 .ranked-cells { padding-left: var(--space-6); font-size: var(--text-small); font-family: var(--font-data); }
+.ranked-cells { max-height: 32rem; overflow-y: auto; padding-right: var(--space-3); overscroll-behavior-y: contain; }
 .ranked-cells a { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); padding-block: var(--space-2); min-height: var(--control-min); }
 .ranked-cells small { grid-column: 1 / -1; font: inherit; color: var(--color-muted); }
 .missing-target { margin-block: var(--space-6); padding: var(--space-4); background: var(--color-background); border-radius: var(--radius-small); }

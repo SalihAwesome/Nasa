@@ -1,4 +1,8 @@
-.sun-panel { display: grid; gap: var(--space-4); }
+.sun-panel { display: grid; gap: var(--space-4); margin-top: var(--space-8); }
+.sun-workspace { display: grid; gap: var(--space-3); min-width: 0; }
+.sun-workspace:fullscreen { overflow: auto; background: var(--color-background); padding: var(--space-6); }
+.sun-workspace:fullscreen .sun-plot { max-height: 58vh; }
+.sun-selectors { padding-bottom: var(--space-3); }
 .sun-panel h2, .sun-panel h3, .sun-panel dl { margin: 0; }
 .sun-selectors, .sun-charts { display: grid; gap: var(--space-4); }
 .sun-selectors { grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
@@ -18,14 +22,14 @@
   min-width: 0; background: var(--color-surface); padding: var(--space-4);
   border: var(--border-width) solid var(--color-border); border-radius: var(--radius-panel);
 }
-.sun-chart-target { --sun-series: var(--color-accent); }
+.sun-chart-target { --sun-series: var(--color-sun); }
 .sun-chart-earth { --sun-series: var(--color-satellite); }
 .sun-plot { width: 100%; height: auto; display: block; margin-block: var(--space-2); }
 .sun-plot text { fill: var(--color-muted); font-family: var(--font-body); font-size: var(--text-lead); }
 .sun-night-band { fill: var(--color-background); }
 .sun-gridline { stroke: var(--color-border); stroke-width: 1; }
 .sun-horizon { stroke: var(--color-text); stroke-width: 2; }
-.sun-path { fill: none; stroke: var(--sun-series); stroke-width: 2; stroke-linejoin: round; }
+.sun-path { fill: none; stroke: var(--sun-series); stroke-width: 2.5; stroke-linejoin: round; }
 .sun-path-night { stroke: var(--color-muted); stroke-dasharray: 4 4; }
 .sun-marker { fill: var(--color-sun); stroke: var(--color-sun-outline); stroke-width: 1.5; }
 .sun-sample { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-1) var(--space-3); }
@@ -42,16 +46,22 @@
 }
 .sun-chart-header { justify-content: space-between; }
 .sun-panel button[aria-pressed='true'] { background: var(--color-accent-soft); border-color: var(--color-accent); }
-.sun-panel .sun-primary { background: var(--color-text); border-color: var(--color-text); color: var(--color-surface); }
+.sun-panel .sun-primary { background: var(--color-sun); border-color: var(--color-sun); color: var(--color-background); font-weight: var(--weight-medium); padding-inline: var(--space-6); }
+.sun-expand { margin-left: auto; }
+.sun-camera { padding-block: var(--space-2); }
+.sun-camera .sun-note { margin-right: auto; }
+.sun-camera-more summary { cursor: pointer; padding: var(--space-2); min-height: var(--control-min); }
+.sun-camera-more > div { display: flex; flex-wrap: wrap; gap: var(--space-2); padding-block: var(--space-2); }
+.sun-panel button:disabled { opacity: .5; cursor: not-allowed; }
 .sun-speed, .sun-range { display: inline-flex; align-items: center; gap: var(--space-2); }
 .sun-range input { accent-color: var(--color-accent); }
 .sun-camera button { min-width: var(--control-min); }
 .sun-legend { gap: var(--space-4); }
-.sun-legend i { display: inline-block; width: 1.3em; margin-inline-end: var(--space-2); vertical-align: middle; border-top: 2px solid var(--color-accent); }
+.sun-legend i { display: inline-block; width: 1.3em; margin-inline-end: var(--space-2); vertical-align: middle; border-top: 2px solid var(--color-text); }
 .sun-legend span + span i { border-top: 2px dashed var(--color-muted); }
-.sun-sky { cursor: grab; touch-action: pan-y; }
+.sun-sky { cursor: grab; touch-action: pan-y; border-radius: var(--radius-small); background: radial-gradient(ellipse at 50% 45%, #162a3b 0%, var(--color-background) 72%); }
 .sun-sky:active { cursor: grabbing; }
-.sun-dome { fill: none; stroke: var(--color-border); stroke-width: 1.2; }
+.sun-dome { fill: none; stroke: var(--color-border); stroke-width: .8; }
 .sun-ground { fill: var(--color-accent-soft); fill-opacity: .48; }
 .sun-horizon-rim { fill: none; stroke: var(--color-muted); stroke-width: 1.4; }
 .sun-observer { fill: var(--color-text); }
@@ -60,7 +70,8 @@
 .sun-glow-core { stop-color: var(--color-sun); stop-opacity: .73; }
 .sun-glow-edge { stop-color: var(--color-sun); stop-opacity: 0; }
 .sun-dim { opacity: .48; }
-.sun-readout { padding-block: var(--space-2); font-size: var(--text-label); font-variant-numeric: tabular-nums; }
+.sun-readout { padding-block: var(--space-3); font-size: var(--text-label); font-variant-numeric: tabular-nums; column-gap: var(--space-4); }
+.sun-readout strong { color: var(--color-text); font-size: var(--text-title); font-weight: var(--weight-medium); }
 .sun-readout time { flex-basis: 100%; color: var(--color-muted); }
 .sun-insight { background: var(--color-accent-soft); padding: var(--space-3) var(--space-4); border-radius: var(--radius-small); }
 .sun-panel .sun-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
@@ -71,5 +82,18 @@
 .sun-metrics dd[data-metric] { font-size: var(--text-lead); }
 .sun-limits { margin-top: var(--space-4); }
 .sun-limits h3 { margin-bottom: var(--space-2); }
+.sun-source { margin-top: var(--space-3); color: var(--color-muted); font-size: var(--text-small); }
+.sun-source summary { cursor: pointer; padding-block: var(--space-2); }
+.sun-limits, .pod-sun-section { padding-top: var(--space-8); border-top: var(--border-width) solid var(--color-border); margin-top: var(--space-6); }
+.sun-view-toggle { gap: 0; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-small); overflow: hidden; }
+.sun-panel .sun-view-toggle button { border: 0; border-radius: 0; }
+.sun-view-toggle button:focus-visible { outline-offset: -4px; }
 @media (max-width: 52rem) { .sun-charts { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 27rem) { .sun-plot text { font-size: var(--text-title); } }
+@media (max-width: 40rem) {
+  .sun-selectors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sun-selectors > div:first-child { grid-column: 1 / -1; }
+  .sun-selectors select { width: 100%; min-width: 0; }
+  .sun-camera .sun-note { flex-basis: 100%; }
+  .sun-workspace:fullscreen { padding: var(--space-3); }
+}
