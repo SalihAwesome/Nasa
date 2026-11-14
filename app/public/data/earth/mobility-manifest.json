@@ -1,0 +1,46 @@
+{
+  "cellCount": 68816,
+  "cellsFile": "cells.bin",
+  "cellsSha256": "c77bef80dd2c36fe81e89af749d5f6c3e9e3492e3d77b07ccadf3e8b18550840",
+  "dtype": "int16",
+  "byteOrder": "little",
+  "layout": "quantity-major",
+  "quantityOrder": [
+    "dryness"
+  ],
+  "quantities": [
+    {
+      "id": "dryness",
+      "unit": "1",
+      "scale": 0.0001,
+      "offset": 0,
+      "fillValue": -32768,
+      "status": "default",
+      "powerParameter": "GWETTOP",
+      "sourceGrid": {
+        "latitudeStep": 0.5,
+        "longitudeStep": 0.625
+      },
+      "missingReason": "POWER returned fill value -999; no soil wetness value is available."
+    }
+  ],
+  "monthFiles": [
+    "mobility-01.bin",
+    "mobility-02.bin",
+    "mobility-03.bin",
+    "mobility-04.bin",
+    "mobility-05.bin",
+    "mobility-06.bin",
+    "mobility-07.bin",
+    "mobility-08.bin",
+    "mobility-09.bin",
+    "mobility-10.bin",
+    "mobility-11.bin",
+    "mobility-12.bin"
+  ],
+  "period": {
+    "start": "20010101",
+    "end": "20251231"
+  },
+  "sourceId": "power"
+}

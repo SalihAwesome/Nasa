@@ -1,0 +1,5 @@
+.mobility-test-selector { margin-top: var(--space-6); font-size: var(--text-label); }
+.mobility-test-selector label { display: block; margin-bottom: var(--space-2); font-weight: var(--weight-medium); }
+.mobility-test-selector select { width: 100%; min-height: var(--control-min); padding: var(--space-2) var(--space-3); font: inherit; color: var(--color-text); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-small); }
+.mobility-test-selector ul { padding-left: var(--space-6); color: var(--color-muted); overflow-wrap: anywhere; }
+.mobility-test-selector li { margin-bottom: var(--space-2); }

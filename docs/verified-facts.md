@@ -596,6 +596,14 @@ The installed WebSockets library includes `examples/esp32/WebSocketServer/WebSoc
 
 BH1750 `1.3.0` reads an unsigned 16-bit count. In continuous high-resolution mode at MTreg 31, its `readLightLevel` scales the count by `69 / 31 / 1.2`. The maximum is approximately 121,556 lux. D8's 120,000 lux remains the simulator input. The firmware header uses the library-derived maximum.
 
+## U31 soil wetness and source checks
+
+On 14 November 2026, a GET to `https://power.larc.nasa.gov/api/temporal/climatology/regional` with `parameters=GWETTOP`, `community=AG`, `latitude-min=20`, `latitude-max=30`, `longitude-min=50`, `longitude-max=60`, and `format=JSON` returned HTTP 200 and 94,149 bytes. Its unchanged response is `pipeline/tests/fixtures/power/gwettop-regional-20-30-50-60.json`. The unit is `1`; latitude runs from 20 to 30 in 0.5-degree steps, longitude from 50 to 60 in 0.625-degree steps, with 357 cells. The cell at latitude 25.5, longitude 51.25 returns January 0.26, November 0.12, and annual 0.14, matching the earlier point call. The climatology period is 20010101 to 20251231. This confirms GWETTOP on the existing meteorology grid, rather than a new grid.
+
+The source attempts and exact download URLs are recorded in `docs/mobility-sources.md`. The SRTM download returned HTTP 401 through Earthdata Login. The LOLA slope and Hurst labels returned HTTP 200, and the MOLA roughness grid returned HTTP 200 with 260,564 bytes, but no matched Earth/target terrain comparison was established. The MODIS NDVI CSV URL redirected to HTML at `https://science.nasa.gov/earth/nasa-earth-observations-neo/`; NASA's notice says NEO was decommissioned in September 2026. The actual NDVI reply was not numeric data. No terrain or bare-ground value is inferred from those unsuccessful comparison inputs.
+
+The complete GWETTOP run on machine `YAHIA` printed `647 fetched, 1 cached` with no failures; the initial probe was the cached tile. All 648 tiles matched the existing meteorology grid, including its zero-boundary rule. `python pipeline/pack_mobility.py` then printed `0 fetched, 648 cached` and `Packed GWETTOP dryness: 68816 existing U05 land cells; 12 month files, 137632 bytes each.` The new files are `app/public/data/earth/mobility-01.bin` through `mobility-12.bin`, plus `mobility-manifest.json`. The manifest records the unchanged U05 cell-file fingerprint, source, period, fill value and D20 scale. The raw probe fixture's SHA256 is `62b603b60b3a8191fbbafe0b70b7d233b207b947d7226f45be228409c6e4236b`.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
@@ -605,6 +613,6 @@ Confirm each of these with a real call or a real document before you use it. The
 - The source for the Moon site coordinates `222.69, -89.45` and for the Jezero coordinates `77.45 E, 18.44 N`. The Jezero value passed the MEDA cross-check above. Neither has a citation.
 - The exact relation between `SCLK` and UTC.
 - The behavior of the Web Serial API after a cable drop.
-- The grid of `GWETTOP` and of `AOD_55` on the regional endpoint. Only the point endpoint was called.
-- A download for slope and roughness on Earth, the Moon, and Mars, and one for bare ground. The brief names SRTM, LOLA, MOLA, and the MODIS vegetation index. On 12 November 2026 two pages of NASA Earth Observations, for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO`, returned the same 255,301 byte page with no data link, so that site is not a confirmed source.
+- The grid of `AOD_55` on the regional endpoint. Only the point endpoint was called.
+- Matched slope and roughness layers for Earth and both targets, and a numeric bare-ground layer. U31 confirmed candidate LOLA metadata and downloaded a MOLA roughness grid, but its SRTM and MODIS download attempts did not supply usable Earth layers. See `docs/mobility-sources.md` for the actual calls. On 12 November 2026 the earlier NEO pages for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO` returned the same 255,301-byte page; the later U31 calls identify the retirement notice.
 - The coordinates of the four known sites in `docs/project-brief.md`. The brief gives names and source links only.

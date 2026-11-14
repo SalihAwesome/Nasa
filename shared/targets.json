@@ -1,6 +1,18 @@
 [
   {
     "id": "shackleton",
+    "mobility": {
+      "dryness": {
+        "value": 0,
+        "source": "docs/project-brief.md",
+        "unit": "1",
+        "tolerance": { "value": 0.2, "status": "default" },
+        "scale": { "value": 0.0001, "status": "default" }
+      },
+      "slope": { "value": null, "reason": "No matched Earth and target slope layer was confirmed by U31." },
+      "roughness": { "value": null, "reason": "No matched Earth and target roughness layer was confirmed by U31." },
+      "bare_ground": { "value": null, "reason": "The tested MODIS NDVI download returned the NEO retirement page, not numeric data." }
+    },
     "sun": {
       "peak_elevation": {
         "tolerance": 10,
@@ -106,6 +118,18 @@
   },
   {
     "id": "jezero",
+    "mobility": {
+      "dryness": {
+        "value": 0,
+        "source": "docs/project-brief.md",
+        "unit": "1",
+        "tolerance": { "value": 0.2, "status": "default" },
+        "scale": { "value": 0.0001, "status": "default" }
+      },
+      "slope": { "value": null, "reason": "No matched Earth and target slope layer was confirmed by U31." },
+      "roughness": { "value": null, "reason": "No matched Earth and target roughness layer was confirmed by U31." },
+      "bare_ground": { "value": null, "reason": "The tested MODIS NDVI download returned the NEO retirement page, not numeric data." }
+    },
     "sun": {
       "peak_elevation": {
         "tolerance": 10,
