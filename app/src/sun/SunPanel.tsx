@@ -142,11 +142,10 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
   }
 
   const difference = target.numbers.peak_elevation - earth.numbers.peak_elevation
-  let insight = 'The two paths reach nearly the same peak elevation.'
-  if (Math.abs(difference) >= .1) {
-    insight = (difference > 0 ? labels[selection.target] : 'Earth') +
-      ' reaches a peak ' + Math.abs(difference).toFixed(1) + '° higher in these samples.'
-  }
+  const shown = Math.abs(difference).toFixed(1)
+  const insight = Number(shown) === 0
+    ? 'The two paths reach the same peak elevation at the shown precision.'
+    : (difference > 0 ? labels[selection.target] : 'Earth') + ' reaches a peak ' + shown + '° higher in these samples.'
 
   return <>
     <div className="sun-toolbar">
