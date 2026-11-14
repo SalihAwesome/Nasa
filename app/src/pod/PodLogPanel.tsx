@@ -3,6 +3,7 @@ import type { DragEvent } from 'react'
 import { fetchPodLog, importConfiguredPodLog } from './importLog'
 import type { PodLog } from './importLog'
 import { GroundTemperature } from './GroundTemperature'
+import { GroundTruthCurves } from './ChannelCurvesPanel'
 
 type LoadState =
   | { kind: 'loading' }
@@ -80,7 +81,7 @@ export function PodLogPanel() {
         {state.kind === 'error' && <p>{state.message}</p>}
         {state.kind === 'ready' && <PodLogSummary log={state.log} />}
       </div>
-      {state.kind === 'ready' && <GroundTemperature log={state.log} />}
+      {state.kind === 'ready' && <><GroundTruthCurves log={state.log} /><GroundTemperature log={state.log} /></>}
     </section>
   )
 }

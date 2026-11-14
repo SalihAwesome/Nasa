@@ -214,7 +214,7 @@ export async function loadSelectedCard(
   return buildCard(data, podSelection, { log, satelliteChannels: object(satellite.channels) })
 }
 
-function makeErrorBar(earth: Reading, satelliteRow: unknown, offset?: number): ErrorBar {
+export function makeErrorBar(earth: Reading, satelliteRow: unknown, offset?: number): ErrorBar {
   if (earth.value === null) return { kind: 'missing', reason: earth.reason ?? 'No pod measurement' }
   const row = object(satelliteRow)
   if (row.unit !== earth.unit) fail('satellite unit disagrees with the pod channel')
