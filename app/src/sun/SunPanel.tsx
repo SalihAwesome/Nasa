@@ -1,3 +1,4 @@
+import { PodSunSection } from './PodSunEvidence'
 import { useEffect, useMemo, useState } from 'react'
 import limits from '../../../shared/limits.json'
 import { loadSunData, readSunSelection, selectEarth, sunHash } from './sunData'
@@ -219,6 +220,7 @@ export function SunPanel({ hash }: { hash: string }) {
     {data ? <SunComparison data={data} selection={selection} /> : failed
       ? <p role="alert">Could not load the Sun paths. <button type="button" onClick={() => { setFailed(false); setAttempt(attempt + 1) }}>Retry</button></p>
       : <p role="status">Loading Sun paths…</p>}
+    <PodSunSection />
     <aside className="sun-limits" aria-labelledby="sun-limits-heading">
       <h3 id="sun-limits-heading">What this comparison leaves out</h3>
       <dl>{limits.sunPanel.map(limit => <div key={limit.title}><dt>{limit.title}</dt><dd>{limit.text}</dd></div>)}</dl>

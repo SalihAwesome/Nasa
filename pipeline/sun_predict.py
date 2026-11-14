@@ -41,7 +41,8 @@ def predict(site):
     count = (end - start) // step
     # The endpoint supports detection in the final minute but lies outside the log.
     times = [start + index * step for index in range(count + 1)]
-    elevations = [sun_position(site['lat'], site['lon'], time)[1] for time in times]
+    angles = [sun_position(site['lat'], site['lon'], time) for time in times]
+    elevations = [elevation for _, elevation in angles]
     threshold = config['sunriseElevationDegrees']
     events = {'sunrise': None, 'peak': utc_text(times[max(range(count), key=lambda i: elevations[i])]), 'sunset': None}
     for index, (before, after) in enumerate(zip(elevations, elevations[1:])):
@@ -63,8 +64,8 @@ def predict(site):
         'settings': config, 'events': events, 'reasons': reasons,
         'elevationUnit': 'degrees', 'refraction': False,
         'samples': [
-            {'time_ut': utc_text(time), 'elevation': elevation}
-            for time, elevation in zip(times[:-1], elevations[:-1])
+            {'time_ut': utc_text(time), 'elevation': elevation, 'azimuth': azimuth}
+            for time, (azimuth, elevation) in zip(times[:-1], angles[:-1])
         ],
     }
 
