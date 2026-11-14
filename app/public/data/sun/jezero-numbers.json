@@ -1,0 +1,29 @@
+{
+  "target": "jezero",
+  "source": {
+    "id": "horizons",
+    "request_url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%27&CENTER=%27coord%40499%27&SITE_COORD=%27-77.45%2C18.44%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27"
+  },
+  "site": {
+    "value": "-77.45,18.44,0",
+    "status": "default",
+    "citation": null,
+    "reasons": {
+      "citation": "The team has not supplied a citation for these coordinates."
+    }
+  },
+  "window": {
+    "start": "2026-11-01",
+    "stop": "2026-12-01",
+    "step_hours": 1,
+    "status": "default"
+  },
+  "time_scale": "UT",
+  "angle_units": "degrees",
+  "sample_count": 721,
+  "numbers": {
+    "peak_elevation": 83.139531,
+    "low_sun_share": 0.11290322580645161,
+    "horizon_sweep": 203.98752100000002
+  }
+}

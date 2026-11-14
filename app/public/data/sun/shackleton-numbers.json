@@ -1,0 +1,29 @@
+{
+  "target": "shackleton",
+  "source": {
+    "id": "horizons",
+    "request_url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%27&CENTER=%27coord%40301%27&SITE_COORD=%27222.69%2C-89.45%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27"
+  },
+  "site": {
+    "value": "222.69,-89.45,0",
+    "status": "default",
+    "citation": null,
+    "reasons": {
+      "citation": "The team has not supplied a citation for these coordinates."
+    }
+  },
+  "window": {
+    "start": "2026-11-01",
+    "stop": "2026-12-01",
+    "step_hours": 1,
+    "status": "default"
+  },
+  "time_scale": "UT",
+  "angle_units": "degrees",
+  "sample_count": 721,
+  "numbers": {
+    "peak_elevation": 2.062514,
+    "low_sun_share": 1.0,
+    "horizon_sweep": 359.49141299999997
+  }
+}
