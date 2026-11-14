@@ -8,3 +8,6 @@ app/public/data/sun/pod-prediction-horizons.txt -text whitespace=-blank-at-eol
 # Preserve the downloaded NASA fixture bytes and their source XML whitespace.
 pipeline/tests/fixtures/meda-sol-300/*.CSV -text whitespace=cr-at-eol
 pipeline/tests/fixtures/meda-sol-300/*.xml -text whitespace=-blank-at-eol
+
+# Preserve the fetched outline response byte-for-byte on Windows checkouts.
+app/public/data/geo/*.geojson -text

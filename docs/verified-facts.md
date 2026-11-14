@@ -604,6 +604,44 @@ The source attempts and exact download URLs are recorded in `docs/mobility-sourc
 
 The complete GWETTOP run on machine `YAHIA` printed `647 fetched, 1 cached` with no failures; the initial probe was the cached tile. All 648 tiles matched the existing meteorology grid, including its zero-boundary rule. `python pipeline/pack_mobility.py` then printed `0 fetched, 648 cached` and `Packed GWETTOP dryness: 68816 existing U05 land cells; 12 month files, 137632 bytes each.` The new files are `app/public/data/earth/mobility-01.bin` through `mobility-12.bin`, plus `mobility-manifest.json`. The manifest records the unchanged U05 cell-file fingerprint, source, period, fill value and D20 scale. The raw probe fixture's SHA256 is `62b603b60b3a8191fbbafe0b70b7d233b207b947d7226f45be228409c6e4236b`.
 
+## U10 map outline and package inspection
+
+On 14 November 2026, `.venv/Scripts/python pipeline/fetch_geo.py` fetched the
+registered `naturalearth_110m` URL from `shared/sources.json` and wrote the
+unchanged response to `app/public/data/geo/ne_110m_land.geojson`. It printed:
+
+```text
+Natural Earth land outline: ne_110m_land.geojson, 138160 bytes
+```
+
+Parsing that saved response returned a `FeatureCollection` with 127 features,
+all with `Polygon` geometry. `Get-FileHash -Algorithm SHA256` returned
+`9E0729EE253CA7D7A5C4AE9395FB1902264C5377C52E224D13DD85010E2835D9`.
+This agrees with the earlier verified outline size.
+
+The installed d3-geo package reports version 3.1.2, with its default export
+entry at `dist/d3-geo.mjs`. Reading that file and importing the installed module
+confirmed named exports `geoEqualEarth` and `geoPath`. The installed
+`@types/d3-geo` version is 3.1.1; its declarations include `fitExtent`,
+`GeoProjection`, `GeoPermissibleObjects`, and canvas-context `geoPath`.
+On 14 November 2026, after rebasing U10 onto main with U07, U11 and U15 merged,
+`npm run preview -- --host 127.0.0.1 --port 4173` served the production build.
+The ChatGPT in-app browser opened that URL. Pressing ArrowRight on the Month
+slider produced these real console messages, read through `tab.dev.logs`:
+
+```text
+U10 month change: February; 72.6 ms
+U10 month change: March; 84.0 ms
+```
+
+The first change used Jezero and the second used Shackleton. Both meet U10's
+under-200-ms limit. The loaded asset was `assets/index-fF7l71zp.js`. The March
+Moon ranking displayed 0.987; clicking its first link opened
+`#/card/cell/0?target=shackleton&test=power&month=3` and the loaded card also
+displayed 0.987. The browser's warning/error log was empty. This completes the
+browser check that the original draft could not obtain. Map/card integration
+tests also compare the unrounded scores using the shipped data files.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
