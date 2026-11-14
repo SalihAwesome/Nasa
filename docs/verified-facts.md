@@ -642,6 +642,56 @@ displayed 0.987. The browser's warning/error log was empty. This completes the
 browser check that the original draft could not obtain. Map/card integration
 tests also compare the unrounded scores using the shipped data files.
 
+## U12 validation-site coordinates
+
+Checked on 14 November 2026. The four names, their uses, their source links and
+all five expected checks come from "Proof it works" in `docs/project-brief.md`.
+That brief supplies no coordinates. These opened primary-source pages supply
+the points stored in `shared/validation_sites.json`:
+
+| Site | Latitude | Longitude | Coordinate source and location in the source |
+|---|---:|---:|---|
+| San Francisco Volcanic Field, Arizona | 35.347 | -111.678 | [Smithsonian Global Volcanism Program profile](https://volcano.si.edu/volcano.cfm?vn=329020), Coordinates field: 35.347 degrees N, 111.678 degrees W. |
+| Black Point Lava Flow, Arizona | 35.679609609369 | -111.36428833008 | [NASA Earth Observatory image page](https://science.nasa.gov/earth/earth-observatory/black-point-lava-flow-arizona-40076/), the `lat` and `lng` query parameters of its "View this area in EO Explorer" link. |
+| Haughton crater, Devon Island, Canada | 75.3775 | -89.6536111111111 | [Western University Impact Earth record](https://impact.uwo.ca/impact-craters/map/?crater_id=59), Coordinates field: 75 degrees 22 minutes 39 seconds N; 89 degrees 39 minutes 13 seconds W. |
+| Atacama Desert, Chile | -24.079562 | -69.92608 | [NASA Ames FROST documentation](https://ntrs.nasa.gov/api/citations/20190033373/downloads/20190033373.pdf), section 3.3, page 14, Atacama Y1A. The source prints longitude -69.926080. Section 3.2.1 identifies the location as Yungay. |
+
+The Smithsonian and Impact Earth pages were opened and their coordinate fields
+read. The NASA PDF was opened and its section 3.3 table extracted. Converting
+Haughton's published degrees/minutes/seconds with this PowerShell arithmetic
+returned the decimal coordinates above:
+
+```powershell
+[double](75 + 22/60 + 39/3600)
+-[double](89 + 39/60 + 13/3600)
+```
+
+A real `Invoke-WebRequest` to
+`https://earthobservatory.nasa.gov/images/40076/black-point-lava-flow-arizona`
+returned HTTP 200 and the final NASA Science page above. Its HTML contains this
+location link (HTML entities decoded):
+
+```text
+https://science.nasa.gov/earth/earth-observatory/explorer?lat=35.679609609369&lng=-111.36428833008&zoom=8
+```
+
+Reproduce the extraction from that response's HTML with:
+
+```powershell
+$response = Invoke-WebRequest -Uri 'https://earthobservatory.nasa.gov/images/40076/black-point-lava-flow-arizona'
+$location = [regex]::Match($response.Content, 'href="(https://science\.nasa\.gov/earth/earth-observatory/explorer\?lat=[^"]+)"')
+[System.Net.WebUtility]::HtmlDecode($location.Groups[1].Value)
+```
+
+These sources identify a volcanic-field reference point, an image map center,
+a crater reference point and one Atacama field point. They do not establish
+the exact footprint of the NASA exercises named in the brief. Choosing each
+published point to represent the brief's named region is labelled `default`
+beside the selection reason, separately from the verified coordinates.
+No site coordinate is estimated. None disagrees with a coordinate in the plan,
+which gave none. The percentile tie and month tie conventions are also labelled
+`default`; the top-10-percent pass rule remains the team's original rule.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
@@ -653,4 +703,3 @@ Confirm each of these with a real call or a real document before you use it. The
 - The behavior of the Web Serial API after a cable drop.
 - The grid of `AOD_55` on the regional endpoint. Only the point endpoint was called.
 - Matched slope and roughness layers for Earth and both targets, and a numeric bare-ground layer. U31 confirmed candidate LOLA metadata and downloaded a MOLA roughness grid, but its SRTM and MODIS download attempts did not supply usable Earth layers. See `docs/mobility-sources.md` for the actual calls. On 12 November 2026 the earlier NEO pages for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO` returned the same 255,301-byte page; the later U31 calls identify the retirement notice.
-- The coordinates of the four known sites in `docs/project-brief.md`. The brief gives names and source links only.

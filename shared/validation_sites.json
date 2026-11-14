@@ -1,0 +1,96 @@
+{
+  "source": "docs/project-brief.md",
+  "passRule": { "topPercent": 10, "status": "default", "source": "docs/project-brief.md" },
+  "ranking": {
+    "status": "default",
+    "bestMonth": "Highest site score; earliest calendar month on a tie.",
+    "percentile": "100 * (1 + number of land cells with a strictly higher score) / number of all land cells. Lower is better; equal scores share a rank. Missing-score land cells remain in the denominator."
+  },
+  "sites": [
+    {
+      "id": "san-francisco-volcanic-field",
+      "name": "San Francisco Volcanic Field, Arizona",
+      "use": "Artemis moonwalk rehearsals on lunar-like terrain",
+      "useSource": "https://www.usgs.gov/centers/astrogeology-science-center/news/artemis-iii-mission-tests-san-francisco-volcanic-field",
+      "coordinates": {
+        "lat": 35.347,
+        "lon": -111.678,
+        "status": "verified",
+        "source": {
+          "title": "Smithsonian Global Volcanism Program: San Francisco Volcanic Field",
+          "url": "https://volcano.si.edu/volcano.cfm?vn=329020",
+          "accessed": "2026-11-14",
+          "location": "35.347 degrees N, 111.678 degrees W, from the profile's Coordinates field."
+        }
+      },
+      "pointSelection": { "status": "default", "reason": "Use the published volcanic-field reference point for the region named in docs/project-brief.md. It is not a surveyed Artemis rehearsal location." },
+      "checks": [
+        { "target": "shackleton", "test": "mobility", "expected": "should rank high" },
+        { "target": "shackleton", "test": "navigation", "expected": "should rank low" }
+      ]
+    },
+    {
+      "id": "black-point-lava-flow",
+      "name": "Black Point Lava Flow, Arizona",
+      "use": "Lunar rover field tests",
+      "useSource": "https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/",
+      "coordinates": {
+        "lat": 35.679609609369,
+        "lon": -111.36428833008,
+        "status": "verified",
+        "source": {
+          "title": "NASA Earth Observatory: Black Point Lava Flow, Arizona",
+          "url": "https://science.nasa.gov/earth/earth-observatory/black-point-lava-flow-arizona-40076/",
+          "accessed": "2026-11-14",
+          "location": "The page's View this area in EO Explorer link specifies lat=35.679609609369 and lng=-111.36428833008."
+        }
+      },
+      "pointSelection": { "status": "default", "reason": "Use NASA's published image-location map center for Black Point Lava Flow. It is not a surveyed rover-test traverse." },
+      "checks": [
+        { "target": "shackleton", "test": "mobility", "expected": "should rank high" }
+      ]
+    },
+    {
+      "id": "haughton-crater",
+      "name": "Haughton crater, Devon Island, Canada",
+      "use": "Moon and Mars exploration technology; barren and freezing",
+      "useSource": "https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/",
+      "coordinates": {
+        "lat": 75.3775,
+        "lon": -89.6536111111111,
+        "status": "verified",
+        "source": {
+          "title": "Western University Impact Earth database: Haughton",
+          "url": "https://impact.uwo.ca/impact-craters/map/?crater_id=59",
+          "accessed": "2026-11-14",
+          "location": "75 degrees 22 minutes 39 seconds N; 89 degrees 39 minutes 13 seconds W. Decimal conversion is degrees + minutes / 60 + seconds / 3600; west is negative."
+        }
+      },
+      "pointSelection": { "status": "default", "reason": "Use the database's crater reference point for the site named in docs/project-brief.md. It does not locate every field experiment in the crater." },
+      "checks": [
+        { "target": "jezero", "test": "mobility", "expected": "should rank high" }
+      ]
+    },
+    {
+      "id": "atacama-desert",
+      "name": "Atacama Desert, Chile",
+      "use": "Stand-in for dry, rugged Mars terrain",
+      "useSource": "https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/",
+      "coordinates": {
+        "lat": -24.079562,
+        "lon": -69.92608,
+        "status": "verified",
+        "source": {
+          "title": "NASA Ames FROST dataset documentation, section 3.3, page 14: Atacama Y1A",
+          "url": "https://ntrs.nasa.gov/api/citations/20190033373/downloads/20190033373.pdf",
+          "accessed": "2026-11-14",
+          "location": "Atacama Location 1: Yungay, terrain Y1A; latitude -24.079562, longitude -69.926080."
+        }
+      },
+      "pointSelection": { "status": "default", "reason": "Use the published NASA Yungay Y1A field point as one representative location in the Atacama Desert named in docs/project-brief.md. One cell does not represent the entire desert." },
+      "checks": [
+        { "target": "jezero", "test": "science_tools", "expected": "should rank high" }
+      ]
+    }
+  ]
+}
