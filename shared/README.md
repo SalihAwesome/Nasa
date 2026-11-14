@@ -37,3 +37,24 @@ and raises `RegistryError` with a field path for malformed data. The separate
 
 U02 has no HUMAN TASK line. The actual field location, log start, calibration,
 hardware work, and field collection remain for the team and their later units.
+
+## U06 target settings and limits
+
+`loadTargetSettings()` in `app/src/data/targets.ts` reads `targets.json` and
+`limits.json`; `parseTargets` and `parseLimits` accept untrusted input and raise
+`RegistryError` with the field path when it is malformed.
+
+Each target records `horizons.center` and `horizons.site.value`. The site's
+`status` applies to the physical coordinates, whose `citation` remains null
+with a reason until the team supplies it. The successful Horizons recipe is
+recorded in `docs/verified-facts.md`; that does not supply a site citation.
+
+Each card channel's `status: default` applies to its D1 tolerance. `valueFile`
+and `sourceId` identify scientific data, not the tolerance's provenance. All
+six Shackleton references remain null with reasons. Jezero references the U07
+output and the registered MEDA source; this loader validates the reference
+without requiring that later output to exist or inventing its contents.
+
+The six `card` limits and three `sunPanel` limits retain the brief's exact text,
+including its Markdown citation. Tests compare them against the source document.
+The Sun titles are short verbatim phrases from the corresponding team text.

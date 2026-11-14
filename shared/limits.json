@@ -1,0 +1,51 @@
+{
+  "card": [
+    {
+      "title": "Gravity",
+      "text": "About one-sixth of Earth's on the Moon and one-third on Mars. This matters most for mobility tests.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Air",
+      "text": "The Moon has none and Mars has very little. This changes how hardware cools and how dust behaves.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Space radiation",
+      "text": "Earth's atmosphere and magnetic field block it at every site.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Day length on the Moon",
+      "text": "One lunar day lasts about 29.5 Earth days, so heating and cooling cycles are far slower.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Deep cold",
+      "text": "Permanently shadowed lunar craters reach about -203 C ([USGS](https://www.usgs.gov/centers/astrogeology-science-center/news/artemis-iii-mission-tests-san-francisco-volcanic-field)).",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Lunar dust",
+      "text": "It is not carried by wind, so Earth dust data says little about it. The dust row applies to Mars only.",
+      "source": "docs/project-brief.md"
+    }
+  ],
+  "sunPanel": [
+    {
+      "title": "Earth's Sun",
+      "text": "Earth's Sun crosses the sky about 30 times faster, because one lunar day lasts about 29.5 Earth days. The match is in angle, not in duration.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "Earth's air",
+      "text": "Earth's air scatters light into shadows. Lunar shadows are far darker.",
+      "source": "docs/project-brief.md"
+    },
+    {
+      "title": "lunar terrain",
+      "text": "We do not model shadows cast by lunar terrain. That belongs to the CLPS challenge and we leave it out.",
+      "source": "docs/project-brief.md"
+    }
+  ]
+}

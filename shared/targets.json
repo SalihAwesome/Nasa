@@ -1,0 +1,142 @@
+[
+  {
+    "id": "shackleton",
+    "horizons": {
+      "center": "coord@301",
+      "site": {
+        "value": "222.69,-89.45,0",
+        "status": "default",
+        "citation": null,
+        "reasons": {
+          "citation": "The team has not supplied a citation for these coordinates."
+        }
+      }
+    },
+    "channels": {
+      "ground_temp": {
+        "tolerance": 10,
+        "unit": "C",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      },
+      "reflectivity": {
+        "tolerance": 0.1,
+        "unit": "ratio",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      },
+      "uv": {
+        "tolerance": 2,
+        "unit": "UV index",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      },
+      "air_temp": {
+        "tolerance": 10,
+        "unit": "C",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      },
+      "humidity": {
+        "tolerance": 20,
+        "unit": "%",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      },
+      "pressure": {
+        "tolerance": 50,
+        "unit": "hPa",
+        "status": "default",
+        "valueFile": null,
+        "sourceId": null,
+        "reasons": {
+          "valueFile": "No sourced value in the repo.",
+          "sourceId": "No sourced value in the repo."
+        }
+      }
+    }
+  },
+  {
+    "id": "jezero",
+    "horizons": {
+      "center": "coord@499",
+      "site": {
+        "value": "-77.45,18.44,0",
+        "status": "default",
+        "citation": null,
+        "reasons": {
+          "citation": "The team has not supplied a citation for these coordinates."
+        }
+      }
+    },
+    "channels": {
+      "ground_temp": {
+        "tolerance": 10,
+        "unit": "C",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      },
+      "reflectivity": {
+        "tolerance": 0.1,
+        "unit": "ratio",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      },
+      "uv": {
+        "tolerance": 2,
+        "unit": "UV index",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      },
+      "air_temp": {
+        "tolerance": 10,
+        "unit": "C",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      },
+      "humidity": {
+        "tolerance": 20,
+        "unit": "%",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      },
+      "pressure": {
+        "tolerance": 50,
+        "unit": "hPa",
+        "status": "default",
+        "valueFile": "app/public/data/mars/jezero-card.json",
+        "sourceId": "meda"
+      }
+    }
+  }
+]
