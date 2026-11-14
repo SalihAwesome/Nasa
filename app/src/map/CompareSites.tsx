@@ -83,10 +83,11 @@ function CompareForm({ data, hash }: { data: MapData; hash: string }) {
       {sameCell && <p role="status">Choose two different land cells.</p>}
     </form>
     {result && layer && resultTest && scores && selection && <section className="feature-panel" aria-labelledby="comparison-results">
-      <h2 id="comparison-results">Comparison results</h2>
+      <h2 id="comparison-results">How the two sites compare</h2>
+      <p className="section-explanation">Read across each row to compare the two sites. The overall match shows how closely each site fits the chosen mission target.</p>
       <p className="feature-muted">{targets[selection.id]} · {testLabels[resultTest.id] ?? resultTest.id} · {months[result.month - 1]}</p>
       <div className="compare-table-scroll" tabIndex={0} role="region" aria-label="Side-by-side site scores">
-        <table className="compare-table">
+        <table className="compare-table" aria-labelledby="comparison-results">
           <thead><tr><th scope="col">Quantity</th><th scope="col">{result.nameA}</th><th scope="col">{result.nameB}</th></tr></thead>
           <tbody>
             <tr><th scope="row">Overall match</th>{[result.a, result.b].map(index => {

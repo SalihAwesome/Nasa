@@ -64,7 +64,7 @@ export function FidelityCard({ card }: { card: CardModel }) {
   const compare = new URLSearchParams({ cell: String(card.cell.index), target: card.target, test: card.test.id, month: String(card.month) })
   return <article className="fidelity-card">
     <header className="card-heading">
-      <div><h3>{card.isPod ? 'Qatar card' : `Land cell ${card.cell.index}`}</h3>
+      <div><h3>{card.isPod ? 'Qatar sensor site' : `Earth site at ${number(lat)}°, ${number(lon)}°`}</h3>
         {card.simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
         <p className="card-coordinates">{number(lat)}°, {number(lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p>
         {place && <p>Nearest mapped place: <strong>{place.name}</strong> · {place.distanceKm} km away</p>}
@@ -76,17 +76,18 @@ export function FidelityCard({ card }: { card: CardModel }) {
       {card.siteNote && <p className="card-basis">{card.siteNote}</p>}
     </header>
     <section className="card-combined" aria-labelledby="card-combined-heading">
-      <div><h3 id="card-combined-heading">{tests[card.test.id]} match</h3><p className="card-total">
+      <div><h3 id="card-combined-heading">Overall {tests[card.test.id].toLowerCase()} match score</h3><p className="card-total">
         {typeof card.combined.score === 'number' ? number(card.combined.score) : 'no score'}
       </p>{typeof card.combined.score === 'number' && <CoverageNote missing={card.combined.missing} card={card} />}</div>
       <div>{!card.test.enabled && <p>{card.test.reason}</p>}
+        <p className="section-explanation">This score combines the available conditions for your chosen test. A score of 1 is the closest match on this scale.</p>
         <p>Weights and tolerances are defaults. The weighted mean uses only rows with a score.</p>
         {card.combined.missing.length > 0 && <p>Omitted from the mean: {card.combined.missing.map(id => [...card.rows, ...card.sunRows].find(row => row.id === id)?.label ?? id).join(', ')}.</p>}
         <p>Not built for this test: {card.test.notBuilt.join(', ')}.</p></div>
     </section>
     <section className="card-sun" aria-labelledby="card-sun-heading">
-      <h3 id="card-sun-heading">Sun comparisons</h3>
-      <p>Precomputed Sun estimates for the selected Earth month and target window.</p>
+      <h3 id="card-sun-heading">How sunlight compares</h3>
+      <p className="section-explanation">Compare the Sun’s highest point, time spent low in the sky, and movement along the horizon for the selected month and mission target.</p>
       <dl>{card.sunRows.map(row => <div key={row.id} data-sun-quantity={row.id}>
         <dt>{row.label}</dt>
         <dd><span>Earth: <Value reading={row.earth} /></span><span>Target: <Value reading={row.target} /></span>
@@ -97,7 +98,8 @@ export function FidelityCard({ card }: { card: CardModel }) {
       </div>)}</dl>
     </section>
     <div className="card-table-scroll" role="region" aria-label="Channel comparisons" tabIndex={0}>
-      <table className="card-table"><caption>Each channel keeps its own score. Only marked rows count toward the selected test.</caption>
+      <table className="card-table"><caption><strong className="table-title">Earth and target conditions, side by side</strong>
+        <span className="section-explanation">Read across each row to compare a condition. Rows marked “Counts” contribute to the overall match.</span></caption>
         <thead><tr><th scope="col">Quantity</th><th scope="col">Earth value</th><th scope="col">Target value</th><th scope="col">Tolerance</th><th scope="col">Score</th><th scope="col">Test role</th></tr></thead>
         <tbody>{card.rows.map(row => <tr data-channel={row.id} key={row.id}>
           <th scope="row">{row.label}</th>
@@ -114,7 +116,7 @@ export function FidelityCard({ card }: { card: CardModel }) {
       </table>
     </div>
     <aside className="card-limits" aria-labelledby="card-limits-heading" data-limits-block="true">
-      <h3 id="card-limits-heading">Where Earth fails</h3>
+      <h3 id="card-limits-heading">What Earth tests can’t reproduce</h3>
       <p>These conditions are never scored. Source: docs/project-brief.md.</p>
       <dl>{card.limits.map(limit => <div key={limit.title}><dt>{limit.title}</dt><dd><SourceText text={limit.text} /></dd></div>)}</dl>
     </aside>

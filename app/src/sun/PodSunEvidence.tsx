@@ -49,6 +49,8 @@ function PodLightChart({ comparison, selectedTime }: { comparison: Comparison; s
   const selectedLux = light.find(point => point.time === selectedTime)?.lux
   const cursorPosition = selectedTime === null ? null : x(selectedTime)
   return <figure className="pod-sun-figure">
+    <h4>Predicted Sun height and recorded light over time</h4>
+    <p className="section-explanation">The left scale shows Sun height in degrees. The right scale shows light readings from the pod in lux. Both use the same clock.</p>
     <figcaption className="pod-sun-keys">
       {samples.length > 0 && <span className="pod-sun-elevation">
         <i aria-hidden="true" /><span><strong>Predicted elevation</strong><small>Left axis · degrees</small></span>
@@ -174,7 +176,8 @@ export function PodSunEvidence({ comparison }: { comparison: Comparison }) {
     <div className="pod-sun-stage" data-scroll-playing={scrollPlaying || undefined} ref={stage}>
       {showSky && <div className="pod-sky">
         <div className="pod-sky-visual">
-          <h4>3D sky at the pod</h4>
+          <h4>Predicted Sun path at the Qatar sensor site</h4>
+          <p className="section-explanation">Drag the view to rotate it, or move the time slider to see where the Sun is predicted to be.</p>
           <SkyView label="Pod-site Sun" rows={sky} index={index} camera={camera} onCamera={setCamera} />
           <div className="pod-sky-legend sun-legend">
             <span><i />Above horizon</span><span><i />Below horizon</span>
@@ -247,6 +250,7 @@ export function PodSunSection() {
   }, [])
   return <section className="sun-chart pod-sun-section" aria-labelledby="pod-sun-heading">
     <h3 id="pod-sun-heading">Sun prediction vs. pod light</h3>
+    <p className="section-explanation">Check how closely the predicted sunrise, brightest point, and sunset line up with changes in recorded light.</p>
     {comparison ? <PodSunEvidence comparison={comparison} /> : logError
       ? <p role="alert">Could not load the pod light recording.</p>
       : <p role="status">Loading the pod light comparison…</p>}

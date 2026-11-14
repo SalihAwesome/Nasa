@@ -111,9 +111,10 @@ export function GroundTemperature({ log }: { log: PodLog }) {
 
   return <section className="ground-temperature" aria-labelledby="ground-temperature-heading">
     <div className="ground-temperature-heading">
-      <h2 id="ground-temperature-heading">Ground temperature at two depths</h2>
+      <h2 id="ground-temperature-heading">Surface temperature and temperature 10 cm down</h2>
       {log.simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
     </div>
+    <p className="section-explanation">Follow both temperature lines to see how much the ground heats up and how long it takes for the warmth to reach the deeper sensor.</p>
     <p className="ground-temperature-note">First 24 hours of the recording · UTC</p>
     <div className="ground-temperature-metrics">
       <div><h3>Peak delay at 10 cm</h3>

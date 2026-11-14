@@ -34,7 +34,7 @@ test('U22 lets users select Mobility and see why its score is unavailable', asyn
   const html = renderToStaticMarkup(<FidelityCard card={card} />)
   expect(card.test.id).toBe('mobility')
   expect(typeof card.combined.score).not.toBe('number')
-  expect(html).toContain('Mobility match')
+  expect(html).toContain('Overall mobility match score')
   expect(html).toContain(cardTests.find(test => test.id === 'mobility')?.reason)
 })
 

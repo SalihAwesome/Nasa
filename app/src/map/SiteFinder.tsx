@@ -74,7 +74,7 @@ export function MapView({ data }: { data: MapData }) {
   const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
   return <div className="site-finder">
     <div className="map-controls">
-      <label>Target<select value={targetId} onChange={event => { setTargetId(event.target.value); setHovered(null) }}>
+      <label>Mission target<select value={targetId} onChange={event => { setTargetId(event.target.value); setHovered(null) }}>
         {data.targets.map(target => <option key={target.id} value={target.id}>{targetLabels[target.id]}</option>)}
       </select></label>
       <label>Test<select value={testId} onChange={event => setTestId(event.target.value)} aria-describedby="disabled-tests">
@@ -93,7 +93,8 @@ export function MapView({ data }: { data: MapData }) {
     </div>
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
-        <div className="map-caption"><h2 id="map-title">{monthLabels[month - 1]} land-cell matches</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
+        <div className="map-caption"><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
+        <p className="section-explanation">The colors show how closely each area matches the chosen mission target. A score of 1 is the closest match on this scale. Select an area to see its conditions.</p>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
         <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
           onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
@@ -110,7 +111,9 @@ export function MapView({ data }: { data: MapData }) {
         </div>
       </section>
       <aside className="rank-panel" aria-labelledby="ranking-title">
-        <h2 id="ranking-title">Top 20 cells</h2><p className="map-meta">{targetLabels[targetId]} · {testLabels[testId]} · {monthLabels[month - 1]}</p>
+        <h2 id="ranking-title">20 highest-scoring Earth areas</h2>
+        <p className="section-explanation">Ranked by match score. Open any row to see the conditions behind its score.</p>
+        <p className="map-meta">{targetLabels[targetId]} · {testLabels[testId]} · {monthLabels[month - 1]}</p>
         <p className="map-meta" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
         {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={cellLink(entry.index)}>
           <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{entry.score.toFixed(3)}</strong>
@@ -134,6 +137,6 @@ export default function SiteFinder() {
     return () => { active = false }
   }, [])
   if (error) return <section className="placeholder" role="alert"><h2>Map could not load</h2><p>{error}</p><button onClick={() => window.location.reload()}>Retry</button></section>
-  if (!data) return <><TestAvailability /><section className="placeholder" role="status"><h2>Not available yet</h2><p>Loading the map and all monthly layers from this build…</p></section></>
+  if (!data) return <><TestAvailability /><section className="placeholder" role="status"><h2>Loading the Earth test site map</h2><p>Preparing the globe and monthly match scores…</p></section></>
   return <MapView data={data} />
 }

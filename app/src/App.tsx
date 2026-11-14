@@ -13,20 +13,20 @@ import './styles/features.css'
 
 // View names and purpose: docs/mission-plan.md. Routes: software-plan.md, U28.
 const views = {
-  map: { heading: 'Site finder', description: 'Compare Earth sites for a chosen target, test and month.' },
-  card: { heading: 'Fidelity card', description: 'Inspect the quantities, evidence and limits for a selected site.' },
-  sun: { heading: 'Sun panel', description: 'Compare the target’s Sun path with the path at an Earth site.' },
-  truth: { heading: 'Ground truth', description: 'Compare pod measurements with satellite estimates and a Mars reference.' },
-  live: { heading: 'Live panel', description: 'Follow the sensor pod as measurements arrive.' },
-  compare: { heading: 'Compare two sites', description: 'Compare two Earth sites for the same target, test, and month.' },
-  ask: { heading: 'Ask Proving Ground', description: 'Ask about the website, its data, or how the project works.' },
+  map: { heading: 'Find Earth sites to test Moon and Mars equipment', description: 'Proving Ground helps mission teams find places on Earth to test equipment before sending it to the Moon or Mars. Pick a mission target and a month to see where Earth conditions are most similar.' },
+  card: { heading: 'How this site matches the mission target', description: 'See which conditions are similar, which measurements are missing, and what you would still need to test away from Earth.' },
+  sun: { heading: 'Compare sunlight on Earth, the Moon, and Mars', description: 'Choose a Moon or Mars target to see how high the Sun rises and which direction it moves compared with a location on Earth.' },
+  truth: { heading: 'Check estimates against field measurements', description: 'See how readings from the Qatar sensor pod compare with satellite estimates for the same site and readings from NASA’s Perseverance rover on Mars.' },
+  live: { heading: 'Watch the Qatar sensor pod', description: 'Connect the field sensor pod or replay a sample recording to watch temperature, humidity, light, and other readings update.' },
+  compare: { heading: 'Compare two Earth test sites', description: 'Use the same mission target, test, and month to see how two locations compare on the overall match score and individual conditions.' },
+  ask: { heading: 'Ask Proving Ground', description: 'Ask what a score means, how to use a tool, or where the data comes from. Answers draw on this project’s documentation and website source.' },
 }
 
 const navigation = [
-  { key: 'map', label: 'Site finder', href: '#/map' },
-  { key: 'sun', label: 'Sun panel', href: '#/sun' },
-  { key: 'truth', label: 'Ground truth', href: '#/truth' },
-  { key: 'live', label: 'Live panel', href: '#/live' },
+  { key: 'map', label: 'Find test sites', href: '#/map' },
+  { key: 'sun', label: 'Compare sunlight', href: '#/sun' },
+  { key: 'truth', label: 'Field measurements', href: '#/truth' },
+  { key: 'live', label: 'Live sensor readings', href: '#/live' },
   { key: 'compare', label: 'Compare sites', href: '#/compare' },
 ]
 
@@ -82,7 +82,7 @@ function App() {
         document.getElementById('main-content')?.focus()
       }}>Skip to content</a>
       <header className="app-header">
-        <a className="brand" href="#/map">Proving Ground<span>Earth tests. Planetary questions.</span></a>
+        <a className="brand" href="#/map">Proving Ground</a>
       </header>
       <nav className="app-nav" aria-label="Main navigation">
         {navigation.map(item => <a key={item.key} href={item.href}
@@ -94,7 +94,7 @@ function App() {
       </nav>
       <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
         {view ? <>
-          {route === 'card' && <a className="back-link" href="#/map">Back to site finder</a>}
+          {route === 'card' && <a className="back-link" href="#/map">Back to the Earth test map</a>}
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
           {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
@@ -119,7 +119,7 @@ function App() {
         </>}
       </main>
       <footer className="app-footer">
-        <p>Evidence labels used throughout the app</p>
+        <h2>How to read the evidence labels</h2>
         <ul className="evidence-key" aria-label="Evidence label key">
           <li><span className="evidence-tag evidence-tag--estimate">estimate</span><span>Model or satellite estimate</span></li>
           <li><span className="evidence-tag evidence-tag--measured">measured</span><span>Pod observation</span></li>

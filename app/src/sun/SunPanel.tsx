@@ -55,7 +55,10 @@ function SkyPlot({ id, label, source, rows, numbers, mode, range, index, camera,
 }) {
   const point = rows[index]
   return <article className={'sun-chart sun-chart-' + id} aria-label={label}>
-    <header className="sun-chart-header"><h3>{label}</h3><span className="sun-note">{duration(rows)} of samples</span></header>
+    <header className="sun-chart-header"><h3>{mode === 'sky' ? 'Sun path' : 'Sun height and direction'} at {label}</h3><span className="sun-note">{duration(rows)} of samples</span></header>
+    <p className="section-explanation">{mode === 'sky'
+      ? 'The bright dot shows the Sun at the selected time. The ring marks the horizon, and the dashed path shows when the Sun is below it.'
+      : 'Read left to right for compass direction and bottom to top for Sun height. The horizontal line at 0° marks the horizon.'}</p>
     {mode === 'sky'
       ? <SkyView label={label} rows={rows} index={index} camera={camera} onCamera={onCamera} />
       : <ElevationChart label={label} rows={rows} point={point} range={range} />}
@@ -231,7 +234,7 @@ export function SunPanel({ hash }: { hash: string }) {
   }, [attempt])
   const change = (patch: Partial<SunSelection>) => { window.location.hash = sunHash({ ...selection, ...patch }) }
   return <section className="sun-panel" aria-labelledby="sun-comparison-heading">
-    <h2 id="sun-comparison-heading">Compare Sun paths</h2>
+    <h2 id="sun-comparison-heading">Choose a Moon or Mars target and an Earth location</h2>
     <div className="sun-selectors">
       <div><label htmlFor="sun-target">Target</label><select id="sun-target" value={selection.target} onChange={event => change({ target: event.target.value === 'jezero' ? 'jezero' : 'shackleton' })}>
         <option value="shackleton">Shackleton · Moon</option><option value="jezero">Jezero · Mars</option>

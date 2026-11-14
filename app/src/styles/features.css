@@ -11,6 +11,33 @@
 .theme-toggle:hover, .feature-panel button:hover { border-color: var(--color-accent); }
 .app-nav .ask-nav { color: var(--color-accent); background: var(--color-accent-soft); }
 h1 { font-weight: 700; }
+main > h1 { max-inline-size: 25ch; font-size: clamp(2.3rem, 5vw, 3.65rem); }
+main > .view-description { font-size: clamp(1.2rem, 2.3vw, 1.45rem); line-height: 1.5; }
+main h2, main :is(.map-caption, .rank-panel) h2, .app-footer h2 {
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 700;
+  text-wrap: balance;
+}
+main h3, main h4, main .table-title,
+main :is(.fidelity-card, .channel-curve, .ground-temperature-metrics, .pod-sky-visual) :is(h3, h4) {
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  line-height: 1.25;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.table-title { display: block; color: var(--color-text); }
+main .section-explanation {
+  display: block;
+  font-size: clamp(1.06rem, 1.35vw, 1.19rem);
+  line-height: 1.5;
+  margin-block: var(--space-2) var(--space-3);
+  color: var(--color-muted);
+}
+main caption.section-explanation { display: table-caption; text-align: left; caption-side: top; }
+.app-nav a, .theme-toggle { font-size: var(--text-body); }
+.sun-chart-header h3 { flex: 1 1 15rem; }
+.map-caption h2 { flex: 1 1 12rem; }
+.pod-sun-figure > h4 { margin-block: 0 var(--space-2); }
 p { text-wrap: pretty; }
 .feature-panel {
   margin-block: var(--space-6);
