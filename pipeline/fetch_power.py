@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = ROOT / "data/raw/power"
 MONTHS = ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
 # Units and grid assignments: docs/verified-facts.md, NASA POWER.
-UNITS = {"TS_RANGE": "C", "T2M": "C", "RH2M": "%", "PS": "kPa", "ALLSKY_SRF_ALB": "dimensionless", "ALLSKY_SFC_UV_INDEX": "W m-2 x 40"}
+UNITS = {"TS_RANGE": "C", "T2M": "C", "RH2M": "%", "PS": "kPa", "ALLSKY_SRF_ALB": "dimensionless", "ALLSKY_SFC_UV_INDEX": "W m-2 x 40", "GWETTOP": "1"}
 SOLAR = {"ALLSKY_SRF_ALB", "ALLSKY_SFC_UV_INDEX"}
 
 
@@ -60,7 +60,8 @@ def parameters() -> tuple[str, ...]:
     """Use U02's mappings, in the six-parameter order specified by U04."""
     channels = {c["id"]: c for c in load_registries()["channels"]}
     result = tuple(channels[key]["powerParameter"] for key in ("ground_temp", "air_temp", "humidity", "pressure", "reflectivity", "uv"))
-    if len(set(result)) != 6 or set(result) != set(UNITS):
+    # U31 may explicitly request GWETTOP; the U04 default remains six layers.
+    if len(set(result)) != 6 or set(result) != set(UNITS) - {"GWETTOP"}:
         raise ValueError("U02 POWER mappings do not match U04's six parameters")
     return result
 
@@ -170,7 +171,7 @@ def fetch_all(raw_dir: Path = RAW_DIR, *, session=None, sleep: Callable = time.s
     selected_parameters = parameters() if selected_parameters is None else tuple(selected_parameters)
     selected_tiles = tiles() if selected_tiles is None else tuple(selected_tiles)
     if any(parameter not in UNITS for parameter in selected_parameters):
-        raise ValueError("Only the six U04 parameters may be fetched")
+        raise ValueError("Only verified POWER parameters may be fetched")
     raw_dir = Path(raw_dir)
     raw_dir.mkdir(parents=True, exist_ok=True)
     policy = _policy()
@@ -237,12 +238,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
     parser.add_argument("--check", action="store_true", help="Check the full cache without fetch requests, then compare two live point responses")
+    parser.add_argument("--parameters", nargs='+', choices=tuple(UNITS), help="Explicit parameter subset; defaults to the six U04 layers")
     args = parser.parse_args()
     try:
         if args.check:
             check_download(args.raw_dir)
             return 0
-        result = fetch_all(args.raw_dir, progress=lambda line: print(line, flush=True))
+        result = fetch_all(args.raw_dir, selected_parameters=args.parameters, progress=lambda line: print(line, flush=True))
         return 1 if result.failed else 0
     except (GridError, TileFetchError, OSError, ValueError, AssertionError) as error:
         print(str(error), file=sys.stderr, flush=True)

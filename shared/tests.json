@@ -17,7 +17,7 @@
       "dryness": { "value": 1, "status": "default" }
     },
     "enabled": false,
-    "reason": "Disabled until U31 supplies slope and roughness. Dryness alone does not rank terrain.",
+    "reason": "U31 confirmed dryness only. Matched slope and roughness layers and target values are unavailable. Dryness alone does not rank terrain.",
     "notBuilt": ["Slope and roughness", "Bare ground"]
   },
   {
