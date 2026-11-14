@@ -13,6 +13,14 @@ The app is one static web app with four views: the site finder, the Sun panel, t
 - Build every pod unit against the simulator from U03 first. The real pod log arrives late.
 - A line marked HUMAN TASK is work for a person. An agent does not attempt it.
 
+## Feature follow-up, 14 November 2026
+
+The user requested all five selectable tests, clearer measurements, and removal of the word "partial" from option names. The follow-up uses verified ETOPO1, LOLA, MOLA and Copernicus LC100 numeric products for regional slope, relief roughness and bare-ground fraction. `docs/mobility-sources.md` records the method, source metadata, limitations and reproduction commands. Sampling choices, radii and tolerances are defaults in `shared/terrain.json`; numeric target terrain values are generated pipeline output.
+
+Mobility weights slope, roughness, bare ground and dryness. Communications weights slope, roughness and bare ground. Both require all three terrain inputs to issue a score. Navigation adds the same terrain comparisons to its three Sun quantities. Science tools adds bare ground to temperature, UV and dryness. Missing target UV and sunlight are still disclosed; removing an option suffix does not fill missing measurements. Equal relative weights are defaults. Power retains its original weights. The U22 pod measurements remain measured; terrain, cover and climatology remain estimates.
+
+Scores use a 0–100% match index, with available-quantity counts and units. This index is not a probability of mission success. Validation still reports actual outcomes without changing the fixed pass rule. Earlier unit descriptions below record the original scope.
+
 ## Decisions that shape every unit
 
 | Decision | Choice | Reason |

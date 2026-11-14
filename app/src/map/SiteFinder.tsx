@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import testData from '../../../shared/tests.json'
 import { loadRegistries } from '../data/registries'
 import { cardHash } from '../card/cardData'
+import { matchPercent, displayReading } from '../score/format'
+import { terrainSettings } from '../data/terrain'
 import { coverage } from '../score/combine'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
@@ -24,7 +26,7 @@ const monthLabels = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFo
 
 function TestAvailability() {
   return <details id="disabled-tests" className="test-availability"><summary>Test availability</summary>
-    <ul>{definitions.filter(test => !test.enabled).map(test => <li key={test.id}><strong>{testLabels[test.id]}.</strong> {test.reason}</li>)}</ul>
+    <ul>{definitions.filter(test => test.reason).map(test => <li key={test.id}><strong>{testLabels[test.id]}.</strong> {test.reason}</li>)}</ul>
   </details>
 }
 
@@ -79,7 +81,7 @@ export function MapView({ data }: { data: MapData }) {
       </select></label>
       <label>Test<select value={testId} onChange={event => setTestId(event.target.value)} aria-describedby="disabled-tests">
         {definitions.map(test => <option key={test.id} value={test.id} disabled={!test.enabled} title={test.reason}>
-          {testLabels[test.id]}{!test.enabled ? ` — ${test.reason}` : ''}
+          {testLabels[test.id]}{!test.enabled ? ' (unavailable)' : ''}
         </option>)}
       </select></label>
       <label className="month-control" htmlFor="map-month">Month <output htmlFor="map-month">{monthLabels[month - 1]}</output>
@@ -87,6 +89,7 @@ export function MapView({ data }: { data: MapData }) {
           onChange={event => { changeStarted.current = performance.now(); setMonth(Number(event.target.value)) }} />
       </label>
     </div>
+    {definition.reason && <p className="map-meta" role="status">{definition.reason}</p>}
     <div className="map-actions">
       <TestAvailability />
       <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month) })}`}>Compare sites</a>
@@ -94,18 +97,18 @@ export function MapView({ data }: { data: MapData }) {
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
         <div className="map-caption"><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
-        <p className="section-explanation">The colors show how closely each area matches the chosen mission target. A score of 1 is the closest match on this scale. Select an area to see its conditions.</p>
+        <p className="section-explanation">The colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
         <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
           onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
         <div className="map-legend" aria-label="Match score legend"><span>Match</span>{stops.map((stop, index) => <span className="legend-item" key={stop}>
-          <i style={{ background: `var(--color-score-${stop})` }} />{index / (stops.length - 1)}
+          <i style={{ background: `var(--color-score-${stop})` }} />{matchPercent(index / (stops.length - 1))}
         </span>)}<span className="legend-item"><i className="no-score-swatch" />No score</span></div>
         <div className="cell-readout" aria-live="polite">
           {cell && hovered !== null ? <><strong>{cell.lat.toFixed(2)}°, {cell.lon.toFixed(3)}°</strong>
             {nearby && <p>Nearest mapped place: {nearby.name} · {nearby.distanceKm} km away</p>}
-            <span>{scores[hovered].score === null ? 'No score' : `Match ${scores[hovered].score.toFixed(3)} · ${coverageText(scores[hovered].missing)}`}</span>
-            <dl>{channels.map(channel => <div key={channel.id}><dt>{channel.label}</dt><dd>{layer.layers[channel.id].values[hovered]?.toFixed(2) ?? layer.layers[channel.id].missingReason} {channel.unit}</dd></div>)}</dl>
+            <span>{scores[hovered].score === null ? 'No score' : `Match ${matchPercent(scores[hovered].score)} · ${coverageText(scores[hovered].missing)}`}</span>
+            <dl>{channels.map(channel => { const reading = layer.layers[channel.id]; const value = reading.values[hovered]; return <div key={channel.id}><dt>{channel.label}</dt><dd>{value === null ? reading.missingReason : displayReading(value, reading.unit)}</dd></div> })}</dl>
             {scores[hovered].reason && <p>{scores[hovered].reason}</p>}
           </> : <p>Point to a land cell or choose an analog site to see its Earth estimates.</p>}
         </div>
@@ -116,12 +119,13 @@ export function MapView({ data }: { data: MapData }) {
         <p className="map-meta">{targetLabels[targetId]} · {testLabels[testId]} · {monthLabels[month - 1]}</p>
         <p className="map-meta" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
         {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={cellLink(entry.index)}>
-          <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{entry.score.toFixed(3)}</strong>
+          <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{matchPercent(entry.score)}</strong>
           <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.length > 0 && ` · Missing: ${entry.missing.join(', ')}`}</small>
         </a></li>)}</ol> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
         {reasons.length > 0 && <ul className="missing-reasons">{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>}
         <p className="map-meta">Weights and tolerances are defaults. Missing quantities are omitted from the weighted mean.</p>
-        <p className="map-meta">Not built for this test: {definition.notBuilt.join(', ')}.</p>
+        {definition.notBuilt.length > 0 && <p className="map-meta">Not included: {definition.notBuilt.join(', ')}.</p>}
+        {definition.weights.slope && <p className="map-meta">{terrainSettings.note}</p>}
       </aside>
     </div>
     <p className="map-meta">Land outline and place labels: Natural Earth. Grey cells have no score.</p>

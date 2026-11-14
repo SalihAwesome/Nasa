@@ -8,6 +8,7 @@ import { nearestPlace } from './places'
 import type { Place } from './places'
 import type { Cell } from './model'
 import { findPodCell } from '../card/cardData'
+import { createSurface, globePoint } from './surface'
 
 type Point = { x: number; y: number }
 type Gesture = {
@@ -32,6 +33,8 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
   onDraw: () => void
 }) {
   const canvas = useRef<HTMLCanvasElement>(null)
+  const surfaceCanvas = useRef<HTMLCanvasElement>(null)
+  const surfaceRenderer = useRef<ReturnType<typeof createSurface>>(null)
   const frame = useRef<GlobeFrame | null>(null)
   const gesture = useRef<Gesture | null>(null)
   const currentView = useRef(homeView)
@@ -59,6 +62,15 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
   useLayoutEffect(() => { drawComplete.current = onDraw }, [onDraw])
   const activeColors = useRef(colors)
   useLayoutEffect(() => { activeColors.current = colors }, [colors])
+
+  useLayoutEffect(() => {
+    const element = surfaceCanvas.current
+    if (!element) return
+    const renderer = createSurface(element, import.meta.env.BASE_URL + 'data/surfaces/earth.jpg',
+      () => draw.current(), () => draw.current())
+    surfaceRenderer.current = renderer
+    return () => { renderer?.dispose(); surfaceRenderer.current = null }
+  }, [])
 
   function changeView(next: GlobeView) {
     currentView.current = next
@@ -88,8 +100,9 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
         element.height = pxHeight
       }
       ctx.setTransform(pxWidth / width, 0, 0, pxHeight / height, 0, 0)
+      const surfaceReady = surfaceRenderer.current?.draw(currentView.current, width, height) ?? false
       drawGlobe({ ctx, width, height, view: currentView.current, vectors, scores: activeColors.current, palette,
-        land: data.land, countries: data.countries, sites, cities, pin, frame: nextFrame, raster })
+        land: data.land, countries: data.countries, sites, cities, pin, frame: nextFrame, raster, surfaceReady })
       drawComplete.current()
     }
     const observer = new ResizeObserver(() => draw.current())
@@ -194,8 +207,13 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
     gesture.current = null
     setDragging(false)
     if (open && !active.moved) {
-      const index = hit(event)
-      if (index !== null) onOpen(index)
+      const rect = event.currentTarget.getBoundingClientRect()
+      const point = globePoint(currentView.current, rect.width, rect.height, event.clientX - rect.left, event.clientY - rect.top)
+      if (point && currentView.current.zoom >= 4) focusCoordinates(point)
+      else {
+        const index = hit(event)
+        if (index !== null) onOpen(index)
+      }
     }
   }
 
@@ -230,6 +248,7 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
   return <div className="globe-explorer">
     {unavailable ? <p role="status">The globe could not render. Use the ranked list to open a cell’s fidelity card.</p> : <>
       <div className="globe-stage">
+        <canvas ref={surfaceCanvas} className="earth-surface" aria-hidden="true" />
         <canvas ref={canvas} className="earth-globe" tabIndex={0} role="img" aria-label="Interactive Earth globe"
           aria-describedby={instructions} data-dragging={dragging || undefined}
           onPointerDown={press} onPointerMove={move} onPointerUp={event => release(event, true)}
@@ -282,7 +301,9 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
       {coordinate && (coordinateCell === null
         ? <p className="map-meta">No land cell in the dataset at these coordinates.</p>
         : <button type="button" className="globe-site-card" onClick={() => onOpen(coordinateCell)}>Open fidelity card for this cell</button>)}
-      <p id={instructions} className="map-meta globe-help">Drag to rotate. Pinch or use the zoom buttons. Select a land cell to open its fidelity card.
+      <p className="map-meta">Score colors fade at close zoom to reveal the surface. Climate values describe the original grid cell.</p>
+      <p className="map-meta">Surface imagery: NASA Earth Observatory. Coastline and labels: Natural Earth.</p>
+      <p id={instructions} className="map-meta globe-help">Drag to rotate. Pinch or use the zoom buttons. At close zoom, click to pin a location and open its grid-cell card below.
         <span> With the globe focused, use arrow keys to rotate and + or − to zoom.</span>
       </p>
     </>}

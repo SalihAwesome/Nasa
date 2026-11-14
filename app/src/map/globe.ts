@@ -88,13 +88,14 @@ const overlaps = (a: LabelBox, b: LabelBox) =>
   a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
 
 export function drawGlobe({
-  ctx, width, height, view, vectors, scores, palette, land, countries, sites, cities, pin, frame, raster,
+  ctx, width, height, view, vectors, scores, palette, land, countries, sites, cities, pin, frame, raster, surfaceReady,
 }: {
   ctx: CanvasRenderingContext2D; width: number; height: number; view: GlobeView
   vectors: Float64Array; scores: Int16Array; palette: ReturnType<typeof scorePalette>
   land: GeoPermissibleObjects; countries: readonly Place[]; sites: readonly FieldSite[]; frame: GlobeFrame
   cities: readonly Place[]; pin: (Cell & { name: string }) | null
   raster: ReturnType<typeof createScoreRaster>
+  surfaceReady: boolean
 }) {
   const cx = width / 2, cy = height / 2, radius = globeRadius(width, height) * view.zoom
   const projection = geoOrthographic().rotate([-view.lon, -view.lat]).translate([cx, cy]).scale(radius)
@@ -116,13 +117,14 @@ export function drawGlobe({
   ocean.addColorStop(0, '#1a344b')
   ocean.addColorStop(0.73, '#102539')
   ocean.addColorStop(1, '#09141f')
-  ctx.fillStyle = ocean
-  ctx.fillRect(0, 0, width, height)
-
-  ctx.beginPath()
-  path(land)
-  ctx.fillStyle = '#142631'
-  ctx.fill()
+  if (!surfaceReady) {
+    ctx.fillStyle = ocean
+    ctx.fillRect(0, 0, width, height)
+    ctx.beginPath()
+    path(land)
+    ctx.fillStyle = '#142631'
+    ctx.fill()
+  }
 
   ctx.beginPath()
   path(graticule)
@@ -150,16 +152,22 @@ export function drawGlobe({
     const half = Math.max(1, step * (0.55 + 0.45 * depth)) / 2
     const left = Math.max(0, Math.round(px - half)), right = Math.min(rasterWidth, Math.round(px + half))
     const top = Math.max(0, Math.round(py - half)), bottom = Math.min(rasterHeight, Math.round(py + half))
-    for (let row = top * rasterWidth; row < bottom * rasterWidth; row += rasterWidth) {
-      pixels.fill(pixel, row + left, row + right)
+    if (view.zoom < 4) {
+      for (let row = top * rasterWidth; row < bottom * rasterWidth; row += rasterWidth) {
+        pixels.fill(pixel, row + left, row + right)
+      }
     }
   }
-  raster.upload()
-  ctx.drawImage(raster.canvas, 0, 0, width, height)
+  if (view.zoom < 4) {
+    raster.upload()
+    ctx.globalAlpha = surfaceReady ? .78 * Math.max(0, Math.min(1, (4 - view.zoom) / 2)) : 1
+    ctx.drawImage(raster.canvas, 0, 0, width, height)
+    ctx.globalAlpha = 1
+  }
 
   ctx.beginPath()
   path(land)
-  ctx.strokeStyle = 'rgba(180, 216, 225, 0.43)'
+  ctx.strokeStyle = 'rgba(180, 216, 225, 0.6)'
   ctx.lineWidth = 0.75
   ctx.stroke()
   ctx.restore()

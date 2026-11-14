@@ -1,5 +1,7 @@
 import type { GeoPermissibleObjects } from 'd3-geo'
 import { decodeCells, loadMonth, parseEarthManifest } from '../data/earth'
+import { loadTerrainData } from '../data/terrain'
+import { loadMobilityMonth } from '../data/mobility'
 import { parseTargets } from '../data/targets'
 import targetData from '../../../shared/targets.json'
 import { readTargetNumbers } from './model'
@@ -26,7 +28,7 @@ export async function loadMapData() {
   const targets = parseTargets(targetData)
   const [cells, land, countries, months, targetNumbers, sun] = await Promise.all([
     request(`earth/${manifest.cellsFile}`).then(r => r.arrayBuffer()).then(b => decodeCells(b, manifest)),
-    request('geo/ne_110m_land.geojson').then(r => r.json()).then((data: unknown) => {
+    request('geo/ne_50m_land.geojson').then(r => r.json()).then((data: unknown) => {
       if (!data || typeof data !== 'object' || !('type' in data) || data.type !== 'FeatureCollection' || !('features' in data) || !Array.isArray(data.features)) throw new Error('Local land outline is not a FeatureCollection.')
       return data as GeoPermissibleObjects
     }),
@@ -49,6 +51,14 @@ export async function loadMapData() {
     })).then(entries => Object.fromEntries(entries) as Record<string, TargetNumbers>),
     loadSunData(path => fetch(path.startsWith('/') ? `.${path}` : path)),
   ])
+  const mobilityMonths = await Promise.all(months.map(month => loadMobilityMonth(month.month, { earthManifest: manifest, baseUrl: prefix + 'earth/' })))
+  for (const month of months) Object.assign(month.layers, mobilityMonths[month.month - 1].layers)
+  for (const target of targets) {
+    if (target.mobility) targetNumbers[target.id].dryness = { value: target.mobility.dryness.value, unit: target.mobility.dryness.unit }
+  }
+  const terrain = await loadTerrainData({ cellCount: cells.length, baseUrl: prefix })
+  for (const month of months) Object.assign(month.layers, terrain.layers)
+  for (const target of targets) Object.assign(targetNumbers[target.id], terrain.targets[target.id])
   // U15 adds the three Sun quantities to power. Reuse U16's validated pipeline
   // outputs so the map and U11 card compare the same values with U08/U09.
   const sunSettings = targets[0].sun

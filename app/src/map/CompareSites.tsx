@@ -1,116 +1,171 @@
-import { useEffect, useMemo, useState } from 'react'
-import { cardHash, cardTests, findPodCell } from '../card/cardData'
-import { loadRegistries } from '../data/registries'
+import { useEffect, useId, useMemo, useState } from 'react'
+import { cardHash, cardTests } from '../card/cardData'
+import { matchPercent, displayReading, displayTolerance } from '../score/format'
 import { coverage } from '../score/combine'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
-import { fieldSites } from './fieldSites'
 import { computeScores } from './model'
+import type { Cell } from './model'
+import { loadPlaces } from './places'
+import type { Place } from './places'
+import { PlanetGlobe, worldNames } from './PlanetGlobe'
+import type { World } from './PlanetGlobe'
+import { comparisonQuantities, locationName, locationPresets, readLocation } from './comparison'
+import type { ComparisonLocation, ComparisonReading } from './comparison'
 
-const targets = { jezero: 'Jezero crater · Mars', shackleton: 'Shackleton Connecting Ridge · Moon' }
+const worlds: World[] = ['earth', 'moon', 'mars']
+const emptyPlaces: Place[] = []
 const months = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat('en', {
   month: 'long', timeZone: 'UTC',
 }).format(new Date(Date.UTC(2000, index))))
-const { channels, podSite } = loadRegistries()
-const quantities = [...channels.filter(channel => channel.onCard), ...[
-  { id: 'horizon_sweep', label: 'Horizon sweep', unit: '°' },
-  { id: 'low_sun_share', label: 'Low Sun share', unit: '%' },
-  { id: 'peak_elevation', label: 'Peak elevation', unit: '°' },
-]]
-const testLabels: Record<string, string> = { power: 'Power', mobility: 'Mobility', communications: 'Communications', navigation: 'Navigation', science_tools: 'Science tools' }
-const format = new Intl.NumberFormat('en', { maximumFractionDigits: 3 })
 
-function CompareForm({ data, hash }: { data: MapData; hash: string }) {
+function LocationPicker({ label, value, data, cities, onChange }: {
+  label: string; value: ComparisonLocation; data: MapData; cities: readonly Place[]
+  onChange: (site: ComparisonLocation) => void
+}) {
+  const id = useId()
+  const presets = useMemo(() => locationPresets(data), [data])
+  const options = presets.filter(site => site.body === value.body)
+  const landmarks = useMemo(() => value.body === 'earth' ? [
+    ...presets.filter(site => site.body === 'earth'),
+    ...cities.filter(place => place.rank <= 4),
+  ] : presets.filter(site => site.body === value.body), [cities, presets, value.body])
+  const [lat, setLat] = useState(String(value.lat))
+  const [lon, setLon] = useState(String(value.lon))
+  useEffect(() => { setLat(value.lat.toFixed(4)); setLon(value.lon.toFixed(4)) }, [value.lat, value.lon])
+  function choose(point: Cell) {
+    onChange({ body: value.body, ...point, name: locationName(value.body, point, cities, data) })
+  }
+  const selectedPreset = options.findIndex(site => Math.abs(value.lat - site.lat) < .0001 && Math.abs(value.lon - site.lon) < .0001)
+  return <section className="location-picker" aria-labelledby={id}>
+    <h2 id={id}>{label} · {worldNames[value.body]}</h2>
+    <div className="location-selectors">
+      <label>World<select aria-label={label + ' world'} value={value.body} onChange={event => {
+        const body = worlds.find(world => world === event.target.value)
+        const site = presets.find(site => site.body === body)
+        if (site) onChange(site)
+      }}>{worlds.map(world => <option value={world} key={world}>{worldNames[world]}</option>)}</select></label>
+      <label>Saved reference location<select aria-label={label + ' reference location'} value={selectedPreset} onChange={event => {
+        const site = options[Number(event.target.value)]
+        if (site) onChange(site)
+      }}>
+        <option value={-1}>Point selected on globe</option>
+        {options.map((site, index) => <option key={site.name} value={index}>{site.name}</option>)}
+      </select></label>
+    </div>
+    <PlanetGlobe key={value.body} body={value.body} selection={value} landmarks={landmarks} onSelect={choose} />
+    <p className="selected-location" role="status"><strong>{value.name}</strong><span>{value.lat.toFixed(4)}°, {value.lon.toFixed(4)}°</span></p>
+    <form className="coordinate-form" onSubmit={event => {
+      event.preventDefault()
+      const latitude = Number(lat), longitude = Number(lon)
+      if (lat.trim() && lon.trim() && Number.isFinite(latitude) && Number.isFinite(longitude)
+        && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180) choose({ lat: latitude, lon: longitude })
+    }}>
+      <label>Latitude<input aria-label={label + ' latitude'} type="number" step="any" min={-90} max={90} required value={lat} onChange={event => setLat(event.target.value)} /></label>
+      <label>Longitude<input aria-label={label + ' longitude'} type="number" step="any" min={-180} max={180} required value={lon} onChange={event => setLon(event.target.value)} /></label>
+      <button type="submit">Use coordinates</button>
+    </form>
+  </section>
+}
+
+function Reading({ item }: { item: ComparisonReading }) {
+  return item.value === null ? <>Unavailable<small>{item.reason}</small></> : <>
+    {displayReading(item.value, item.unit)}{item.unit === null && ' (unit unstated)'}
+  </>
+}
+
+function Comparison({ data, hash }: { data: MapData; hash: string }) {
   const params = new URLSearchParams(hash.split('?')[1])
-  const pinned = Number(params.get('cell') ?? -1)
-  const sites = useMemo(() => {
-    const choices = fieldSites(data).flatMap(site => site.index === null ? [] : [{ ...site, index: site.index }])
-    if (podSite.lat !== null && podSite.lon !== null) {
-      let index: number | null = null
-      try { index = findPodCell(data, podSite) } catch { /* The pod has no shipped land cell. */ }
-      if (index !== null) choices.unshift({ id: 'pod', name: 'Qatar pod site', index, lat: podSite.lat, lon: podSite.lon })
-    }
-    if (Number.isSafeInteger(pinned) && data.cells[pinned]) {
-      choices.unshift({ id: 'selected', name: 'Selected map cell', index: pinned, ...data.cells[pinned] })
-    }
-    return choices
-  }, [data, pinned])
-  const [siteA, setSiteA] = useState(sites[0]?.id ?? '')
-  const [siteB, setSiteB] = useState(sites.find(site => site.index !== sites[0]?.index)?.id ?? '')
-  const [targetId, setTargetId] = useState(params.get('target') === 'shackleton' ? 'shackleton' : 'jezero')
-  const [testId, setTestId] = useState(params.get('test') ?? 'power')
+  const presets = useMemo(() => locationPresets(data), [data])
+  const pinnedIndex = Number(params.get('cell') ?? -1)
+  const pinned = Number.isSafeInteger(pinnedIndex) ? data.cells[pinnedIndex] : undefined
+  const [a, setA] = useState<ComparisonLocation>(() => pinned ? { ...pinned, body: 'earth', name: 'Selected Earth area' } : presets[0])
+  const [b, setB] = useState<ComparisonLocation>(() => presets.find(site => site.body === (params.get('target') === 'shackleton' ? 'moon' : 'mars')) ?? presets[1])
+  const [cities, setCities] = useState(emptyPlaces)
+  const [cityError, setCityError] = useState(false)
   const requestedMonth = Number(params.get('month') ?? 1)
   const [month, setMonth] = useState(months[requestedMonth - 1] ? requestedMonth : 1)
-  const [result, setResult] = useState<{ a: number; b: number; nameA: string; nameB: string; target: string; test: string; month: number } | null>(null)
-  const a = sites.find(site => site.id === siteA), b = sites.find(site => site.id === siteB)
-  const sameCell = a?.index === b?.index
-  const availableTests = cardTests.filter(test => test.enabled)
-  const test = availableTests.find(test => test.id === testId) ?? availableTests[0]
-  const selection = result && data.targets.find(target => target.id === result.target)
-  const layer = result && data.months[result.month - 1]
-  const resultTest = result && availableTests.find(test => test.id === result.test)
-  const scores = useMemo(() => selection && layer && resultTest
-    ? computeScores(layer, selection, data.targetNumbers[selection.id], resultTest) : null,
-  [data.targetNumbers, layer, resultTest, selection])
+  const [result, setResult] = useState<{ a: ComparisonLocation; b: ComparisonLocation; month: number } | null>(null)
+  const [targetId, setTargetId] = useState(params.get('target') === 'shackleton' ? 'shackleton' : 'jezero')
+  const tests = cardTests.filter(item => item.enabled)
+  const [testId, setTestId] = useState(tests.find(item => item.id === params.get('test'))?.id ?? tests[0]?.id ?? 'power')
 
-  const siteSelect = (label: string, value: string, setValue: (value: string) => void) =>
-    <label>{label}<select value={value} onChange={event => setValue(event.target.value)}>
-      {sites.map(site => <option key={site.id} value={site.id}>{site.name} · {site.lat.toFixed(2)}°, {site.lon.toFixed(2)}°</option>)}
-    </select></label>
+  useEffect(() => {
+    let active = true
+    loadPlaces().then(value => { if (active) setCities(value) }).catch(() => { if (active) setCityError(true) })
+    return () => { active = false }
+  }, [])
+  const readings = useMemo(() => result && [readLocation(data, result.a, result.month), readLocation(data, result.b, result.month)], [data, result])
+  const scoreRows = useMemo(() => {
+    if (!result || !readings) return null
+    const target = data.targets.find(item => item.id === targetId)
+    const test = tests.find(item => item.id === testId)
+    if (!target || !test) return null
+    const scores = computeScores(data.months[result.month - 1], target, data.targetNumbers[target.id], test)
+    return { target, test, scores }
+  }, [data, readings, result, targetId, testId])
 
+  const change = (setter: (site: ComparisonLocation) => void) => (site: ComparisonLocation) => { setter(site); setResult(null) }
   return <section className="compare-workspace" aria-label="Site comparison">
-    <form className="feature-panel compare-form" onChange={() => setResult(null)} onSubmit={event => {
-      event.preventDefault()
-      if (!a || !b || sameCell || !test) return
-      setResult({ a: a.index, b: b.index, nameA: a.name, nameB: b.name, target: targetId, test: test.id, month })
-    }}>
-      <div className="compare-pickers">
-        {siteSelect('Site A', siteA, setSiteA)}
-        {siteSelect('Site B', siteB, setSiteB)}
-        <button className="feature-primary" type="submit" disabled={!a || !b || sameCell || !test}>Compare sites</button>
-      </div>
-      <div className="compare-settings">
-        <label>Target<select value={targetId} onChange={event => setTargetId(event.target.value)}>
-          {Object.entries(targets).map(([id, name]) => <option key={id} value={id}>{name}</option>)}
-        </select></label>
-        <label>Test<select value={test?.id} onChange={event => setTestId(event.target.value)}>
-          {availableTests.map(option => <option value={option.id} key={option.id}>{testLabels[option.id] ?? option.id}</option>)}
-        </select></label>
-        <label>Month<select value={month} onChange={event => setMonth(Number(event.target.value))}>
-          {months.map((name, index) => <option key={name} value={index + 1}>{name}</option>)}
-        </select></label>
-      </div>
-      {sameCell && <p role="status">Choose two different land cells.</p>}
-    </form>
-    {result && layer && resultTest && scores && selection && <section className="feature-panel" aria-labelledby="comparison-results">
-      <h2 id="comparison-results">How the two sites compare</h2>
-      <p className="section-explanation">Read across each row to compare the two sites. The overall match shows how closely each site fits the chosen mission target.</p>
-      <p className="feature-muted">{targets[selection.id]} · {testLabels[resultTest.id] ?? resultTest.id} · {months[result.month - 1]}</p>
-      <div className="compare-table-scroll" tabIndex={0} role="region" aria-label="Side-by-side site scores">
+    <p className="section-explanation">Choose Earth, the Moon, or Mars on either side. Rotate and zoom each globe, then click a location. You can compare any pair of worlds.</p>
+    {cityError && <p role="status">City labels could not load. Coordinates and saved locations are still available.</p>}
+    <div className="comparison-globes">
+      <LocationPicker label="Location A" value={a} data={data} cities={cities} onChange={change(setA)} />
+      <LocationPicker label="Location B" value={b} data={data} cities={cities} onChange={change(setB)} />
+    </div>
+    <div className="compare-run">
+      <label>Earth month<select aria-label="Earth comparison month" value={month} onChange={event => { setMonth(Number(event.target.value)); setResult(null) }}>
+        {months.map((name, index) => <option value={index + 1} key={name}>{name}</option>)}
+      </select></label>
+      <button type="button" className="feature-primary" onClick={() => setResult({ a: { ...a }, b: { ...b }, month })}>Compare selected locations</button>
+    </div>
+    <p className="feature-muted">Earth values use monthly climate-grid estimates. Moon and Mars values are currently available at the project’s saved reference sites. Other points show which data is unavailable.</p>
+    <p className="feature-muted">Surface imagery: NASA Earth Observatory (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
+    {result && readings && <section className="feature-panel" aria-labelledby="comparison-results">
+      <h2 id="comparison-results">How the two locations compare</h2>
+      <p className="section-explanation">Read across each row to compare the selected locations. Surface imagery helps you choose a point. The evidence row explains where each numeric value comes from.</p>
+      <div className="compare-table-scroll" tabIndex={0} role="region" aria-label="Side-by-side location conditions">
         <table className="compare-table" aria-labelledby="comparison-results">
-          <thead><tr><th scope="col">Quantity</th><th scope="col">{result.nameA}</th><th scope="col">{result.nameB}</th></tr></thead>
+          <thead><tr><th scope="col">Condition</th>{[result.a, result.b].map((location, index) => <th key={index} scope="col">
+            {worldNames[location.body]} · {location.name}<small>{location.lat.toFixed(4)}°, {location.lon.toFixed(4)}°</small>
+          </th>)}<th scope="col">Absolute difference</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Overall match</th>{[result.a, result.b].map(index => {
-              const item = scores[index]
-              const count = coverage(item.missing, resultTest.weights)
-              return <td key={index}><strong>{item.score === null ? 'No score' : format.format(item.score)}</strong>
-                <small>{item.score === null ? item.reason : `${count.scored} of ${count.total} quantities`}</small></td>
-            })}</tr>
-            {quantities.filter(quantity => layer.layers[quantity.id]).map(quantity => <tr key={quantity.id}>
-              <th scope="row">{quantity.label}</th>
-              {[result.a, result.b].map(index => {
-                const series = layer.layers[quantity.id]
-                const value = series.values[index]
-                return <td key={index}>{value == null ? <>Unavailable<small>{series.missingReason}</small></> : `${format.format(value)} ${series.unit}`}</td>
-              })}
-            </tr>)}
-            <tr><th scope="row">Evidence and limits</th>{[result.a, result.b].map(index => <td key={index}><a href={cardHash({
-              site: { kind: 'cell', index }, target: selection.id, test: resultTest.id, month: result.month,
-            })}>Open fidelity card</a></td>)}</tr>
+            {comparisonQuantities.map(quantity => {
+              const left = readings[0].readings[quantity.id], right = readings[1].readings[quantity.id]
+              const comparable = left.value !== null && right.value !== null && left.unit !== null && left.unit === right.unit
+              return <tr key={quantity.id}><th scope="row">{quantity.label}</th>
+                <td><Reading item={left} /></td><td><Reading item={right} /></td>
+                <td>{comparable ? left.unit === null ? 'Unavailable' : displayTolerance(Math.abs((left.value ?? 0) - (right.value ?? 0)), left.unit) : 'Unavailable'}</td>
+              </tr>
+            })}
+            <tr><th scope="row">Evidence and coverage</th>{readings.map((reading, index) => <td key={index}>{reading.evidence}</td>)}<td>Sources and observation windows differ.</td></tr>
           </tbody>
         </table>
       </div>
-      <p className="feature-muted">Monthly Earth estimates. Each match uses the available quantities for that site.</p>
+      {readings.some(item => item.cell !== null) && scoreRows && <>
+        <h3>Earth-site mission match</h3>
+        <p className="section-explanation">Score the selected Earth areas against one existing mission reference. These scores use the project’s default tolerances and available quantities.</p>
+        <div className="compare-settings">
+          <label>Mission reference<select value={targetId} onChange={event => setTargetId(event.target.value)}>
+            <option value="jezero">Jezero · Mars</option><option value="shackleton">Shackleton · Moon</option>
+          </select></label>
+          <label>Equipment test<select value={testId} onChange={event => setTestId(event.target.value)}>
+            {tests.map(item => <option value={item.id} key={item.id}>{item.id === 'science_tools' ? 'Science tools' : item.id === 'navigation' ? 'Navigation' : item.id === 'mobility' ? 'Mobility' : item.id === 'communications' ? 'Communications' : 'Power'}</option>)}
+          </select></label>
+        </div>
+        {scoreRows.test.reason && <p role="status">{scoreRows.test.reason}</p>}
+        <div className="comparison-score-links">
+          {readings.map((reading, index) => {
+            if (reading.cell === null) return null
+            const item = scoreRows.scores[reading.cell]
+            const count = coverage(item.missing, scoreRows.test.weights)
+            return <p key={index}><strong>{index === 0 ? result.a.name : result.b.name} · {item.score === null ? 'No score' : matchPercent(item.score)}</strong>
+              <span>{count.scored} of {count.total} quantities</span>
+              <a href={cardHash({ site: { kind: 'cell', index: reading.cell }, target: scoreRows.target.id, test: scoreRows.test.id, month: result.month })}>Open fidelity card</a>
+            </p>
+          })}
+        </div>
+      </>}
     </section>}
   </section>
 }
@@ -124,6 +179,6 @@ export function CompareSites({ hash }: { hash: string }) {
     return () => { active = false }
   }, [])
   if (error) return <section className="placeholder" role="alert"><h2>Site data could not load</h2><p>Reload the page to try again.</p></section>
-  if (!data) return <section className="placeholder" role="status"><h2>Loading site data</h2></section>
-  return <CompareForm key={hash} data={data} hash={hash} />
+  if (!data) return <section className="placeholder" role="status"><h2>Loading comparison globes</h2></section>
+  return <Comparison key={hash} data={data} hash={hash} />
 }

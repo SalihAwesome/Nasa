@@ -458,6 +458,28 @@ the complete 10,298-byte humidity XML label byte for byte.
 
 ## Natural Earth
 
+Detailed-globe coastline: the 50m land URL already verified below returned
+1,636,166 bytes again. It is bundled at
+`app/public/data/geo/ne_50m_land.geojson` for close-zoom outline rendering.
+
+Surface imagery used for selecting comparison points was downloaded from
+these primary sources. These images supply visual context.
+
+- NASA Earth Observatory Blue Marble Next Generation January 2004,
+  [21600 × 10800 source JPEG](https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-base/january/world.200401.3x21600x10800.jpg),
+  resized to 8192 × 4096 for the local globe.
+- NASA SVS CGI Moon Kit,
+  [4096 × 2048 LROC color map](https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_4k.tif),
+  converted to JPEG. NASA describes this image as optimized for visual use.
+- USGS Astrogeology,
+  [Viking MDIM 2.1 colorized 1 km mosaic](https://astrogeology.usgs.gov/ckan/dataset/7131d503-cdc9-45a5-8f83-5126c0fd397e/resource/5ea881c6-01b3-41fa-a7af-42d2131b54f1/download/mars_viking_mdim21_clrmosaic_1km.jpg),
+  21339 × 10670, resized to 8192 × 4096. Its companion
+  [georeferencing metadata](https://astrogeology.usgs.gov/ckan/dataset/7131d503-cdc9-45a5-8f83-5126c0fd397e/resource/69f3953f-9791-4d92-bffe-ebe24945eb95/download/mars_viking_mdim21_clrmosaic_1km.jpg.aux.xml)
+  specifies an equirectangular projection centered on longitude zero.
+
+Local image dimensions and provenance are also recorded in
+`app/public/data/surfaces/credits.json`.
+
 Globe country labels: the [Natural Earth v5.1.1 110m Admin 0 countries GeoJSON](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.1/geojson/ne_110m_admin_0_countries.geojson)
 returned HTTP 200 with 177 features. Each supplied `NAME`, `LABEL_X`,
 `LABEL_Y` and `LABELRANK`; the local `app/public/data/geo/country-labels.json`
@@ -716,3 +738,15 @@ Confirm each of these with a real call or a real document before you use it. The
 - The behavior of the Web Serial API after a cable drop.
 - The grid of `AOD_55` on the regional endpoint. Only the point endpoint was called.
 - Matched slope and roughness layers for Earth and both targets, and a numeric bare-ground layer. U31 confirmed candidate LOLA metadata and downloaded a MOLA roughness grid, but its SRTM and MODIS download attempts did not supply usable Earth layers. See `docs/mobility-sources.md` for the actual calls. On 12 November 2026 the earlier NEO pages for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO` returned the same 255,301-byte page; the later U31 calls identify the retirement notice.
+
+
+## Regional terrain sources verified on 14 November 2026
+
+The user requested completion of Mobility and Communications using available public data. The earlier U31 limitations are retained as historical observations; the following sources supersede the earlier missing-data result for regional comparisons.
+
+- NOAA ETOPO1: `https://oceanwatch.aoml.noaa.gov/erddap/griddap/etopo180.nc?altitude[0:6:10800][0:6:21600]` returned a 13,018,388-byte classic NetCDF file. Direct reads confirmed `latitude` (1801), `longitude` (3601), and `altitude` (1801 by 3601, signed metre elevations). The coordinates begin -90, -89.9, -89.8 and -180, -179.9, -179.8. Provider metadata: `https://oceanwatch.aoml.noaa.gov/erddap/info/etopo180/index.html`.
+- LOLA: the live NASA page `https://svs.gsfc.nasa.gov/4720/` links `https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/ldem_4.tif`. HTTP 200 supplied 4,153,352 bytes. Raster inspection confirmed float32, 1440 by 720, minimum -8.8785 and maximum 10.504001 in the documented kilometre units. This is the numeric elevation product; the colour render is not used for measurements.
+- MOLA: the live NASA PDS directory `https://pds-geosciences.wustl.edu/mgs/mgs-m-mola-5-megdr-l3-v1/mgsl_300x/meg004/` supplied `megt90n000cb.img` (2,073,600 bytes) and `.lbl` (4,796 bytes). The label confirms MSB signed 16-bit metres, 720 rows, 1440 columns, four pixels per degree, 0–360 east-positive longitude, and a 3396 km radius. It states that the gridded product includes provider-interpolated bins. The app labels derived terrain as an estimate.
+- Copernicus: the public record `https://zenodo.org/records/3939050` lists `PROBAV_LC100_global_v3.0.1_2019-nrt_Bare-CoverFraction-layer_EPSG-4326.tif`. A range request returned HTTP 206 and the verified full byte count 3,204,609,492. The complete downloaded file passed the published MD5 `f2c9432c37ced7af02b6d9207036c2dc`. Raster inspection confirmed EPSG:4326, uint8 percent, nodata 255, 362880 by 141120, 0.0009920634920634888-degree pixel spacing, west -180, north 80, and no precomputed overviews. The pipeline averages 504 by 504 source pixels per 0.5-degree region.
+
+An independent direct-source probe using the documented 30 km stencil returned Jezero regional slope 0.79030788 degrees and relief roughness 157.28988779 m. Shackleton returned slope 0.54353905 degrees and relief roughness 1210.79158772 m. These are derived regional metrics, not a rover-obstacle survey. `shared/terrain.json` marks sampling choices, minimum valid sample count, tolerances and spherical radii as defaults. Numeric derived target values and raw SHA256 hashes are written to `app/public/data/terrain/manifest.json` by `pipeline/pack_terrain.py`.

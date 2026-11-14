@@ -6,9 +6,10 @@ The app predicts, the pod measures, and the app compares.
 
 ## Ask Proving Ground
 
-To enable the local project assistant, set `OPENAI_API_KEY` in
-`app/.env.local` and restart `npm run dev` in `app`. The key stays on
-the server. Set `OPENAI_MODEL` in the same file to override the default
+Open Ask Proving Ground and use **Connect OpenAI** to save your key on the
+local server. You can also set `OPENAI_API_KEY` in `app/.env.local` and
+restart `npm run dev` in `app`. Without a key, questions search the local
+project documentation. Set `OPENAI_MODEL` in the same file to override the default
 `gpt-5-mini` model. The assistant reads local project documentation and
 website source files. It sends the question and relevant excerpts to OpenAI.
 The local development and preview servers provide the assistant endpoint.

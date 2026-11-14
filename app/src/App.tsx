@@ -18,7 +18,7 @@ const views = {
   sun: { heading: 'Compare sunlight on Earth, the Moon, and Mars', description: 'Choose a Moon or Mars target to see how high the Sun rises and which direction it moves compared with a location on Earth.' },
   truth: { heading: 'Check estimates against field measurements', description: 'See how readings from the Qatar sensor pod compare with satellite estimates for the same site and readings from NASA’s Perseverance rover on Mars.' },
   live: { heading: 'Watch the Qatar sensor pod', description: 'Connect the field sensor pod or replay a sample recording to watch temperature, humidity, light, and other readings update.' },
-  compare: { heading: 'Compare two Earth test sites', description: 'Use the same mission target, test, and month to see how two locations compare on the overall match score and individual conditions.' },
+  compare: { heading: 'Compare locations on Earth, the Moon, and Mars', description: 'Choose any two worlds and explore their surfaces side by side. Select locations on the globes to compare the data available for each point.' },
   ask: { heading: 'Ask Proving Ground', description: 'Ask what a score means, how to use a tool, or where the data comes from. Answers draw on this project’s documentation and website source.' },
 }
 

@@ -1,14 +1,15 @@
 import type { EarthMonth } from '../data/earth'
 import type { Target } from '../data/targets'
+import { terrainTolerances } from '../data/terrain'
 import { combine } from '../score/combine'
 import type { Weight } from '../score/combine'
 import { score } from '../score/score'
 import type { ScoreResult } from '../score/score'
 
 export type Cell = { lat: number; lon: number }
-export type TargetNumber = { value: number | null; reason?: string }
+export type TargetNumber = { value: number | null; reason?: string; unit?: string | null }
 export type TargetNumbers = Record<string, TargetNumber>
-export type TestDefinition = { id: string; enabled: boolean; reason?: string; weights: Record<string, Weight | undefined>; notBuilt: string[] }
+export type TestDefinition = { id: string; enabled: boolean; partial?: boolean; requiredQuantities?: string[]; reason?: string; weights: Record<string, Weight | undefined>; notBuilt: string[] }
 export type CellScore = { score: number | null; reason: string | null; missing: string[] }
 
 /** Read the channels/value/reason fields of U07's shipped card output.
@@ -26,14 +27,15 @@ export function readTargetNumbers(input: unknown, target: Target, missingReason:
     const { value, reason } = entry as { value?: unknown; reason?: unknown }
     if (value !== null && (typeof value !== 'number' || !Number.isFinite(value))) throw new Error(`Invalid target number: ${id}.`)
     if (value === null && (typeof reason !== 'string' || !reason.trim())) throw new Error(`Missing target needs a reason: ${id}.`)
-    return [id, { value: value as number | null, ...(typeof reason === 'string' ? { reason } : {}) }]
+    const unit = 'unit' in entry && typeof entry.unit === 'string' ? entry.unit : null
+    return [id, { value: value as number | null, unit, ...(typeof reason === 'string' ? { reason } : {}) }]
   }))
 }
 
 export function computeScores(month: EarthMonth, target: Target, numbers: TargetNumbers, definition: TestDefinition): CellScore[] {
   if (!definition.enabled) return Array.from({ length: month.cellCount }, () => ({ score: null, reason: definition.reason ?? 'Test not built.', missing: [] }))
   const weighted = Object.entries(definition.weights).filter(([, weight]) => weight && weight.value > 0)
-  const settingsById = { ...target.channels, ...target.sun }
+  const settingsById: Record<string, { tolerance: number }> = { ...target.channels, ...target.sun, ...terrainTolerances, ...(target.mobility ? { dryness: { tolerance: target.mobility.dryness.tolerance.value } } : {}) }
   // A missing target is shared by every cell. Preserve it without constructing
   // the same reasons and arithmetic objects tens of thousands of times.
   if (weighted.every(([id]) => !settingsById[id] || numbers[id]?.value == null)) {
@@ -75,7 +77,8 @@ export function computeScores(month: EarthMonth, target: Target, numbers: Target
       if (number?.value == null) reasons.push(`${id}: ${number?.reason ?? 'Target value is not available.'}`)
     }
     const result = combine(scores, definition.weights)
-    const entry = { score: typeof result.score === 'number' ? result.score : null, reason: reasons.length ? reasons.join(' ') : null, missing: result.missing }
+    const requiredMissing = definition.requiredQuantities?.some(id => result.missing.includes(id))
+    const entry = { score: !requiredMissing && typeof result.score === 'number' ? result.score : null, reason: reasons.length ? reasons.join(' ') : null, missing: result.missing }
     combined.set(key, entry)
     return entry
   })

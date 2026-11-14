@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { readFile, readdir } from 'node:fs/promises'
+import { readFile, readdir, writeFile, rename } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { join, relative } from 'node:path'
 import type { Plugin } from 'vite'
@@ -14,6 +14,24 @@ const stopWords = new Set('about and are can could does for from have how our pl
 type Passage = { path: string; content: string }
 type Message = { role: 'user' | 'assistant'; content: string }
 type Reply = { answer: string; sources: string[] }
+
+function documentAnswer(messages: Message[], passages: Passage[]): Reply {
+  const question = messages.at(-1)?.content.toLowerCase() ?? ''
+  if (/what.*(?:website|project|ebsite).*do|what.*(?:website|project).*about|what (?:is|does) (?:this |the |our )?(?:website|project)|how.*use (?:this|the|our) (?:website|project)/.test(question)) {
+    const overview = passages.find(item => item.path === 'README.md')
+    if (overview) {
+      const introduction = overview.content.split(/^## /m)[0].replace(/^# .*\r?\n/, '').trim()
+      return { answer: introduction + '\n\nStart with Find test sites to explore Earth. Compare sites lets you choose two locations on Earth, the Moon, or Mars. Compare sunlight shows the Sun’s path, and Field measurements checks recorded sensor data. [1]',
+        sources: ['[1] README.md', 'app/src/App.tsx'] }
+    }
+  }
+  const evidence = retrieve(passages.filter(item => item.path.endsWith('.md')), messages).slice(0, 4)
+  return {
+    answer: 'Here are the relevant passages from the project documentation.\n\n' + evidence.map((item, index) =>
+      '[' + (index + 1) + '] ' + item.content.replace(/^#{1,6}\s+/gm, '').slice(0, 1800)).join('\n\n'),
+    sources: evidence.map((item, index) => '[' + (index + 1) + '] ' + item.path),
+  }
+}
 
 async function sourceFiles(directory: string): Promise<string[]> {
   const entries = await readdir(join(root, directory), { withFileTypes: true })
@@ -126,6 +144,8 @@ async function answerQuestion(messages: Message[], passages: Passage[], key: str
 
 export function projectAssistant(env: { key?: string; model?: string }): Plugin {
   const model = env.model || 'gpt-5-mini'
+  let apiKey = env.key
+  let configuring = false
   let index: Promise<Passage[]> | undefined
   let active = 0
   const requests = new Map<string, { payload: string; started: number; reply: Promise<Reply> }>()
@@ -144,13 +164,43 @@ export function projectAssistant(env: { key?: string; model?: string }): Plugin 
       if (origin && origin !== 'http://' + request.headers.host && origin !== 'https://' + request.headers.host) {
         throw new RequestError(403, 'Open the assistant from the project website.')
       }
+      if (request.url?.split('?')[0] === '/configure') {
+        if (request.method !== 'POST' || !origin || !request.headers['content-type']?.startsWith('application/json')) {
+          throw new RequestError(403, 'Use the website’s local assistant setup form.')
+        }
+        if (configuring || active) throw new RequestError(409, 'Please wait for the current request to finish.')
+        let raw = ''
+        for await (const chunk of request) {
+          raw += String(chunk)
+          if (Buffer.byteLength(raw) > 1200) throw new RequestError(413, 'The API key is too long.')
+        }
+        let input: unknown
+        try { input = JSON.parse(raw) } catch { throw new RequestError(400, 'Enter a valid API key.') }
+        if (!input || typeof input !== 'object' || !('key' in input) || typeof input.key !== 'string'
+          || !/^sk-[a-zA-Z0-9_-]{16,1000}$/.test(input.key)) throw new RequestError(400, 'Enter your OpenAI API key.')
+        if (configuring || active) throw new RequestError(409, 'Please wait for the current request to finish.')
+        configuring = true
+        try {
+          const file = join(root, 'app/.env.local')
+          let previous = ''
+          try { previous = await readFile(file, 'utf8') } catch (error) {
+            if (!(error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT')) throw error
+          }
+          const updated = previous.split(/\r?\n/).filter(line => !/^\s*OPENAI_API_KEY\s*=/.test(line)).join('\n').trimEnd()
+          const temporary = file + '.pending'
+          await writeFile(temporary, updated + '\nOPENAI_API_KEY=' + input.key + '\n', { mode: 0o600 })
+          await rename(temporary, file)
+          apiKey = input.key
+          response.writeHead(200).end(JSON.stringify({ answer: 'API key saved.', sources: [] }))
+          return
+        } finally { configuring = false }
+      }
       if (request.method === 'GET') {
-        body = env.key ? { answer: 'Ready', sources: [] } : { error: 'Set OPENAI_API_KEY on the server to enable answers.' }
-        status = env.key ? 200 : 503
+        response.writeHead(200).end(JSON.stringify({ mode: apiKey ? 'openai' : 'documents', configured: Boolean(apiKey) }))
+        return
       } else {
         if (request.method !== 'POST') throw new RequestError(405, 'Use POST to ask a question.')
-        const key = env.key
-        if (!key) throw new RequestError(503, 'Set OPENAI_API_KEY on the server to enable answers.')
+        const key = apiKey
         if (request.headers['content-type']?.split(';')[0] !== 'application/json') throw new RequestError(415, 'Send JSON.')
         const id = request.headers['idempotency-key']
         if (typeof id !== 'string' || !/^[a-f0-9-]{36}$/i.test(id)) throw new RequestError(400, 'A request ID is required.')
@@ -166,7 +216,7 @@ export function projectAssistant(env: { key?: string; model?: string }): Plugin 
           if (active >= 2 || requests.size >= 40) throw new RequestError(429, 'The assistant is busy. Try again shortly.')
           active++
           index ??= indexProject().catch(error => { index = undefined; throw error })
-          const reply = index.then(passages => answerQuestion(messages, passages, key, model)).finally(() => { active-- })
+          const reply = index.then(passages => key ? answerQuestion(messages, passages, key, model) : documentAnswer(messages, passages)).finally(() => { active-- })
           requests.set(id, { payload, reply, started: now })
           body = await reply
         }

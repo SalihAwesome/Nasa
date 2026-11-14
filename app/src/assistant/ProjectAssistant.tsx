@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 type Message = { role: 'user' | 'assistant'; content: string; sources?: string[] }
 const endpoint = './api/project-assistant'
-const examples = ['How are site match scores calculated?', 'What can I compare in the Sun panel?', 'Which readings come from the Qatar pod?']
+const examples = ['What does this website do?', 'How are site match scores calculated?', 'How do I compare locations on Earth, the Moon, and Mars?']
 
 export function ProjectAssistant() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -10,15 +10,43 @@ export function ProjectAssistant() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [available, setAvailable] = useState<boolean | null>(null)
+  const [configured, setConfigured] = useState(false)
+  const [key, setKey] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [setupMessage, setSetupMessage] = useState('')
   const request = useRef<AbortController | null>(null)
 
   useEffect(() => {
     const status = new AbortController()
-    fetch(endpoint, { signal: status.signal, headers: { Accept: 'application/json' } }).then(response => {
-      if (!status.signal.aborted) setAvailable(response.ok && response.headers.get('content-type')?.includes('application/json') === true)
+    fetch(endpoint, { signal: status.signal, headers: { Accept: 'application/json' } }).then(async response => {
+      const ok = response.ok && response.headers.get('content-type')?.includes('application/json') === true
+      const data = ok ? await response.json() : null
+      if (!status.signal.aborted) {
+        setAvailable(ok)
+        setConfigured(data?.configured === true)
+      }
     }).catch(() => { if (!status.signal.aborted) setAvailable(false) })
     return () => { status.abort(); request.current?.abort() }
   }, [])
+
+  async function saveKey() {
+    if (saving || !key.trim()) return
+    setSaving(true)
+    setSetupMessage('')
+    try {
+      const response = await fetch(endpoint + '/configure', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: key.trim() }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Could not save your API key.')
+      setKey('')
+      setConfigured(true)
+      setAvailable(true)
+      setSetupMessage('API key saved. Ask a question to check the connection.')
+    } catch (error) {
+      setSetupMessage(error instanceof Error ? error.message : 'Could not save your API key.')
+    } finally { setSaving(false) }
+  }
 
   async function ask() {
     const content = question.trim()
@@ -56,7 +84,19 @@ export function ProjectAssistant() {
 
   return <section className="feature-panel assistant-panel" aria-label="Project assistant">
     {available === null && <p role="status">Checking the assistant connection…</p>}
-    {available === false && <p role="status">The local assistant needs an OpenAI API key on the server. Set <code>OPENAI_API_KEY</code> and restart the preview.</p>}
+    {available === false && <p role="status">The assistant server is unavailable. Start the local website server and reload this page.</p>}
+    {available && <p role="status">{configured ? 'OpenAI answers with project sources.' : 'Project-document search is ready. Connect OpenAI below for AI answers.'}</p>}
+    {available && <details className="assistant-setup" open={!configured}>
+      <summary>{configured ? 'Update the OpenAI API key' : 'Connect OpenAI'}</summary>
+      <p>The key is saved in the local server’s ignored environment file. Only the server uses it to contact OpenAI.</p>
+      <form onSubmit={event => { event.preventDefault(); void saveKey() }}>
+        <label htmlFor="assistant-api-key">OpenAI API key</label>
+        <input id="assistant-api-key" type="password" autoComplete="off" value={key} maxLength={1024}
+          onChange={event => setKey(event.target.value)} placeholder="sk-…" />
+        <button type="submit" disabled={saving || !key.trim() || busy}>{saving ? 'Saving…' : 'Save API key'}</button>
+      </form>
+      {setupMessage && <p role="status">{setupMessage}</p>}
+    </details>}
     <div className="assistant-messages" aria-live="polite" aria-busy={busy}>
       {messages.map((item, index) => <article key={index} className={`assistant-message assistant-${item.role}`}>
         <strong>{item.role === 'user' ? 'You' : 'Proving Ground'}</strong>
@@ -72,7 +112,7 @@ export function ProjectAssistant() {
     <form onSubmit={event => { event.preventDefault(); void ask() }}>
       <label htmlFor="project-question">Your question</label>
       <textarea id="project-question" value={question} onChange={event => setQuestion(event.target.value)} rows={3} maxLength={1500} />
-      <p className="feature-muted">Questions and relevant project excerpts are sent to OpenAI.</p>
+      <p className="feature-muted">{configured ? 'Questions and relevant project excerpts are sent to OpenAI.' : 'Search the local project documentation. AI answers become available after connecting your key.'}</p>
       <button className="feature-primary" type="submit" disabled={busy || available !== true || !question.trim()}>Ask question</button>
     </form>
   </section>

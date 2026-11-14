@@ -7,7 +7,7 @@ const weight = (value: number) => ({ value, status: 'default' })
 
 test('records all five tests and explains each disabled test', () => {
   expect(tests.map(t => t.id)).toEqual(['power', 'mobility', 'communications', 'navigation', 'science_tools'])
-  expect(tests.filter(t => t.enabled).map(t => t.id)).toEqual(['power'])
+  expect(tests.filter(t => t.enabled).map(t => t.id)).toEqual(['power', 'mobility', 'communications', 'navigation', 'science_tools'])
   for (const definition of tests) {
     expect(Array.isArray(definition.notBuilt)).toBe(true)
     if (!definition.enabled) expect(definition.reason?.trim().length).toBeGreaterThan(0)
@@ -33,12 +33,14 @@ test('power gives equal weights to ground temperature, UV and three Sun quantiti
     .toEqual({ score: 0.5, missing: [] })
 })
 
-test('mobility remains disabled with only the planned dryness weight', () => {
-  const mobility = tests.find(t => t.id === 'mobility')!
-  expect(mobility.weights).toEqual({ dryness: weight(1) })
-  expect(mobility.enabled).toBe(false)
-  expect(mobility.notBuilt).toEqual(['Slope and roughness', 'Bare ground'])
-  expect(mobility.reason).toContain('U31')
+test('mobility and communications require terrain instead of ranking on dryness alone', () => {
+  for (const id of ['mobility', 'communications']) {
+    const test = tests.find(test => test.id === id)!
+    expect(test.enabled).toBe(true)
+    expect(test.requiredQuantities).toEqual(['slope', 'roughness', 'bare_ground'])
+    expect(test.notBuilt).toEqual([])
+    for (const quantity of test.requiredQuantities!) expect(test.weights[quantity as keyof typeof test.weights]).toEqual(weight(1))
+  }
 })
 
 test('does not give diagnostic card channels a weight in any test', () => {
@@ -46,9 +48,6 @@ test('does not give diagnostic card channels a weight in any test', () => {
     for (const id of ['air_temp', 'humidity', 'pressure', 'reflectivity']) {
       expect(Object.hasOwn(definition.weights, id)).toBe(false)
     }
-  }
-  for (const id of ['communications', 'navigation', 'science_tools']) {
-    expect(tests.find(t => t.id === id)!.weights).toEqual({})
   }
 })
 
