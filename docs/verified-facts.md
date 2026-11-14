@@ -250,6 +250,31 @@ A reviewer's call on 12 November 2026 with `STOP_TIME='2026-12-01'` returned 721
 - Cross-check against MEDA. The sol 300 ancillary file gives `SOLAR_ZENITHAL_ANGLE` 146.75 at `SCLK` 693526530, which is an elevation of -56.75 degrees. Horizons with `-77.45` gives -57.45 at 2021-Dec-23 10:10 UT and -56.98 at 10:20 UT. The two agree within 0.5 degrees. The time match assumes that `SCLK` counts seconds from 2000-01-01 12:00, which gives about 10:14 UT.
 - `SITE_COORD='-282.55,18.44,0'` also returns rows, for the wrong place. It gives +60 degrees at the same time. Do not use it.
 
+### U13 monthly target paths
+
+On 14 November 2026 (Qatar time), the observer requests above returned 721
+hourly rows for each target from 1 November 2026 00:00 UT through 1 December
+2026 00:00 UT, inclusive. The window and hourly step are default D15.
+The calls used `CENTER='coord@301'` with `SITE_COORD='222.69,-89.45,0'` and
+`CENTER='coord@499'` with `SITE_COORD='-77.45,18.44,0'`. They used
+`START_TIME='2026-11-01'`, `STOP_TIME='2026-12-01'`, and `STEP_SIZE='1 h'`.
+Both responses describe airless angles.
+
+| Site | Samples | Elevation min / max (degrees) | Azimuth max minus min (degrees) |
+|---|---:|---:|---:|
+| Shackleton | 721 | 0.990925 / 2.062514 | 359.491613 |
+| Jezero | 721 | -64.670464 / 83.139531 | 359.006364 |
+
+Raw verification replies are in `pipeline/tests/fixtures/horizons-shackleton-2026-11.txt`
+and `pipeline/tests/fixtures/horizons-jezero-2026-11.txt`. Run
+`python pipeline/fetch_horizons.py` from the repository root to regenerate
+the four public files. The script saves replies under `data/raw/horizons/`
+before parsing. It reuses files for the same request on subsequent runs.
+Use `--refresh` to fetch again. The three Sun metrics aggregate the entire
+requested window for each target, including all the Mars sols in that window.
+The site coordinate citations remain null under the shared target registry's
+default status. The API call verifies that the queries return these paths.
+
 ### Earth site, rise, transit, and set
 
 `CENTER='coord@399'`, `SITE_COORD='51.5,25.3,0'`, `START_TIME='2026-11-14'`, `STOP_TIME='2026-11-15'`, `STEP_SIZE='1 m'`, `R_T_S_ONLY='TVH'`.
