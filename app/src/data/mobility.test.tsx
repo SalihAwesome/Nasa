@@ -24,29 +24,29 @@ test('U31: the January dryness of the pod cell reads back as 0.26 within its sca
   console.info(`U31 browser loader: January dryness ${value}; scale ${manifest.quantities[0].scale}; cell 25.5,51.25.`)
 })
 
-test('both targets retain sourced dryness and D20 defaults, and missing terrain keeps reasons', () => {
+test('both targets retain sourced dryness and terrain values come from pipeline output', () => {
+  const terrain = JSON.parse(readFileSync(new URL('../../public/data/terrain/manifest.json', import.meta.url), 'utf8'))
   for (const target of loadTargetSettings().targets) {
     expect(target.mobility?.dryness).toEqual({ value: 0, source: 'docs/project-brief.md', unit: '1', tolerance: { value: 0.2, status: 'default' }, scale: { value: 0.0001, status: 'default' } })
-    for (const id of ['slope', 'roughness', 'bare_ground'] as const) {
-      expect(target.mobility?.[id].value).toBeNull()
-      expect(target.mobility?.[id].reason.length).toBeGreaterThan(0)
+    for (const id of ['slope', 'roughness', 'bare_ground']) {
+      expect(Number.isFinite(terrain.targets[target.id][id].value)).toBe(true)
+      expect(terrain.targets[target.id][id].source).toBeTruthy()
     }
   }
   const raw = JSON.parse(readFileSync(new URL('../../../shared/targets.json', import.meta.url), 'utf8'))
-  delete raw[0].mobility.slope.reason
+  delete raw[0].mobility.dryness.source
   expect(() => parseTargets(raw)).toThrow()
 })
 
-test('U31: the selector disables mobility with its actual reason for both targets', () => {
-  const mobility = tests.find(test => test.id === 'mobility')!
-  expect(mobility.enabled).toBe(false)
+test('all five tests are selectable for both targets once required layers are loaded', () => {
   for (const target of loadTargetSettings().targets) {
-    const html = renderToStaticMarkup(<TestSelector value="power" target={target.id} onChange={() => {}} />)
-    expect(html).toMatch(/<option value="mobility" disabled=""/)
-    expect(html).toContain(mobility.reason)
+    const html = renderToStaticMarkup(<TestSelector value="mobility" target={target.id} onChange={() => {}} availableLayers={['slope', 'roughness', 'bare_ground', 'dryness']} />)
+    expect(html).not.toMatch(/<option[^>]+disabled/)
     expect(html.match(/<option/g)).toHaveLength(5)
+    expect(html).not.toContain('(partial)')
+    const unavailable = renderToStaticMarkup(<TestSelector value="power" target={target.id} onChange={() => {}} availableLayers={[]} />)
+    expect(unavailable).toMatch(/<option value="mobility" disabled=""/)
   }
-  console.info(`U31 mobility selector: disabled — ${mobility.reason}`)
 })
 
 test('the site finder mounts the selector and its reason', () => {

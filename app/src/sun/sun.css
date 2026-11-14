@@ -59,7 +59,7 @@
 .sun-legend { gap: var(--space-4); }
 .sun-legend i { display: inline-block; width: 1.3em; margin-inline-end: var(--space-2); vertical-align: middle; border-top: 2px solid var(--color-text); }
 .sun-legend span + span i { border-top: 2px dashed var(--color-muted); }
-.sun-sky { cursor: grab; touch-action: pan-y; border-radius: var(--radius-small); background: radial-gradient(ellipse at 50% 45%, var(--color-sky-glow) 0%, var(--color-background) 72%); }
+.sun-sky { cursor: grab; touch-action: none; border-radius: var(--radius-small); background: radial-gradient(ellipse at 50% 45%, var(--color-sky-glow) 0%, var(--color-background) 72%); }
 .sun-sky:active { cursor: grabbing; }
 .sun-dome { fill: none; stroke: var(--color-border); stroke-width: .8; }
 .sun-ground { fill: var(--color-accent-soft); fill-opacity: .48; }

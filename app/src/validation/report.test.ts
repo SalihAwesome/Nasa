@@ -6,38 +6,21 @@ import { bestMonthRank, evaluateChecks, parseValidationSites, renderValidation }
 
 const registry = () => parseValidationSites(siteData)
 
-test('U12: the generated document contains exactly the five brief checks and no invented ranks', async () => {
+test('U12 evaluates every enabled test and does not mistake limited science evidence for a completed validation', async () => {
   const sites = registry()
-  let rankingCalls = 0
-  const results = await evaluateChecks(sites, definitions, async () => { rankingCalls++; throw new Error('Disabled tests must not rank') })
-  expect(sites.sites).toHaveLength(4)
-  expect(results).toHaveLength(5)
-  expect(results.filter(row => row.test === 'mobility')).toHaveLength(3)
-  expect(results.filter(row => row.test === 'navigation')).toHaveLength(1)
-  expect(results.filter(row => row.test === 'science_tools')).toHaveLength(1)
-  // The five target/test/expectation pairs in the team's "Proof it works" table.
-  expect(results.map(row => [row.target, row.test, row.expected])).toEqual([
-    ['shackleton', 'mobility', 'should rank high'],
-    ['shackleton', 'navigation', 'should rank low'],
-    ['shackleton', 'mobility', 'should rank high'],
-    ['jezero', 'mobility', 'should rank high'],
-    ['jezero', 'science_tools', 'should rank high'],
-  ])
-  expect(rankingCalls).toBe(0)
-  for (const row of results) {
-    expect(row.result).toBe('test not built')
-    expect(row.bestMonth).toBeNull()
-    expect(row.score).toBeNull()
-    expect(row.rankPercentile).toBeNull()
-    expect(row.reason).toBeTruthy()
-  }
-  const markdown = renderValidation(sites, results)
-  const table = markdown.split('\n').filter(line => line.startsWith('| '))
-  expect(table).toHaveLength(6) // Header plus five checks; separator starts |---.
-  expect(markdown).toContain('All five checks report "test not built"')
-  expect(markdown).toContain('access and cost, which the tool does not model')
-  expect(readFileSync(new URL('../../../docs/validation.md', import.meta.url), 'utf8').replaceAll('\r\n', '\n')).toBe(markdown)
-  console.info(`U12 check: ${sites.sites.length} sites; ${results.length} rows; ${rankingCalls} ranking calls; every disabled test has null month, score and rank with a reason.`)
+  const calls: string[] = []
+  // Simulated dimensionless ranks exercise verdicts, not scientific performance.
+  const results = await evaluateChecks(sites, definitions, async (_site, check) => {
+    calls.push(check.test)
+    return { bestMonth: 1, score: 0.5, rankPercentile: 1 }
+  })
+  expect(calls).toEqual(['mobility', 'navigation', 'mobility', 'mobility', 'science_tools'])
+  expect(results.map(row => row.result)).toEqual(['pass', 'reported', 'pass', 'pass', 'reported'])
+  expect(results[4].reason).toContain('Unavailable target UV')
+  expect(renderValidation(sites, results)).toContain('without a pass/fail verdict')
+  const disabled = definitions.map(test => ({ ...test, enabled: false, reason: 'Simulated outage' }))
+  const unavailable = await evaluateChecks(sites, disabled, async () => { throw new Error('Disabled tests must not rank') })
+  expect(unavailable.every(row => row.score === null && row.result === 'test not built')).toBe(true)
 })
 
 test('the four coordinates have verified source pages and the team supplies every expected check', () => {
@@ -72,7 +55,7 @@ test('rank counts strictly better land scores, keeps ties together and keeps mis
 test('enabled checks use their own test, apply the fixed top-ten-percent rule, and never pass/fail the low expectation', async () => {
   const sites = registry()
   const simulated = { simulated: true, ranks: [10, 90, 10.01, 1, 100] }
-  const enabled = definitions.map(definition => ({ ...definition, enabled: true }))
+  const enabled = definitions.map(definition => ({ ...definition, enabled: true, partial: false }))
   const received: string[] = []
   const rows = await evaluateChecks(sites, enabled, async (_site, check) => {
     received.push(check.test)

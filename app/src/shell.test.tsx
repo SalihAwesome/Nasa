@@ -7,11 +7,11 @@ import App from './App'
 afterEach(() => vi.unstubAllGlobals())
 
 test.each([
-  ['#/map', 'Site finder', 'Not available yet'],
-  ['#/card/site', 'Fidelity card', 'Not available yet'],
-  ['#/sun', 'Sun panel', 'Compare Sun paths'],
-  ['#/truth', 'Ground truth', 'Pod log'],
-  ['#/live', 'Live panel', 'Pod readings'],
+  ['#/map', 'Find Earth sites to test Moon and Mars equipment', 'Loading the Earth test site map'],
+  ['#/card/site', 'How this site matches the mission target', 'Not available yet'],
+  ['#/sun', 'Compare sunlight on Earth, the Moon, and Mars', 'Choose a Moon or Mars target and an Earth location'],
+  ['#/truth', 'Check estimates against field measurements', 'Load a sensor recording'],
+  ['#/live', 'Watch the Qatar sensor pod', 'Latest sensor readings'],
 ])('renders %s with its heading', (hash, heading, sectionHeading) => {
   vi.stubGlobal('window', { location: { hash } })
   const html = renderToStaticMarkup(<App />)
@@ -21,7 +21,9 @@ test.each([
 
 test('starts at the site finder when the URL has no hash', () => {
   vi.stubGlobal('window', { location: { hash: '' } })
-  expect(renderToStaticMarkup(<App />)).toMatch(/<h1[^>]*>Site finder<\/h1>/)
+  const html = renderToStaticMarkup(<App />)
+  expect(html).toMatch(/<h1[^>]*>Find Earth sites to test Moon and Mars equipment<\/h1>/)
+  expect(html).toContain('find places on Earth to test equipment before sending it to the Moon or Mars')
 })
 
 test('unknown routes explain how to return to the site finder', () => {

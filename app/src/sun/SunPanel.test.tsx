@@ -61,8 +61,8 @@ test('the Sun route accepts target, latitude and month from the hash', () => {
   Object.defineProperty(globalThis, 'window', { configurable: true, value: { location: { hash } } })
   try {
     const html = renderToStaticMarkup(<App />)
-    expect(html).toContain('Sun panel')
-    expect(html).toContain('Compare Sun paths')
+    expect(html).toContain('Compare sunlight on Earth, the Moon, and Mars')
+    expect(html).toContain('Choose a Moon or Mars target and an Earth location')
     expect(html).toContain('value="-85" selected=""')
     expect(html).toContain('value="3" selected=""')
   } finally {

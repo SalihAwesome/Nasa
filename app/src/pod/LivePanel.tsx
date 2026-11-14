@@ -84,7 +84,7 @@ export function LiveReadings({ snapshot, meda, medaError }: {
   const time = latest && podSolarTime(latest.record.ts)
   return <section className="pod-readings" aria-labelledby="pod-readings-heading">
     <div className="live-readings-header">
-      <h2 id="pod-readings-heading">Pod readings</h2>
+      <h2 id="pod-readings-heading">Latest sensor readings</h2>
       {simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
       <p role="status" data-bad-lines={badLines}>Bad lines · {badLines}</p>
     </div>
@@ -94,6 +94,7 @@ export function LiveReadings({ snapshot, meda, medaError }: {
         : latest ? (podSite.reasons.lon ?? 'Pod longitude is unavailable.') : 'Waiting for a pod record.'}
     </p>
     <table className="live-table">
+      <caption className="section-explanation">Each row shows the latest Qatar pod reading and a Mars reference from MEDA, the weather station on NASA’s Perseverance rover, when available.</caption>
       <thead><tr><th scope="col">Channel</th><th scope="col">Pod</th>
         <th scope="col">MEDA{meda && ' · Sol ' + meda.sol}</th></tr></thead>
       <tbody>{rows.map(({ field, channel, unit, label }) => {
@@ -199,6 +200,8 @@ export function LivePanel({ onHandoff }: { onHandoff: (handoff: CardHandoff) => 
   }
 
   return <div className="live-panel">
+    <h2>Connect the pod or replay a recording</h2>
+    <p className="section-explanation">Use Wi-Fi or USB for a physical pod. Choose replay to see how the readings update with sample data.</p>
     <form className="live-controls" aria-label="Pod connection" onSubmit={event => {
       event.preventDefault()
       void start('Wi-Fi', () => createWebSocketSource({ address }))

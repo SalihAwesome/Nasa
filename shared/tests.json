@@ -2,43 +2,146 @@
   {
     "id": "power",
     "weights": {
-      "ground_temp": { "value": 0.2, "status": "default" },
-      "uv": { "value": 0.2, "status": "default" },
-      "peak_elevation": { "value": 0.2, "status": "default" },
-      "low_sun_share": { "value": 0.2, "status": "default" },
-      "horizon_sweep": { "value": 0.2, "status": "default" }
+      "ground_temp": {
+        "value": 0.2,
+        "status": "default"
+      },
+      "uv": {
+        "value": 0.2,
+        "status": "default"
+      },
+      "peak_elevation": {
+        "value": 0.2,
+        "status": "default"
+      },
+      "low_sun_share": {
+        "value": 0.2,
+        "status": "default"
+      },
+      "horizon_sweep": {
+        "value": 0.2,
+        "status": "default"
+      }
     },
     "enabled": true,
-    "notBuilt": ["Bare ground", "Sunlight", "Airborne dust"]
+    "notBuilt": [
+      "Bare ground",
+      "Sunlight",
+      "Airborne dust"
+    ]
   },
   {
     "id": "mobility",
     "weights": {
-      "dryness": { "value": 1, "status": "default" }
+      "slope": {
+        "value": 1,
+        "status": "default"
+      },
+      "roughness": {
+        "value": 1,
+        "status": "default"
+      },
+      "bare_ground": {
+        "value": 1,
+        "status": "default"
+      },
+      "dryness": {
+        "value": 1,
+        "status": "default"
+      }
     },
-    "enabled": false,
-    "reason": "U31 confirmed dryness only. Matched slope and roughness layers and target values are unavailable. Dryness alone does not rank terrain.",
-    "notBuilt": ["Slope and roughness", "Bare ground"]
+    "enabled": true,
+    "reason": "Regional terrain and dryness comparison. Terrain samples span 120 km; this does not establish wheel-scale traversability.",
+    "notBuilt": [],
+    "requiredQuantities": [
+      "slope",
+      "roughness",
+      "bare_ground"
+    ]
   },
   {
     "id": "communications",
-    "weights": {},
-    "enabled": false,
-    "reason": "Not built. The project brief lists this test as should-have.",
-    "notBuilt": ["Slope and roughness", "Bare ground"]
+    "weights": {
+      "slope": {
+        "value": 1,
+        "status": "default"
+      },
+      "roughness": {
+        "value": 1,
+        "status": "default"
+      },
+      "bare_ground": {
+        "value": 1,
+        "status": "default"
+      }
+    },
+    "enabled": true,
+    "reason": "Regional terrain and bare-ground comparison for communications field-test analogs. Antenna geometry, line of sight, frequency and link budget are not modeled.",
+    "notBuilt": [],
+    "requiredQuantities": [
+      "slope",
+      "roughness",
+      "bare_ground"
+    ]
   },
   {
     "id": "navigation",
-    "weights": {},
-    "enabled": false,
-    "reason": "Not built. The project brief lists this test as should-have.",
-    "notBuilt": ["Slope and roughness", "Bare ground", "Sun path as a navigation row"]
+    "weights": {
+      "peak_elevation": {
+        "value": 1,
+        "status": "default"
+      },
+      "low_sun_share": {
+        "value": 1,
+        "status": "default"
+      },
+      "horizon_sweep": {
+        "value": 1,
+        "status": "default"
+      },
+      "slope": {
+        "value": 1,
+        "status": "default"
+      },
+      "roughness": {
+        "value": 1,
+        "status": "default"
+      },
+      "bare_ground": {
+        "value": 1,
+        "status": "default"
+      }
+    },
+    "enabled": true,
+    "reason": "Sun path, regional terrain and bare-ground comparison. Terrain samples span 120 km; local obstacles are not resolved.",
+    "notBuilt": [],
+    "partial": false
   },
   {
     "id": "science_tools",
-    "weights": {},
-    "enabled": false,
-    "reason": "Not built. The project brief lists this test as should-have.",
-    "notBuilt": ["Bare ground", "Sunlight", "Surface dryness as a science row"]
+    "weights": {
+      "ground_temp": {
+        "value": 1,
+        "status": "default"
+      },
+      "uv": {
+        "value": 1,
+        "status": "default"
+      },
+      "dryness": {
+        "value": 1,
+        "status": "default"
+      },
+      "bare_ground": {
+        "value": 1,
+        "status": "default"
+      }
+    },
+    "enabled": true,
+    "reason": "Uses available ground temperature, UV, dryness and bare ground. Unavailable target UV and sunlight are disclosed below. Dry and bare target values are assumptions from the team brief.",
+    "notBuilt": [
+      "Sunlight"
+    ],
+    "partial": true
   }
 ]

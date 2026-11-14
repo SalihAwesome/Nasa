@@ -2,6 +2,8 @@
 dev = [
     "requests>=2.32",
     "numpy>=2.0",
+    "rasterio>=1.5.2",
+    "scipy>=1.18.1",
     "pytest>=8.3",
 ]
 

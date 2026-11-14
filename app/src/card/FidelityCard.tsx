@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { cardHash, cardTests, loadSelectedCard, readCardSelection } from './cardData'
 import type { CardModel, CardRow, CardSelection, Reading } from './cardData'
+import { matchPercent, displayReading, displayTolerance } from '../score/format'
+import { terrainSettings } from '../data/terrain'
 import { coverage } from '../score/combine'
+import { loadPlaces, nearestPlace } from '../map/places'
 import './card.css'
 
 // Names: docs/project-brief.md. All scientific values/settings are loaded data.
@@ -13,7 +16,7 @@ const number = (value: number) => value.toLocaleString('en', { maximumFractionDi
 
 function Value({ reading }: { reading: Reading }) {
   return <>{reading.value === null ? <span className="card-missing">{reading.reason}</span>
-    : <span className="card-number" data-value={reading.value}>{number(reading.value)}{reading.unit && ` ${reading.unit}`}</span>}
+    : <span className="card-number" data-value={reading.value}>{displayReading(reading.value, reading.unit)}</span>}
     {reading.unitReason && <small>{reading.unitReason}</small>}
     {reading.note && <small>{reading.note}</small>}
   </>
@@ -27,7 +30,7 @@ function RowErrorBar({ row }: { row: CardRow }) {
   const unit = row.earth.unit
   const total = bar.kind === 'gap-and-offset' ? bar.gap + bar.offset : bar.gap
   return <small data-error-bar={total}>
-    Error bar ±{number(total)} {unit} ({bar.basis})
+    Error bar ±{unit === null ? number(total) : displayTolerance(total, unit)} ({bar.basis})
     {bar.kind === 'gap-and-offset' && <><br />{number(bar.gap)} {unit} satellite gap + {number(bar.offset)} {unit} absolute offset</>}
   </small>
 }
@@ -45,16 +48,31 @@ function SourceText({ text }: { text: string }) {
 
 function CoverageNote({ missing, card }: { missing: string[]; card: CardModel }) {
   const { scored, total } = coverage(missing, card.test.weights)
-  return <p className="card-coverage" data-coverage={`${scored}/${total}`}>Uses {scored} of {total} weighted quantities</p>
+  return <p className="card-coverage" data-coverage={`${scored}/${total}`}>{scored} of {total} scoring quantities available</p>
 }
 
 export function FidelityCard({ card }: { card: CardModel }) {
   const usesPodLog = card.simulated !== undefined
+  const { lat, lon } = card.cell
+  const [place, setPlace] = useState<ReturnType<typeof nearestPlace>>(null)
+  useEffect(() => {
+    let active = true
+    setPlace(null)
+    loadPlaces().then(places => {
+      if (active) setPlace(nearestPlace({ lat, lon }, places))
+    }).catch(() => {})
+    return () => { active = false }
+  }, [lat, lon])
+  const totalWeight = Object.values(card.test.weights).reduce((sum, weight) => sum + (weight?.value ?? 0), 0)
+  const weightLabel = (row: CardRow) => matchPercent((row.weight?.value ?? 0) / totalWeight)
+  const compare = new URLSearchParams({ cell: String(card.cell.index), target: card.target, test: card.test.id, month: String(card.month) })
   return <article className="fidelity-card">
     <header className="card-heading">
-      <div><h3>{card.isPod ? 'Qatar card' : `Land cell ${card.cell.index}`}</h3>
+      <div><h3>{card.isPod ? 'Qatar sensor site' : `Earth site at ${number(lat)}°, ${number(lon)}°`}</h3>
         {card.simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
-        <p className="card-coordinates">{number(card.cell.lat)}°, {number(card.cell.lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p></div>
+        <p className="card-coordinates">{number(lat)}°, {number(lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p>
+        {place && <p>Nearest mapped place: <strong>{place.name}</strong> · {place.distanceKm} km away</p>}
+        <a href={`#/compare?${compare}`}>Compare this location</a></div>
       <p>Against <strong>{targets[card.target]}</strong></p>
       <p className="card-basis">{usesPodLog ? 'Earth values from the pod log. Error bars use NASA POWER.'
         : `Earth: NASA POWER monthly climatology, ${card.period.start.slice(0, 4)}–${card.period.end.slice(0, 4)}.`}
@@ -62,28 +80,32 @@ export function FidelityCard({ card }: { card: CardModel }) {
       {card.siteNote && <p className="card-basis">{card.siteNote}</p>}
     </header>
     <section className="card-combined" aria-labelledby="card-combined-heading">
-      <div><h3 id="card-combined-heading">{tests[card.test.id]} match</h3><p className="card-total">
-        {typeof card.combined.score === 'number' ? number(card.combined.score) : 'no score'}
-      </p>{typeof card.combined.score === 'number' && <CoverageNote missing={card.combined.missing} card={card} />}</div>
-      <div>{!card.test.enabled && <p>{card.test.reason}</p>}
+      <div><h3 id="card-combined-heading">Overall {tests[card.test.id].toLowerCase()} match</h3><p className="card-total">
+        {typeof card.combined.score === 'number' ? matchPercent(card.combined.score) : 'No score'}
+      </p>{typeof card.combined.score === 'number' && <meter className="match-meter" min={0} max={1} value={card.combined.score} aria-label="Match index" aria-valuetext={matchPercent(card.combined.score)} />}
+      {typeof card.combined.score === 'number' && <CoverageNote missing={card.combined.missing} card={card} />}</div>
+      <div>{card.test.reason && <p role="status">{card.test.reason}</p>}
+        <p className="section-explanation">This score combines the available conditions for your chosen test. 100% is the closest match on this index; it is not a probability of mission success.</p>
         <p>Weights and tolerances are defaults. The weighted mean uses only rows with a score.</p>
         {card.combined.missing.length > 0 && <p>Omitted from the mean: {card.combined.missing.map(id => [...card.rows, ...card.sunRows].find(row => row.id === id)?.label ?? id).join(', ')}.</p>}
-        <p>Not built for this test: {card.test.notBuilt.join(', ')}.</p></div>
+        {card.test.notBuilt.length > 0 && <p>Not included: {card.test.notBuilt.join(', ')}.</p>}
+        {card.rows.some(row => row.id === 'slope') && <details><summary>Terrain method and data limits</summary><p>{terrainSettings.note}</p></details>}</div>
     </section>
     <section className="card-sun" aria-labelledby="card-sun-heading">
-      <h3 id="card-sun-heading">Sun comparisons</h3>
-      <p>Precomputed Sun estimates for the selected Earth month and target window.</p>
+      <h3 id="card-sun-heading">How sunlight compares</h3>
+      <p className="section-explanation">Compare the Sun’s highest point, time spent low in the sky, and movement along the horizon for the selected month and mission target.</p>
       <dl>{card.sunRows.map(row => <div key={row.id} data-sun-quantity={row.id}>
         <dt>{row.label}</dt>
         <dd><span>Earth: <Value reading={row.earth} /></span><span>Target: <Value reading={row.target} /></span>
-          <span>Tolerance: {number(row.tolerance.value)} {row.tolerance.unit} ({row.tolerance.status})</span>
-          <span>Score: {typeof row.score === 'number' ? <span className="card-score" data-score={row.score}>{number(row.score)}</span> : 'no score'}</span>
-          <span>{row.counts ? `Counts · weight ${row.weight?.value} (${row.weight?.status})` : 'Does not count'}</span>
+          <span>Tolerance: {displayTolerance(row.tolerance.value, row.tolerance.unit)} ({row.tolerance.status})</span>
+          <span>Score: {typeof row.score === 'number' ? <span className="card-score" data-score={row.score}>{matchPercent(row.score)}</span> : 'no score'}</span>
+          <span>{row.counts ? typeof row.score === 'number' ? `Counts · default weight ${weightLabel(row)}` : 'Missing data · omitted' : 'Does not count'}</span>
         </dd>
       </div>)}</dl>
     </section>
     <div className="card-table-scroll" role="region" aria-label="Channel comparisons" tabIndex={0}>
-      <table className="card-table"><caption>Each channel keeps its own score. Only marked rows count toward the selected test.</caption>
+      <table className="card-table"><caption><strong className="table-title">Earth and target conditions, side by side</strong>
+        <span className="section-explanation">Read across each row to compare a condition. Rows marked “Counts” contribute to the overall match.</span></caption>
         <thead><tr><th scope="col">Quantity</th><th scope="col">Earth value</th><th scope="col">Target value</th><th scope="col">Tolerance</th><th scope="col">Score</th><th scope="col">Test role</th></tr></thead>
         <tbody>{card.rows.map(row => <tr data-channel={row.id} key={row.id}>
           <th scope="row">{row.label}</th>
@@ -92,15 +114,15 @@ export function FidelityCard({ card }: { card: CardModel }) {
             <RowErrorBar row={row} />
           </td>
           <td><Value reading={row.target} /></td>
-          <td data-tolerance-status={row.tolerance.status}><span className="card-number">{number(row.tolerance.value)} {row.tolerance.unit}</span><small>{row.tolerance.status}</small></td>
-          <td>{typeof row.score === 'number' ? <span className={`card-score${row.score === 0 ? ' card-score--zero' : ''}`} data-score={row.score}>{number(row.score)}</span>
+          <td data-tolerance-status={row.tolerance.status}><span className="card-number">{displayTolerance(row.tolerance.value, row.tolerance.unit)}</span><small>{row.tolerance.status}</small></td>
+          <td>{typeof row.score === 'number' ? <span className={`card-score${row.score === 0 ? ' card-score--zero' : ''}`} data-score={row.score}>{matchPercent(row.score)}</span>
             : <span className="card-missing">no score</span>}</td>
-          <td>{row.counts ? <><strong>Counts</strong><small>weight {row.weight?.value} ({row.weight?.status})</small></> : 'Does not count'}</td>
+          <td>{row.counts ? <><strong>{typeof row.score === 'number' ? 'Counts' : 'Missing data · omitted'}</strong><small>default weight {weightLabel(row)}</small></> : 'Does not count'}</td>
         </tr>)}</tbody>
       </table>
     </div>
     <aside className="card-limits" aria-labelledby="card-limits-heading" data-limits-block="true">
-      <h3 id="card-limits-heading">Where Earth fails</h3>
+      <h3 id="card-limits-heading">What Earth tests can’t reproduce</h3>
       <p>These conditions are never scored. Source: docs/project-brief.md.</p>
       <dl>{card.limits.map(limit => <div key={limit.title}><dt>{limit.title}</dt><dd><SourceText text={limit.text} /></dd></div>)}</dl>
     </aside>
@@ -139,7 +161,7 @@ export function CardPanel({ hash }: { hash: string }) {
       </select></label>}
       <label>Test<select value={selection.test} onChange={event => change({ test: event.target.value })} aria-describedby={unavailableTests.length ? 'card-test-availability' : undefined}>
         {cardTests.map(test => <option key={test.id} value={test.id} disabled={!isPod && !test.enabled}>
-          {tests[test.id]}{!test.enabled && ' (score unavailable)'}
+          {tests[test.id]}{!test.enabled ? ' (score unavailable)' : ''}
         </option>)}
       </select></label>
       {!isPod && <label>Earth month<select value={selection.month} onChange={event => change({ month: Number(event.target.value) })}>

@@ -3,7 +3,8 @@ import { expect, test } from 'vitest'
 import { decodeCells, decodeMonth, parseEarthManifest } from '../data/earth'
 import { loadTargetSettings } from '../data/targets'
 import tests from '../../../shared/tests.json'
-import { computeScores, projectCells, hitCell, readTargetNumbers, rankCells } from './model'
+import { computeScores, readTargetNumbers, rankCells } from './model'
+import { hitGlobe } from './globe'
 
 const manifest = parseEarthManifest(JSON.parse(readFileSync(new URL('../../public/data/earth/manifest.json', import.meta.url), 'utf8')))
 const buffer = (name: string) => Uint8Array.from(readFileSync(new URL(`../../public/data/earth/${name}`, import.meta.url))).buffer
@@ -35,13 +36,11 @@ test('scores and ranks real Earth cells through U08 and U09, excluding missing t
     .every(result => result.score === null && result.reason === 'Disabled test')).toBe(true)
 })
 
-test('projection is reusable and hit testing cannot select blank ocean', () => {
-  const projected = projectCells(cells)
-  expect(projected.positions).toHaveLength(cells.length)
-  const index = cells.findIndex(cell => cell.lat === 25.5 && cell.lon === 51.25)
-  const point = projected.positions[index]
-  expect(hitCell(projected.positions, point[0], point[1])).toBe(index)
-  expect(hitCell(projected.positions, -100, -100)).toBeNull()
+test('globe hit testing ignores hidden cells and selects the closest visible cell', () => {
+  const frame = { x: Float32Array.of(NaN, 100, 103), y: Float32Array.of(100, 101, 100), markers: [] }
+  expect(hitGlobe(frame, 101, 101, 5)).toBe(1)
+  expect(hitGlobe(frame, 103, 100, 5)).toBe(2)
+  expect(hitGlobe(frame, 115, 100, 5)).toBeNull()
 })
 
 test('a malformed or simulated target file cannot silently turn into a score', () => {
