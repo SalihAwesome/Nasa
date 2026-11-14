@@ -11,7 +11,7 @@ test.each([
   ['#/card/site', 'Fidelity card', 'Not available yet'],
   ['#/sun', 'Sun panel', 'Compare Sun paths'],
   ['#/truth', 'Ground truth', 'Pod log'],
-  ['#/live', 'Live panel', 'Not available yet'],
+  ['#/live', 'Live panel', 'Pod readings'],
 ])('renders %s with its heading', (hash, heading, sectionHeading) => {
   vi.stubGlobal('window', { location: { hash } })
   const html = renderToStaticMarkup(<App />)

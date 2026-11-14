@@ -1,7 +1,9 @@
-import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { PodLogPanel } from './pod/PodLogPanel'
 import { SunPanel } from './sun/SunPanel'
 import { CardPanel } from './card/FidelityCard'
+import { LivePanel, LivePath } from './pod/LivePanel'
+import type { CardHandoff } from './pod/LivePanel'
 import './styles/tokens.css'
 import './styles/shell.css'
 import SiteFinder from './map/SiteFinder'
@@ -46,17 +48,19 @@ function App() {
   const route = resolveView(hash.split('?')[0])
   const view = route === 'missing' ? null : views[route]
   const previousRoute = useRef(route)
+  const [cardHandoff, setCardHandoff] = useState<CardHandoff>()
 
   useEffect(() => {
     document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
     if (previousRoute.current !== route) {
+      if (route !== 'card') setCardHandoff(undefined)
       previousRoute.current = route
       document.getElementById('view-heading')?.focus()
     }
   }, [route, view])
 
   return (
-    <div className="app-shell">
+    <div className={route === 'live' ? 'app-shell app-shell--live' : 'app-shell'}>
       <a className="skip-link" href="#main-content" onClick={event => {
         event.preventDefault()
         document.getElementById('main-content')?.focus()
@@ -70,13 +74,20 @@ function App() {
           {item.label}
         </a>)}
       </nav>
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
         {view ? <>
           {route === 'card' && <a className="back-link" href="#/map">Back to site finder</a>}
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
           {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
-            : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <CardPanel hash={hash} />
+            : route === 'live' ? <LivePanel onHandoff={setCardHandoff} />
+            : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <>
+              {cardHandoff && /^#\/card\/pod(?:\?|$)/.test(hash) && <div className="live-handoff">
+                <LivePath handoff={cardHandoff} />
+                <p>Last {cardHandoff.simulated ? 'simulated' : 'live'} record received <time dateTime={cardHandoff.timestamp}>{cardHandoff.timestamp}</time>. The card uses the saved log.</p>
+              </div>}
+              <CardPanel hash={hash} />
+            </>
             : <section className="placeholder" aria-labelledby="placeholder-title">
             <h2 id="placeholder-title">Not available yet</h2>
             <p>This view is still being built. No data is loaded here.</p>

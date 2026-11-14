@@ -43,17 +43,29 @@ function calibratedValue(measured: number | null, fallback: DefaultSetting, note
   return measured === null ? { value: fallback.value, status: fallback.status, note } : { value: measured }
 }
 
-function reflectivity(record: PodRecord, header: Header, factor: number): Reflectivity {
+function reflectivity(record: PodRecord, luxMax: number | null, factor: number): Reflectivity {
   const { lux_up, lux_dn } = record
   if (lux_up === null) return { value: null, reason: 'Missing light reading' }
   if (lux_up < podSettings.reflectivityMinLux.value) return { value: null, reason: 'Below daylight threshold' }
-  if (header.lux_max === null) return { value: null, reason: 'Missing lux_max saturation threshold' }
-  if (lux_up >= header.lux_max) return { value: null, reason: 'Up-facing light reading is saturated' }
+  if (luxMax === null) return { value: null, reason: 'Missing lux_max saturation threshold' }
+  if (lux_up >= luxMax) return { value: null, reason: 'Up-facing light reading is saturated' }
   if (lux_dn === null) return { value: null, reason: 'Missing light reading' }
   if (lux_dn < 0) return { value: null, reason: 'Invalid down-facing light reading' }
-  if (lux_dn >= header.lux_max) return { value: null, reason: 'Down-facing light reading is saturated' }
+  if (lux_dn >= luxMax) return { value: null, reason: 'Down-facing light reading is saturated' }
   const value = (lux_dn / lux_up) / factor
   return Number.isFinite(value) ? { value } : { value: null, reason: 'Invalid reflectivity' }
+}
+
+function reflectivityCalibration(factor: number | null) {
+  return calibratedValue(factor, podSettings.reflFactorFallback, 'correction factor not measured')
+}
+
+export function readReflectivity(record: PodRecord, settings: Map<string, string>) {
+  const calibration = reflectivityCalibration(positiveHeaderNumber(settings, 'refl_factor'))
+  return {
+    ...reflectivity(record, positiveHeaderNumber(settings, 'lux_max'), calibration.value),
+    note: calibration.note,
+  }
 }
 
 export function importPodLog(csv: string, exclusions: Exclusion[]) {
@@ -71,7 +83,7 @@ export function importPodLog(csv: string, exclusions: Exclusion[]) {
 
   const header = readHeader(settings)
   const calibration = {
-    reflectivity: calibratedValue(header.refl_factor, podSettings.reflFactorFallback, 'correction factor not measured'),
+    reflectivity: reflectivityCalibration(header.refl_factor),
     airTemperature: calibratedValue(header.ta_offset_c, podSettings.taOffsetFallbackC, 'offset not measured'),
   }
   const ranges = exclusions.map(({ start, end }) => ({
@@ -83,7 +95,7 @@ export function importPodLog(csv: string, exclusions: Exclusion[]) {
     return !ranges.some(({ from, through }) => time >= from && time <= through)
   }).map(record => ({
     ...record,
-    reflectivity: reflectivity(record, header, calibration.reflectivity.value),
+    reflectivity: reflectivity(record, header.lux_max, calibration.reflectivity.value),
   }))
 
   return {
