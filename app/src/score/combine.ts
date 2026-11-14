@@ -51,3 +51,11 @@ export function combine(
   }
   return { score: weightedScore / totalWeight, missing }
 }
+
+export function coverage(
+  missing: readonly string[],
+  weights: Readonly<Record<string, Weight | undefined>>,
+): { scored: number; total: number } {
+  const total = Object.values(weights).filter(weight => weight !== undefined && weight.value > 0).length
+  return { scored: total - missing.length, total }
+}

@@ -60,8 +60,8 @@ def sun_numbers(azimuths: Sequence[float], elevations: Sequence[float]) -> dict:
         return {
             'peak_elevation': peak,
             'low_sun_share': None,
-            'horizon_sweep': None,
-            'reasons': dict.fromkeys(('low_sun_share', 'horizon_sweep'), 'The Sun does not rise.'),
+            'horizon_sweep': 0,
+            'reasons': {'low_sun_share': 'The Sun does not rise.'},
         }
 
     directions = sorted(azimuth for azimuth, _ in daylight)

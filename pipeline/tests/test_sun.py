@@ -61,9 +61,9 @@ def test_sweep_crosses_north_and_excludes_night():
 def test_no_daylight_and_single_sample():
     result = sun_numbers([10, 20], [-1, 0])
     assert result['peak_elevation'] == 0
-    for key in ('low_sun_share', 'horizon_sweep'):
-        assert result[key] is None
-        assert result['reasons'][key] == 'The Sun does not rise.'
+    assert result['low_sun_share'] is None
+    assert result['reasons'] == {'low_sun_share': 'The Sun does not rise.'}
+    assert result['horizon_sweep'] == 0
     assert sun_numbers([20], [5])['horizon_sweep'] == 0
 
 

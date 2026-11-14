@@ -33,16 +33,18 @@ test('a missing polar-night metric needs its saved reason', async () => {
   }))).rejects.toThrow()
 })
 
-test('polar night keeps missing metrics and their reasons visible', async () => {
+test('polar night keeps the low-Sun share missing with its reason and shows a sweep of 0', async () => {
   const data = await loadSunData(assets)
   const selection = { target: 'shackleton', lat: 90, month: 1 } as const
   const earth = selectEarth(data, selection)
   expect(earth.numbers.low_sun_share).toBeNull()
-  expect(earth.numbers.horizon_sweep).toBeNull()
+  expect(earth.numbers.horizon_sweep).toBe(0)
   const html = renderToStaticMarkup(<SunComparison data={data} selection={selection} />)
   const earthHTML = html.split('class="sun-chart sun-chart-earth"')[1]
-  expect(earthHTML).toContain('The Sun does not rise.')
-  expect(earthHTML).not.toContain('data-value="0"')
+  const share = earthHTML.split('data-metric="low_sun_share"')[1].split('</dd>')[0]
+  expect(share).toContain('The Sun does not rise.')
+  expect(share).not.toContain('data-value')
+  expect(earthHTML).toContain('data-metric="horizon_sweep" data-value="0"')
 })
 
 test.each([

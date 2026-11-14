@@ -12,6 +12,7 @@
 .card-basis { flex-basis: 100%; font-size: var(--text-label); color: var(--color-muted); }
 .card-combined { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 3fr); gap: var(--space-6); padding: var(--space-6); background: var(--color-accent-soft); border-block: var(--border-width) solid var(--color-border); font-size: var(--text-label); }
 .card-total { font-family: var(--font-data); font-size: var(--text-title); }
+.card-coverage { color: var(--color-muted); }
 .card-combined p + p { margin-top: var(--space-2); }
 .card-sun { padding: var(--space-6); font-size: var(--text-label); }
 .card-sun > p { color: var(--color-muted); }
