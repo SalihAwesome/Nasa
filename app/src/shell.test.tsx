@@ -9,7 +9,7 @@ afterEach(() => vi.unstubAllGlobals())
 test.each([
   ['#/map', 'Site finder', 'Not available yet'],
   ['#/card/site', 'Fidelity card', 'Not available yet'],
-  ['#/sun', 'Sun panel', 'Not available yet'],
+  ['#/sun', 'Sun panel', 'Compare Sun paths'],
   ['#/truth', 'Ground truth', 'Pod log'],
   ['#/live', 'Live panel', 'Not available yet'],
 ])('renders %s with its heading', (hash, heading, sectionHeading) => {
