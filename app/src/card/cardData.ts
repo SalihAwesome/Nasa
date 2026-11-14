@@ -8,6 +8,9 @@ import { score } from '../score/score'
 import type { ScoreResult } from '../score/score'
 import { combine } from '../score/combine'
 import type { CombinedResult, Weight } from '../score/combine'
+import { fetchPodLog } from '../pod/importLog'
+import type { PodLog } from '../pod/importLog'
+import { gap, reduceChannel } from '../pod/reduce'
 
 export const cardRegistries = loadRegistries()
 export const cardSettings = loadTargetSettings()
@@ -35,11 +38,23 @@ export type CardRow = {
   id: string; label: string; earth: Reading; target: Reading
   tolerance: { value: number; unit: string; status: 'default' }
   score: ScoreResult; evidence: 'estimate' | 'measured'; counts: boolean; weight?: Weight
+  errorBar?: ErrorBar
 }
+type ErrorBar =
+  | { kind: 'missing'; reason: string }
+  | { kind: 'gap'; gap: number; basis: string }
+  | { kind: 'gap-and-offset'; gap: number; offset: number; basis: string }
 export type CardModel = {
   cell: Cell & { index: number }; isPod: boolean; siteNote?: string
   target: Target['id']; targetSol?: number; month: number; period: EarthManifest['period']
-  rows: CardRow[]; sunRows: CardRow[]; test: TestDefinition; combined: CombinedResult; limits: Limit[]
+  rows: CardRow[]; sunRows: CardRow[]; test: TestDefinition; combined: CombinedResult; limits: Limit[]; simulated?: boolean
+}
+type CardMeasurements = { log: PodLog; satelliteChannels: Record<string, unknown> }
+
+const podNotes: Readonly<Partial<Record<string, string>>> = {
+  reflectivity: 'pod: visible light only, one patch of ground',
+  uv: 'pod: approximate UV index',
+  air_temp: 'Air sleeve has no fan. Midday readings may run high.',
 }
 
 function fail(message: string): never { throw new Error(`Fidelity card: ${message}`) }
@@ -179,6 +194,41 @@ export async function loadCardData(selection: CardSelection, fetcher: (path: str
   return { manifest, cells, month, target: target.id, targetValues, targetSol: targetData.sol, earthSun, targetSun }
 }
 
+export async function loadSelectedCard(
+  selection: CardSelection,
+  fetcher: (path: string) => Promise<Response> = path => fetch(path),
+): Promise<CardModel> {
+  if (selection.site.kind === 'cell') {
+    return buildCard(await loadCardData(selection, fetcher), selection)
+  }
+
+  const podSelection = { ...selection, target: 'jezero' } satisfies CardSelection
+  const [data, log, satellite] = await Promise.all([
+    loadCardData(podSelection, fetcher),
+    fetchPodLog(undefined, path => fetcher(String(path))),
+    fetcher(`${import.meta.env.BASE_URL}data/earth/pod-site-satellite.json`).then(async response => {
+      if (!response.ok) fail(`could not load pod-site satellite data (HTTP ${response.status})`)
+      return object(await response.json())
+    }),
+  ])
+  return buildCard(data, podSelection, { log, satelliteChannels: object(satellite.channels) })
+}
+
+function makeErrorBar(earth: Reading, satelliteRow: unknown, offset?: number): ErrorBar {
+  if (earth.value === null) return { kind: 'missing', reason: earth.reason ?? 'No pod measurement' }
+  const row = object(satelliteRow)
+  if (row.unit !== earth.unit) fail('satellite unit disagrees with the pod channel')
+  const cardNumber = object(row.cardNumber)
+  const value = cardNumber.value
+  if (value === null) return { kind: 'missing', reason: text(cardNumber.reason) }
+  if (typeof value !== 'number' || !Number.isFinite(value)) fail('invalid satellite card number')
+  const basis = text(cardNumber.basis)
+  const difference = gap(earth.value, value)
+  return offset === undefined
+    ? { kind: 'gap', gap: difference, basis }
+    : { kind: 'gap-and-offset', gap: difference, basis, offset: Math.abs(offset) }
+}
+
 /** DEFAULT D18: snap each coordinate independently; Math.round's ties go to
  * the higher coordinate. If that grid cell is not land, keep it missing.
  */
@@ -192,7 +242,7 @@ export function findPodCell(data: Pick<CardData, 'manifest' | 'cells'>, site: { 
   return index
 }
 
-export function buildCard(data: CardData, selection: CardSelection): CardModel {
+export function buildCard(data: CardData, selection: CardSelection, measurements?: CardMeasurements): CardModel {
   if (data.target !== selection.target || data.month.month !== selection.month) fail('loaded data does not match the selected target and month')
   const target = cardSettings.targets.find(target => target.id === selection.target) ?? fail('unknown target')
   const definition = cardTests.find(test => test.id === selection.test) ?? fail('unknown test')
@@ -201,13 +251,29 @@ export function buildCard(data: CardData, selection: CardSelection): CardModel {
   const rows = cardRegistries.channels.filter(channel => channel.onCard).map((channel): CardRow => {
     const settings = target.channels[channel.id], layer = data.month.layers[channel.id]
     const value = layer.values[index]
-    const earth: Reading = { value, unit: layer.unit, ...(value === null ? { reason: layer.missingReason } : {}) }
+    let earth: Reading = { value, unit: layer.unit, ...(value === null ? { reason: layer.missingReason } : {}) }
+    let errorBar: ErrorBar | undefined
+    if (measurements) {
+      const { log, satelliteChannels } = measurements
+      const calibration = channel.id === 'air_temp' ? log.calibration.airTemperature
+        : channel.id === 'reflectivity' ? log.calibration.reflectivity : undefined
+      earth = {
+        ...reduceChannel(log.records, channel), unit: channel.unit,
+        note: [podNotes[channel.id], calibration?.note].filter(Boolean).join('. '),
+      }
+      const offset = channel.id === 'air_temp' ? log.calibration.airTemperature.value : undefined
+      errorBar = makeErrorBar(earth, satelliteChannels[channel.id], offset)
+    }
     const targetValue = data.targetValues[channel.id]
     const weight = definition.weights[channel.id]
     return {
-      id: channel.id, label: channel.label, earth, target: targetValue,
+      id: channel.id,
+      label: channel.id === 'uv' ? 'All Sky Surface UV Index' : channel.label,
+      earth, target: targetValue,
       tolerance: { value: settings.tolerance, unit: settings.unit, status: settings.status },
-      score: score(earth.value, targetValue.value, settings.tolerance), evidence: 'estimate',
+      score: score(earth.value, targetValue.value, settings.tolerance),
+      evidence: measurements && earth.value !== null ? 'measured' : 'estimate',
+      ...(errorBar === undefined ? {} : { errorBar }),
       counts: definition.enabled && weight !== undefined && weight.value > 0, weight,
     }
   })
@@ -231,5 +297,6 @@ export function buildCard(data: CardData, selection: CardSelection): CardModel {
     siteNote: selection.site.kind === 'pod' && cardRegistries.podSite.status === 'default' ? cardRegistries.podSite.reason : undefined,
     target: selection.target, targetSol: data.targetSol, month: data.month.month, period: data.manifest.period,
     rows, sunRows, test: definition, combined: combine(definition.enabled ? scores : {}, definition.weights), limits: cardSettings.limits.card,
+    simulated: measurements?.log.simulated,
   }
 }
