@@ -12,6 +12,6 @@ Source: [Mission 4](mission-plan.md#mission-4-demo-video-and-submission).
 
 For the simulator rehearsal, open **Live panel** and enter `7200` in **Replay speed** so the log reaches the light drop within seconds. Start **Replay simulator** as you move from shot 1 to shot 2. For the second take, follow **Live panel** from **Ground truth** and repeat in the same tab. Use **Reset buffer** to clear prior readings; if the source is still running, its next record appears normally. The saved Qatar card uses the log rather than the live buffer.
 
-For the buffer check, enter `60` in **Replay speed** before starting. The simulator log stores one record per minute, so this replays one per second. Check **Buffered records** and the tab's memory footprint in Chrome Task Manager after ten minutes, then recheck with replay still running.
+For the buffer check, enter `62` in **Replay speed** before starting. The simulator log stores one record per minute. This speed gives the browser timers enough margin to reach 600 records in ten minutes. Check **Buffered records** and the tab's memory footprint in Chrome Task Manager after ten minutes, then recheck with replay still running.
 
 Screen recorder: `null`. Reason: the team must choose the recorder. Filming the pod, recording the live screen at the same time, editing the footage, and repeating both runs with the real pod remain team tasks.
