@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent, PointerEvent } from 'react'
 import type { MapData } from './data'
 import type { CellScore } from './model'
@@ -23,7 +23,7 @@ type Gesture = {
 const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y)
 const zoomStep = 1.4
 
-export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDraw }: {
+export type EarthGlobeProps = {
   data: MapData
   scores: readonly CellScore[]
   sites: readonly FieldSite[]
@@ -31,7 +31,25 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
   onHover: (index: number | null) => void
   onOpen: (index: number) => void
   onDraw: () => void
-}) {
+}
+
+const GoogleEarthExplorer = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  ? lazy(() => import('./GoogleEarthExplorer')) : null
+
+export function EarthGlobe(props: EarthGlobeProps) {
+  const [satellite, setSatellite] = useState(true)
+  if (!GoogleEarthExplorer) return <LocalEarthGlobe {...props} />
+  return <>
+    <div className="earth-map-modes" role="group" aria-label="Earth map layer">
+      <button type="button" aria-pressed={satellite} onClick={() => setSatellite(true)}>Google Earth</button>
+      <button type="button" aria-pressed={!satellite} onClick={() => setSatellite(false)}>Match colors</button>
+    </div>
+    {satellite ? <Suspense fallback={<p role="status">Loading Google Earth view…</p>}><GoogleEarthExplorer {...props} /></Suspense>
+      : <LocalEarthGlobe {...props} />}
+  </>
+}
+
+function LocalEarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDraw }: EarthGlobeProps) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const surfaceCanvas = useRef<HTMLCanvasElement>(null)
   const surfaceRenderer = useRef<ReturnType<typeof createSurface>>(null)
@@ -67,7 +85,7 @@ export function EarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDra
     const element = surfaceCanvas.current
     if (!element) return
     const renderer = createSurface(element, import.meta.env.BASE_URL + 'data/surfaces/earth.jpg',
-      () => draw.current(), () => draw.current())
+      () => draw.current(), () => draw.current(), true)
     surfaceRenderer.current = renderer
     return () => { renderer?.dispose(); surfaceRenderer.current = null }
   }, [])

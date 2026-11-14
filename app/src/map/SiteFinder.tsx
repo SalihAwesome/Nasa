@@ -97,10 +97,10 @@ export function MapView({ data }: { data: MapData }) {
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
         <div className="map-caption"><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
-        <p className="section-explanation">The colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
         <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
           onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
+        <p className="section-explanation">{import.meta.env.VITE_GOOGLE_MAPS_API_KEY && 'In Match colors, '}{import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'the' : 'The'} colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
         <div className="map-legend" aria-label="Match score legend"><span>Match</span>{stops.map((stop, index) => <span className="legend-item" key={stop}>
           <i style={{ background: `var(--color-score-${stop})` }} />{matchPercent(index / (stops.length - 1))}
         </span>)}<span className="legend-item"><i className="no-score-swatch" />No score</span></div>
@@ -128,7 +128,7 @@ export function MapView({ data }: { data: MapData }) {
         {definition.weights.slope && <p className="map-meta">{terrainSettings.note}</p>}
       </aside>
     </div>
-    <p className="map-meta">Land outline and place labels: Natural Earth. Grey cells have no score.</p>
+    <p className="map-meta">{import.meta.env.VITE_GOOGLE_MAPS_API_KEY && 'Match colors view: '}Land outline and place labels: Natural Earth. Grey cells have no score.</p>
   </div>
 }
 

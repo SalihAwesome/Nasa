@@ -750,3 +750,13 @@ The user requested completion of Mobility and Communications using available pub
 - Copernicus: the public record `https://zenodo.org/records/3939050` lists `PROBAV_LC100_global_v3.0.1_2019-nrt_Bare-CoverFraction-layer_EPSG-4326.tif`. A range request returned HTTP 206 and the verified full byte count 3,204,609,492. The complete downloaded file passed the published MD5 `f2c9432c37ced7af02b6d9207036c2dc`. Raster inspection confirmed EPSG:4326, uint8 percent, nodata 255, 362880 by 141120, 0.0009920634920634888-degree pixel spacing, west -180, north 80, and no precomputed overviews. The pipeline averages 504 by 504 source pixels per 0.5-degree region.
 
 An independent direct-source probe using the documented 30 km stencil returned Jezero regional slope 0.79030788 degrees and relief roughness 157.28988779 m. Shackleton returned slope 0.54353905 degrees and relief roughness 1210.79158772 m. These are derived regional metrics, not a rover-obstacle survey. `shared/terrain.json` marks sampling choices, minimum valid sample count, tolerances and spherical radii as defaults. Numeric derived target values and raw SHA256 hashes are written to `app/public/data/terrain/manifest.json` by `pipeline/pack_terrain.py`.
+
+## Google satellite 3D integration, 14 November 2026
+
+Official Google documentation was read in this session:
+- `https://developers.google.com/maps/documentation/javascript/3d/overview`: the supported web integration is Maps JavaScript API `maps3d`, with `Map3DElement`, `HYBRID` and `SATELLITE` modes, markers and built-in 3D imagery. Source documents `https://maps.googleapis.com/maps/api/js` with `v=beta` and an API key. Regions without mesh coverage render satellite imagery on terrain.
+- `https://developers.google.com/maps/documentation/javascript/reference/3d-map`: native camera center/range/tilt/heading, cooperative gestures, `gmp-click` with `LocationClickEvent.position`, and `gmp-error` are documented.
+- `https://developers.google.com/maps/documentation/javascript/reference/3d-map-draw`: `Marker3DInteractiveElement` supports positions, labels and click events.
+- `https://developers.google.com/maps/documentation/javascript/demo-key`: Maps Demo Key supports 2D/3D rendering without billing details, for eligible personal accounts and prototyping only.
+
+Installed package inspected: `@types/google.maps` 3.66.10, including actual Maps3DLibrary, Map3DElement, Marker3DInteractiveElement and LocationClickEvent exports. Live browser check on the configured build rendered Google satellite imagery, mounted the native map, enabled all five custom controls and reported no uncaught browser exceptions. No key is recorded here. See `docs/google-earth.md` for setup and the online/offline boundary.

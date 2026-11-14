@@ -7,13 +7,13 @@
 }
 /* U28 design choices only: not measured values, scoring settings or data. */
 :root {
-  --color-background: #080c12;
-  --color-surface: #111923;
+  --color-background: #0b111b;
+  --color-surface: #131e2c;
   --color-text: #edf3fa;
   --color-muted: #b8c6d4;
-  --color-border: #344354;
-  --color-accent: #66e0c2;
-  --color-accent-soft: #163730;
+  --color-border: #304154;
+  --color-accent: #8cdbed;
+  --color-accent-soft: #203646;
   --color-focus: #ffcf52;
   --color-score-0: #172e35;
   --color-score-025: #24504e;
@@ -44,7 +44,7 @@
   --font-data: Consolas, monospace;
   --text-small: 0.875rem;
   --text-label: 0.9375rem;
-  --text-body: 1.0625rem;
+  --text-body: 1rem;
   --text-lead: 1.125rem;
   --text-title: 1.5rem;
   --text-heading: 2.5rem;
@@ -61,7 +61,7 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --radius-small: 0.25rem;
-  --radius-panel: 0.75rem;
+  --radius-panel: 1rem;
   --border-width: 1px;
   --focus-width: 3px;
   --control-min: 2.75rem;
@@ -71,13 +71,13 @@
 
 :root[data-theme='light'] {
   color-scheme: light;
-  --color-background: #f5f2e9;
-  --color-surface: #fffdf8;
-  --color-text: #202923;
-  --color-muted: #505d55;
-  --color-border: #c6cec4;
-  --color-accent: #1e5b3f;
-  --color-accent-soft: #e4efe6;
+  --color-background: #eef2f5;
+  --color-surface: #ffffff;
+  --color-text: #172c3c;
+  --color-muted: #4e6272;
+  --color-border: #bdcbd6;
+  --color-accent: #14627a;
+  --color-accent-soft: #dcecf2;
   --color-focus: #17654c;
   --color-pod: #17654c;
   --color-satellite: #175f9a;
