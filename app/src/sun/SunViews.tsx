@@ -1,11 +1,11 @@
 import { useId, useMemo, useRef } from 'react'
 import type { SunPoint } from './sunData'
 
-export type Camera = { bearing: number; tilt: number }
+export type Camera = { bearing: number; tilt: number; zoom?: number }
 export type ElevationRange = { min: number; max: number }
 type Point = { azimuth: number; elevation: number }
 
-export const initialCamera: Camera = { bearing: 32, tilt: 28 }
+export const initialCamera: Camera = { bearing: 32, tilt: 28, zoom: 1 }
 export const fullElevationRange: ElevationRange = { min: -90, max: 90 }
 
 export function fitElevation(...paths: SunPoint[][]): ElevationRange {
@@ -86,7 +86,11 @@ const circle = Array.from({length: 73}, (_, i) => i * 5)
 const meridian = Array.from({length: 19}, (_, i) => i * 5)
 
 export function rotateCamera(camera: Camera, dx: number, dy: number): Camera {
-  return { bearing: ((camera.bearing + dx) % 360 + 360) % 360, tilt: Math.max(12, Math.min(72, camera.tilt + dy)) }
+  return { ...camera, bearing: ((camera.bearing + dx) % 360 + 360) % 360, tilt: Math.max(12, Math.min(72, camera.tilt + dy)) }
+}
+
+export function zoomCamera(camera: Camera, delta: number): Camera {
+  return { ...camera, zoom: Math.max(.7, Math.min(1.8, Math.round(((camera.zoom ?? 1) + delta) * 100) / 100)) }
 }
 
 export function SkyView({ label, rows, index, camera, onCamera }: {
@@ -128,6 +132,7 @@ export function SkyView({ label, rows, index, camera, onCamera }: {
     <defs>
       <radialGradient id={glow}><stop offset="0" className="sun-glow-core" /><stop offset="1" className="sun-glow-edge" /></radialGradient>
     </defs>
+    <g transform={`translate(250 158) scale(${camera.zoom ?? 1}) translate(-250 -158)`}>
     {arcs.map(arc => <polyline key={arc} points={arc} className="sun-dome" />)}
     {[30,60].map(e => <polygon key={e} points={ring(e)} className="sun-dome" />)}
     <path d={paths.night} className="sun-path sun-path-night" />
@@ -150,5 +155,6 @@ export function SkyView({ label, rows, index, camera, onCamera }: {
     <circle cx="250" cy="158" r="4" className="sun-observer" />
     <circle cx={cx} cy={cy} r="24" fill={`url(#${glow})`} className={selected.elevation<0?'sun-dim':''} />
     <circle cx={cx} cy={cy} r="6" className={'sun-marker'+(selected.elevation<0?' sun-dim':'')} data-sun-marker />
+    </g>
   </svg>
 }

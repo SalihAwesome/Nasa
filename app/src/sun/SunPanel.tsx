@@ -1,9 +1,9 @@
 import { PodSunSection } from './PodSunEvidence'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import limits from '../../../shared/limits.json'
 import { loadSunData, readSunSelection, selectEarth, sunHash } from './sunData'
 import type { SunData, SunNumbers, SunPoint, SunSelection } from './sunData'
-import { ElevationChart, fitElevation, fullElevationRange, initialCamera, rotateCamera, sampleIndex, SkyView } from './SunViews'
+import { ElevationChart, fitElevation, fullElevationRange, initialCamera, rotateCamera, sampleIndex, SkyView, zoomCamera } from './SunViews'
 import type { Camera, ElevationRange } from './SunViews'
 import './sun.css'
 
@@ -71,7 +71,7 @@ function SkyPlot({ id, label, source, rows, numbers, mode, range, index, camera,
         aria-valuetext={point.time_ut + ' UT'} onChange={event => onScrub(Number(event.target.value))} />
     </div>
     <Metrics numbers={numbers} />
-    <p className="sun-note">{source}</p>
+    <details className="sun-source"><summary>Source and sampling</summary><p className="sun-note">{source}</p></details>
   </article>
 }
 
@@ -79,13 +79,33 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
   const target = data.targets[selection.target]
   const earth = useMemo(() => selectEarth(data, selection), [data, selection.lat, selection.month])
   const fitted = useMemo(() => fitElevation(target.rows, earth.rows), [target.rows, earth.rows])
-  const [mode, setMode] = useState<Mode>('chart')
+  const [mode, setMode] = useState<Mode>('sky')
+  const workspace = useRef<HTMLElement>(null)
+  const [fullscreen, setFullscreen] = useState(false)
+  const [fullscreenError, setFullscreenError] = useState('')
   const [camera, setCamera] = useState(initialCamera)
   const [full, setFull] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [progress, setProgress] = useState({ target: 0, earth: 0 })
   const [playing, setPlaying] = useState<Playback>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const sync = () => setFullscreen(document.fullscreenElement === workspace.current)
+    document.addEventListener('fullscreenchange', sync)
+    return () => document.removeEventListener('fullscreenchange', sync)
+  }, [])
+
+  async function toggleFullscreen() {
+    setFullscreenError('')
+    try {
+      if (document.fullscreenElement === workspace.current) await document.exitFullscreen()
+      else if (workspace.current?.requestFullscreen) await workspace.current.requestFullscreen()
+      else setFullscreenError('Full screen is unavailable in this browser. You can still rotate, zoom and play the paths here.')
+    } catch {
+      setFullscreenError('The browser did not open full screen. You can keep exploring here.')
+    }
+  }
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -148,7 +168,7 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
     ? 'The two paths reach the same peak elevation at the shown precision.'
     : (difference > 0 ? labels[selection.target] : 'Earth') + ' reaches a peak ' + shown + '° higher in these samples.'
 
-  return <>
+  return <section ref={workspace} className="sun-workspace" aria-label="Interactive Sun comparison">
     <div className="sun-toolbar">
       <div className="sun-view-toggle" role="group" aria-label="Visualization">
         <button type="button" aria-pressed={mode === 'sky'} onClick={() => setMode('sky')}>Sky view</button>
@@ -160,15 +180,21 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
       <label className="sun-speed">Playback speed <select value={speed} disabled={reducedMotion} onChange={event => setSpeed(Number(event.target.value))}>
         <option value={.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option>
       </select></label>
+      <button type="button" className="sun-expand" onClick={toggleFullscreen}>{fullscreen ? 'Exit full screen' : 'Full screen'}</button>
     </div>
+    {fullscreenError && <p role="status" className="sun-note">{fullscreenError}</p>}
     {mode === 'sky'
       ? <div className="sun-toolbar sun-camera" role="group" aria-label="Shared camera">
         <span className="sun-note">Drag either sky to rotate both.</span>
-        <button type="button" onClick={() => setCamera(current => rotateCamera(current, -15, 0))}>Rotate left</button>
-        <button type="button" onClick={() => setCamera(current => rotateCamera(current, 15, 0))}>Rotate right</button>
-        <button type="button" onClick={() => setCamera(current => rotateCamera(current, 0, 10))}>Tilt up</button>
-        <button type="button" onClick={() => setCamera(current => rotateCamera(current, 0, -10))}>Tilt down</button>
+        <button type="button" disabled={(camera.zoom ?? 1) >= 1.8} onClick={() => setCamera(current => zoomCamera(current, .1))}>Zoom in</button>
+        <button type="button" disabled={(camera.zoom ?? 1) <= .7} onClick={() => setCamera(current => zoomCamera(current, -.1))}>Zoom out</button>
         <button type="button" onClick={() => setCamera(initialCamera)}>Reset view</button>
+        <details className="sun-camera-more"><summary>Rotate &amp; tilt</summary><div>
+          <button type="button" onClick={() => setCamera(current => rotateCamera(current, -15, 0))}>Rotate left</button>
+          <button type="button" onClick={() => setCamera(current => rotateCamera(current, 15, 0))}>Rotate right</button>
+          <button type="button" onClick={() => setCamera(current => rotateCamera(current, 0, 10))}>Tilt up</button>
+          <button type="button" onClick={() => setCamera(current => rotateCamera(current, 0, -10))}>Tilt down</button>
+        </div></details>
       </div>
       : <div className="sun-toolbar"><label className="sun-range"><input type="checkbox" checked={full} onChange={event => setFull(event.target.checked)} /> Full range (−90° to +90°)</label>
         <span className="sun-note">Both charts share an elevation scale.</span>
@@ -190,7 +216,7 @@ export function SunComparison({ data, selection }: { data: SunData; selection: S
     </div>
     <p className="sun-insight">{insight}</p>
     <p className="sun-note">Together, both paths advance by the same percentage. Halfway is {elapsedHours(target.rows) / 2} hours on the target path and {elapsedHours(earth.rows) / 2} hours on Earth.</p>
-  </>
+  </section>
 }
 
 export function SunPanel({ hash }: { hash: string }) {
