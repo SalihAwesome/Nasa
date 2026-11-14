@@ -2,8 +2,11 @@
   {
     "id": "power",
     "weights": {
-      "ground_temp": { "value": 0.5, "status": "default" },
-      "uv": { "value": 0.5, "status": "default" }
+      "ground_temp": { "value": 0.2, "status": "default" },
+      "uv": { "value": 0.2, "status": "default" },
+      "peak_elevation": { "value": 0.2, "status": "default" },
+      "low_sun_share": { "value": 0.2, "status": "default" },
+      "horizon_sweep": { "value": 0.2, "status": "default" }
     },
     "enabled": true,
     "notBuilt": ["Bare ground", "Sunlight", "Airborne dust"]

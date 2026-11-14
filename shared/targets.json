@@ -1,6 +1,29 @@
 [
   {
     "id": "shackleton",
+    "sun": {
+      "peak_elevation": {
+        "tolerance": 10,
+        "unit": "degrees",
+        "status": "default",
+        "valueFile": "app/public/data/sun/shackleton-numbers.json",
+        "sourceId": "horizons"
+      },
+      "low_sun_share": {
+        "tolerance": 0.25,
+        "unit": "ratio",
+        "status": "default",
+        "valueFile": "app/public/data/sun/shackleton-numbers.json",
+        "sourceId": "horizons"
+      },
+      "horizon_sweep": {
+        "tolerance": 90,
+        "unit": "degrees",
+        "status": "default",
+        "valueFile": "app/public/data/sun/shackleton-numbers.json",
+        "sourceId": "horizons"
+      }
+    },
     "horizons": {
       "center": "coord@301",
       "site": {
@@ -83,6 +106,29 @@
   },
   {
     "id": "jezero",
+    "sun": {
+      "peak_elevation": {
+        "tolerance": 10,
+        "unit": "degrees",
+        "status": "default",
+        "valueFile": "app/public/data/sun/jezero-numbers.json",
+        "sourceId": "horizons"
+      },
+      "low_sun_share": {
+        "tolerance": 0.25,
+        "unit": "ratio",
+        "status": "default",
+        "valueFile": "app/public/data/sun/jezero-numbers.json",
+        "sourceId": "horizons"
+      },
+      "horizon_sweep": {
+        "tolerance": 90,
+        "unit": "degrees",
+        "status": "default",
+        "valueFile": "app/public/data/sun/jezero-numbers.json",
+        "sourceId": "horizons"
+      }
+    },
     "horizons": {
       "center": "coord@499",
       "site": {
