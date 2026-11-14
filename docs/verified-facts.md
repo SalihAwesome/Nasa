@@ -624,9 +624,23 @@ entry at `dist/d3-geo.mjs`. Reading that file and importing the installed module
 confirmed named exports `geoEqualEarth` and `geoPath`. The installed
 `@types/d3-geo` version is 3.1.1; its declarations include `fitExtent`,
 `GeoProjection`, `GeoPermissibleObjects`, and canvas-context `geoPath`.
-No browser timing result was obtained: the in-app browser timed out on
-localhost, then Windows Computer Use stopped because it could not confidently
-determine Chrome's current URL. U10's browser timing check remains open.
+On 14 November 2026, after rebasing U10 onto main with U07, U11 and U15 merged,
+`npm run preview -- --host 127.0.0.1 --port 4173` served the production build.
+The ChatGPT in-app browser opened that URL. Pressing ArrowRight on the Month
+slider produced these real console messages, read through `tab.dev.logs`:
+
+```text
+U10 month change: February; 72.6 ms
+U10 month change: March; 84.0 ms
+```
+
+The first change used Jezero and the second used Shackleton. Both meet U10's
+under-200-ms limit. The loaded asset was `assets/index-fF7l71zp.js`. The March
+Moon ranking displayed 0.987; clicking its first link opened
+`#/card/cell/0?target=shackleton&test=power&month=3` and the loaded card also
+displayed 0.987. The browser's warning/error log was empty. This completes the
+browser check that the original draft could not obtain. Map/card integration
+tests also compare the unrounded scores using the shipped data files.
 
 ## Not verified yet
 

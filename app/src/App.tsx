@@ -1,7 +1,6 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { PodLogPanel } from './pod/PodLogPanel'
 import { SunPanel } from './sun/SunPanel'
-import { MobilityAvailability } from './mobility/TestSelector'
 import { CardPanel } from './card/FidelityCard'
 import './styles/tokens.css'
 import './styles/shell.css'
@@ -76,7 +75,6 @@ function App() {
           {route === 'card' && <a className="back-link" href="#/map">Back to site finder</a>}
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
-          {route === 'map' && <MobilityAvailability />}
           {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
             : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <CardPanel hash={hash} />
             : <section className="placeholder" aria-labelledby="placeholder-title">

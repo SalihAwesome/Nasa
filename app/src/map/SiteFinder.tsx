@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { geoPath } from 'd3-geo'
 import testData from '../../../shared/tests.json'
 import { loadRegistries } from '../data/registries'
+import { cardHash } from '../card/cardData'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
 import { computeScores, hitCell, MAP_HEIGHT, MAP_WIDTH, projectCells, rankCells } from './model'
@@ -23,6 +24,12 @@ function palette(styles: CSSStyleDeclaration) {
     const position = index / 255 * (rgb.length - 1), low = Math.min(Math.floor(position), rgb.length - 2), share = position - low
     return `rgb(${rgb[low].map((value, channel) => Math.round(value + (rgb[low + 1][channel] - value) * share)).join(',')})`
   })
+}
+
+function TestAvailability() {
+  return <details id="disabled-tests" className="test-availability"><summary>Test availability</summary>
+    <ul>{definitions.filter(test => !test.enabled).map(test => <li key={test.id}><strong>{testLabels[test.id]}.</strong> {test.reason}</li>)}</ul>
+  </details>
 }
 
 export function MapView({ data }: { data: MapData }) {
@@ -84,6 +91,7 @@ export function MapView({ data }: { data: MapData }) {
   }
 
   const cell = hovered === null ? null : data.cells[hovered]
+  const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
   return <div className="site-finder">
     <div className="map-controls">
       <label>Target<select value={targetId} onChange={event => { setTargetId(event.target.value); setHovered(null) }}>
@@ -99,16 +107,14 @@ export function MapView({ data }: { data: MapData }) {
           onChange={event => { changeStarted.current = performance.now(); setMonth(Number(event.target.value)) }} />
       </label>
     </div>
-    <details id="disabled-tests" className="test-availability"><summary>Test availability</summary>
-      <ul>{definitions.filter(test => !test.enabled).map(test => <li key={test.id}><strong>{testLabels[test.id]}.</strong> {test.reason}</li>)}</ul>
-    </details>
+    <TestAvailability />
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
         <div className="map-caption"><h2 id="map-title">{monthLabels[month - 1]} land-cell matches</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
         <canvas ref={canvas} className="world-map" role="img" aria-label="World map of land-cell match scores. Select a land cell to open its fidelity card. Ranked cells are linked beside the map."
           onPointerMove={event => setHovered(pointerCell(event))} onPointerLeave={() => setHovered(null)}
-          onClick={event => { const index = pointerCell(event); if (index !== null) window.location.hash = `/card/cell/${index}` }} />
+          onClick={event => { const index = pointerCell(event); if (index !== null) window.location.hash = cellLink(index) }} />
         <div className="map-legend" aria-label="Match score legend"><span>Match</span>{stops.map((stop, index) => <span className="legend-item" key={stop}>
           <i style={{ background: `var(--color-score-${stop})` }} />{index / (stops.length - 1)}
         </span>)}<span className="legend-item"><i className="no-score-swatch" />No score</span></div>
@@ -124,7 +130,7 @@ export function MapView({ data }: { data: MapData }) {
       <aside className="rank-panel" aria-labelledby="ranking-title">
         <h2 id="ranking-title">Top 20 cells</h2><p className="map-meta">{targetLabels[targetId]} · {testLabels[testId]} · {monthLabels[month - 1]}</p>
         <p className="map-meta" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
-        {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={`#/card/cell/${entry.index}`}>
+        {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={cellLink(entry.index)}>
           <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{entry.score.toFixed(3)}</strong>
           {entry.missing.length > 0 && <small>Missing: {entry.missing.join(', ')}</small>}
         </a></li>)}</ol> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
@@ -148,6 +154,6 @@ export default function SiteFinder() {
     return () => { active = false }
   }, [])
   if (error) return <section className="placeholder" role="alert"><h2>Map could not load</h2><p>{error}</p><button onClick={() => window.location.reload()}>Retry</button></section>
-  if (!data) return <section className="placeholder" role="status"><h2>Not available yet</h2><p>Loading the map and all monthly layers from this build…</p></section>
+  if (!data) return <><TestAvailability /><section className="placeholder" role="status"><h2>Not available yet</h2><p>Loading the map and all monthly layers from this build…</p></section></>
   return <MapView data={data} />
 }
