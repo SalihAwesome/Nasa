@@ -15,7 +15,8 @@
 }
 .live-controls input[type='number'] { width: 6rem; }
 .live-controls button { cursor: pointer; font-weight: var(--weight-medium); }
-.live-controls button:hover { background: var(--color-accent-soft); }
+.live-controls button:enabled:hover { background: var(--color-accent-soft); }
+.live-controls button:disabled { cursor: default; color: var(--color-muted); }
 .live-controls button[type='submit'] { background: var(--color-accent); color: var(--color-surface); }
 .live-status, .live-time, .live-handoff p { margin-top: var(--space-2); color: var(--color-muted); font-size: var(--text-label); }
 .live-path {

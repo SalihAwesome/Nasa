@@ -14,10 +14,11 @@ type Snapshot = {
   reflectivity: ReturnType<typeof readReflectivity> | null
   simulated: boolean
   badLines: number
+  bufferedRecords: number
 }
 
 const empty: Snapshot = {
-  source: null, latest: null, reflectivity: null, simulated: false, badLines: 0,
+  source: null, latest: null, reflectivity: null, simulated: false, badLines: 0, bufferedRecords: 0,
 }
 
 export function createLiveSession(source: SourceKind) {
@@ -26,6 +27,10 @@ export function createLiveSession(source: SourceKind) {
   const buffer = new PodRecordBuffer()
   return {
     snapshot: () => current,
+    resetBuffer() {
+      buffer.clear()
+      current = { ...current, latest: null, reflectivity: null, bufferedRecords: buffer.size }
+    },
     receive(event: PodEvent) {
       if (event.kind === 'setting') {
         settings.set(event.key, event.value)
@@ -34,7 +39,7 @@ export function createLiveSession(source: SourceKind) {
         current = { ...current, badLines: current.badLines + 1 }
       } else if (event.kind === 'record') {
         buffer.push(event)
-        current = { ...current, latest: event, reflectivity: readReflectivity(event.record, settings) }
+        current = { ...current, latest: event, reflectivity: readReflectivity(event.record, settings), bufferedRecords: buffer.size }
       }
     },
   }
@@ -156,6 +161,7 @@ export function LivePanel({ onHandoff }: { onHandoff: (handoff: CardHandoff) => 
   const [speed, setSpeed] = useState('1')
   const [connection, setConnection] = useState<{ source: SourceKind; running: boolean; error?: string } | null>(null)
   const active = useRef<AbortController | null>(null)
+  const liveSession = useRef<ReturnType<typeof createLiveSession> | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -175,6 +181,7 @@ export function LivePanel({ onHandoff }: { onHandoff: (handoff: CardHandoff) => 
     active.current = controller
     const { signal } = controller
     const session = createLiveSession(source)
+    liveSession.current = session
     setSnapshot(session.snapshot())
     setConnection({ source, running: true })
     try {
@@ -209,12 +216,19 @@ export function LivePanel({ onHandoff }: { onHandoff: (handoff: CardHandoff) => 
         active.current?.abort()
         setConnection({ source: connection.source, running: false })
       }}>Stop</button>}
+      <button type="button" disabled={!snapshot.bufferedRecords} onClick={() => {
+        const session = liveSession.current
+        if (!session) return
+        session.resetBuffer()
+        setSnapshot(session.snapshot())
+      }}>Reset buffer</button>
     </form>
-    {connection && <p role={connection.error ? 'alert' : 'status'} className="live-status">
-      {connection.error ?? (connection.running
+    <p role={connection?.error ? 'alert' : 'status'} className="live-status">
+      {connection && <>{connection.error ?? (connection.running
         ? connection.source === 'replay' ? 'Replaying simulator' : connection.source + ' listener active'
-        : connection.source === 'replay' ? 'Replay ended' : connection.source + ' listener stopped')}
-    </p>}
+        : connection.source === 'replay' ? 'Replay ended' : connection.source + ' listener stopped')} · </>}
+      Buffered records: <span data-buffered-records={snapshot.bufferedRecords}>{snapshot.bufferedRecords}</span>
+    </p>
     <LivePath snapshot={snapshot} onHandoff={onHandoff} />
     <LiveReadings snapshot={snapshot} meda={meda.reference} medaError={meda.error} />
   </div>

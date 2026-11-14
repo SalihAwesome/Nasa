@@ -24,6 +24,11 @@ export class PodRecordBuffer {
     this.next = (this.next + 1) % defaults.recordLimit
   }
 
+  clear() {
+    this.records.length = 0
+    this.next = 0
+  }
+
   snapshot(): PodRecordEvent[] {
     if (this.size < defaults.recordLimit) return this.records.slice()
     return [...this.records.slice(this.next), ...this.records.slice(0, this.next)]
