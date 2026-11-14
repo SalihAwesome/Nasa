@@ -1,4 +1,5 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { PodLogPanel } from './pod/PodLogPanel'
 import './styles/tokens.css'
 import './styles/shell.css'
 
@@ -71,10 +72,10 @@ function App() {
           {route === 'card' && <a className="back-link" href="#/map">Back to site finder</a>}
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
-          <section className="placeholder" aria-labelledby="placeholder-title">
+          {route === 'truth' ? <PodLogPanel /> : <section className="placeholder" aria-labelledby="placeholder-title">
             <h2 id="placeholder-title">Not available yet</h2>
             <p>This view is still being built. No data is loaded here.</p>
-          </section>
+          </section>}
         </> : <>
           <h1 id="view-heading" tabIndex={-1}>Page not found</h1>
           <p className="view-description">This address does not match an app view.</p>
