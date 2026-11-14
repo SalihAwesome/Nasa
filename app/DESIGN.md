@@ -43,6 +43,7 @@ never replace missing values with decorative data.
 | `--color-mars` | #ffaa7c | Mars curve |
 | `--color-sun` | #ffcf52 | Current Sun marker and glow |
 | `--color-sun-outline` | #ffbb45 | Sun marker edge |
+| `--color-sky-glow` | #162a3b | Center of the sky viewport gradient |
 | `--color-temperature-plot` | #0c1520 | Ground temperature plot background |
 | `--color-temperature-text` | #e0f1fa | Plot labels and series keys |
 | `--color-temperature-grid` | #355669 | Plot grid |
