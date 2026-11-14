@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), projectAssistant({ key: env.OPENAI_API_KEY, model: env.OPENAI_MODEL })],
     base: './',
+    // Local Maps credentials must not change the existing offline test fixtures.
+    // Google integration behavior is verified separately in a browser.
+    test: { env: { VITE_GOOGLE_MAPS_API_KEY: '' } },
     server: {
       fs: {
         allow: [searchForWorkspaceRoot(process.cwd()), sharedDir],
