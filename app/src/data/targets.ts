@@ -15,6 +15,7 @@ export type Target = {
     site: { value: string; status: 'default' | 'verified'; citation: string | null; reasons: Reasons }
   }
   channels: Record<string, TargetChannel>
+  sun: Record<string, TargetChannel>
 }
 export type Limit = { title: string; text: string; source: 'docs/project-brief.md' }
 export type Limits = { card: Limit[]; sunPanel: Limit[] }
@@ -42,7 +43,32 @@ function reasons(data: Record<string, unknown>, path: string): Reasons {
   return result
 }
 
-/** U06 validates references, not the existence of the later U07 output. */
+function parseTargetRows(
+  input: unknown,
+  path: string,
+  quantities: readonly { id: string; unit: string }[],
+  sourceIds: ReadonlySet<string>,
+): Record<string, TargetChannel> {
+  const raw = object(input, path, quantities.map(quantity => quantity.id))
+  const result: Record<string, TargetChannel> = {}
+  for (const quantity of quantities) {
+    const rowPath = `${path}.${quantity.id}`
+    const row = object(raw[quantity.id], rowPath, ['tolerance', 'unit', 'status', 'valueFile', 'sourceId'], ['reasons'])
+    if (typeof row.tolerance !== 'number' || !Number.isFinite(row.tolerance) || row.tolerance <= 0) fail(`${rowPath}.tolerance`, 'expected a positive finite tolerance')
+    const unit = text(row.unit, `${rowPath}.unit`)
+    if (unit !== quantity.unit) fail(`${rowPath}.unit`, 'does not match the quantity unit')
+    if (row.status !== 'default') fail(`${rowPath}.status`, 'tolerance must be labelled default')
+    const valueFile = nullableText(row.valueFile, `${rowPath}.valueFile`)
+    const sourceId = nullableText(row.sourceId, `${rowPath}.sourceId`)
+    if (valueFile !== null && (!valueFile.startsWith('app/public/data/') || !valueFile.endsWith('.json') || valueFile.includes('..') || valueFile.includes('\\'))) fail(`${rowPath}.valueFile`, 'expected a JSON path under app/public/data/')
+    if (valueFile !== null && sourceId === null) fail(`${rowPath}.sourceId`, 'valueFile requires a registered sourceId')
+    if (sourceId !== null && !sourceIds.has(sourceId)) fail(`${rowPath}.sourceId`, 'not found in shared/sources.json')
+    result[quantity.id] = { tolerance: row.tolerance, unit, status: 'default', valueFile, sourceId, reasons: reasons(row, rowPath) }
+  }
+  return result
+}
+
+/** Validate card and Sun settings while accepting target files from before U15. */
 export function parseTargets(input: unknown, sources: readonly Pick<Source, 'id'>[] = loadRegistries().sources): Target[] {
   if (!Array.isArray(input) || input.length !== 2) fail('targets', 'expected two targets')
   const card = loadRegistries().channels.filter(channel => channel.onCard)
@@ -50,7 +76,7 @@ export function parseTargets(input: unknown, sources: readonly Pick<Source, 'id'
   const ids = new Set<string>()
   return input.map((value, index): Target => {
     const path = `targets[${index}]`
-    const data = object(value, path, ['id', 'horizons', 'channels'])
+    const data = object(value, path, ['id', 'horizons', 'channels'], ['sun'])
     const id = text(data.id, `${path}.id`)
     if (id !== 'shackleton' && id !== 'jezero') fail(`${path}.id`, 'unknown target')
     if (ids.has(id)) fail(`${path}.id`, 'duplicate target id')
@@ -64,26 +90,17 @@ export function parseTargets(input: unknown, sources: readonly Pick<Source, 'id'
     const citation = nullableText(site.citation, `${sitePath}.citation`)
     if (citation === null && status !== 'default') fail(`${sitePath}.status`, 'uncited coordinates must remain default')
 
-    const rawChannels = object(data.channels, `${path}.channels`, card.map(channel => channel.id))
-    const channels: Record<string, TargetChannel> = {}
-    for (const channel of card) {
-      const rowPath = `${path}.channels.${channel.id}`
-      const row = object(rawChannels[channel.id], rowPath, ['tolerance', 'unit', 'status', 'valueFile', 'sourceId'], ['reasons'])
-      if (typeof row.tolerance !== 'number' || !Number.isFinite(row.tolerance) || row.tolerance <= 0) fail(`${rowPath}.tolerance`, 'expected a positive finite tolerance')
-      const unit = text(row.unit, `${rowPath}.unit`)
-      if (unit !== channel.unit) fail(`${rowPath}.unit`, 'does not match the channel registry')
-      if (row.status !== 'default') fail(`${rowPath}.status`, 'D1 tolerance must be labelled default')
-      const valueFile = nullableText(row.valueFile, `${rowPath}.valueFile`)
-      const sourceId = nullableText(row.sourceId, `${rowPath}.sourceId`)
-      if (valueFile !== null && (!valueFile.startsWith('app/public/data/') || !valueFile.endsWith('.json') || valueFile.includes('..') || valueFile.includes('\\'))) fail(`${rowPath}.valueFile`, 'expected a JSON path under app/public/data/')
-      if (valueFile !== null && sourceId === null) fail(`${rowPath}.sourceId`, 'valueFile requires a registered sourceId')
-      if (sourceId !== null && !sourceIds.has(sourceId)) fail(`${rowPath}.sourceId`, 'not found in shared/sources.json')
-      channels[channel.id] = { tolerance: row.tolerance, unit, status: 'default', valueFile, sourceId, reasons: reasons(row, rowPath) }
-    }
+    const channels = parseTargetRows(data.channels, `${path}.channels`, card, sourceIds)
+    const sun = data.sun === undefined ? {} : parseTargetRows(data.sun, `${path}.sun`, [
+      { id: 'peak_elevation', unit: 'degrees' },
+      { id: 'low_sun_share', unit: 'ratio' },
+      { id: 'horizon_sweep', unit: 'degrees' },
+    ], sourceIds)
     return {
       id,
       horizons: { center: text(horizon.center, `${path}.horizons.center`), site: { value: text(site.value, `${sitePath}.value`), status, citation, reasons: reasons(site, sitePath) } },
       channels,
+      sun,
     }
   })
 }

@@ -17,12 +17,20 @@ test('records all five tests and explains each disabled test', () => {
   }
 })
 
-test('power gives equal weights to ground temperature and UV, summing to one', () => {
+test('power gives equal weights to ground temperature, UV and three Sun quantities, summing to one', () => {
   const power = tests.find(t => t.id === 'power')!
-  expect(power.weights).toEqual({ ground_temp: weight(0.5), uv: weight(0.5) })
+  expect(power.weights).toEqual({
+    ground_temp: weight(0.2),
+    uv: weight(0.2),
+    peak_elevation: weight(0.2),
+    low_sun_share: weight(0.2),
+    horizon_sweep: weight(0.2),
+  })
   expect(Object.values(power.weights).reduce((sum, w) => sum + w.value, 0)).toBe(1)
   expect(power.notBuilt).toEqual(['Bare ground', 'Sunlight', 'Airborne dust'])
-  expect(combine({ ground_temp: 1, uv: 0 }, power.weights)).toEqual({ score: 0.5, missing: [] })
+  // Simulated dimensionless scores exercise the configured five-way mean.
+  expect(combine({ ground_temp: 1, uv: 0, peak_elevation: 1, low_sun_share: 0, horizon_sweep: 0.5 }, power.weights))
+    .toEqual({ score: 0.5, missing: [] })
 })
 
 test('mobility remains disabled with only the planned dryness weight', () => {

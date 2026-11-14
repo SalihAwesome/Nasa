@@ -32,6 +32,49 @@ test('records D1 default tolerances for exactly the six card channels', () => {
   }
 })
 
+test('loads D2 Sun defaults for both targets from the registered Horizons outputs', () => {
+  for (const target of loadTargetSettings().targets) {
+    expect(target.sun).toEqual({
+      peak_elevation: { tolerance: 10, unit: 'degrees', status: 'default', valueFile: `app/public/data/sun/${target.id}-numbers.json`, sourceId: 'horizons', reasons: {} },
+      low_sun_share: { tolerance: 0.25, unit: 'ratio', status: 'default', valueFile: `app/public/data/sun/${target.id}-numbers.json`, sourceId: 'horizons', reasons: {} },
+      horizon_sweep: { tolerance: 90, unit: 'degrees', status: 'default', valueFile: `app/public/data/sun/${target.id}-numbers.json`, sourceId: 'horizons', reasons: {} },
+    })
+    for (const [id, setting] of Object.entries(target.sun)) {
+      if (setting.valueFile === null) throw new Error(`Missing Sun file for ${id}`)
+      const saved = JSON.parse(readFileSync(new URL(`../../../${setting.valueFile}`, import.meta.url), 'utf8'))
+      expect(saved.target).toBe(target.id)
+      expect(saved.source.id).toBe(setting.sourceId)
+      expect(Number.isFinite(saved.numbers[id])).toBe(true)
+    }
+  }
+})
+
+test('accepts older target settings without Sun quantities', () => {
+  const data = rawTargets()
+  for (const target of data) delete target.sun
+  expect(parseTargets(data).map(target => target.sun)).toEqual([{}, {}])
+})
+
+test('validates Sun tolerances, units, default labels, complete quantities and source references', () => {
+  const invalid = [
+    { tolerance: 0 },
+    { tolerance: Infinity },
+    { unit: 'wrong' },
+    { status: 'verified' },
+    { sourceId: 'unregistered' },
+    { sourceId: null },
+    { valueFile: '../outside.json' },
+  ]
+  for (const change of invalid) {
+    const data = rawTargets()
+    Object.assign(data[0].sun.peak_elevation, change)
+    expect(() => parseTargets(data)).toThrow(RegistryError)
+  }
+  const missing = rawTargets()
+  delete missing[0].sun.horizon_sweep
+  expect(() => parseTargets(missing)).toThrow(/horizon_sweep/)
+})
+
 test('preserves all six missing Shackleton values with the specified reason', () => {
   const target = loadTargetSettings().targets.find(t => t.id === 'shackleton')!
   for (const channel of Object.values(target.channels)) {
