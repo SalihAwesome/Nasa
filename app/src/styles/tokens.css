@@ -19,6 +19,12 @@
   --color-mars: #a04423;
   --color-sun: #ffcf52;
   --color-sun-outline: #80500e;
+  --color-temperature-plot: #102d3c;
+  --color-temperature-text: #e0f1fa;
+  --color-temperature-grid: #355669;
+  --color-temperature-cold: #44baff;
+  --color-temperature-mild: #40e5bd;
+  --color-temperature-warm: #ff9c49;
   --color-estimate-text: #234d7a;
   --color-estimate-background: #e4eef8;
   --color-measured-text: #175642;
