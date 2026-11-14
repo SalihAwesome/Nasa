@@ -17,6 +17,7 @@ export type Channel = {
   onCard: boolean; status: Status; reasons: Reasons
 }
 export type Source = {
+  version?: string
   id: string; name: string; url: string | null; usedFor: string; accessed: string | null
   files: string[]; reasons: Reasons
 }
@@ -111,16 +112,17 @@ export function parseChannels(input: unknown): Channel[] {
 
 export function parseSources(input: unknown): Source[] {
   return unique(list(input, 'sources', (value, path) => {
-    const d = object(value, path, ['id', 'name', 'url', 'usedFor', 'accessed', 'files'], ['reasons'])
+    const d = object(value, path, ['id', 'name', 'url', 'usedFor', 'accessed', 'files'], ['reasons', 'version'])
     const url = nullable(d.url, `${path}.url`, text)
     if (url !== null) {
       let parsed: URL
       try { parsed = new URL(url) } catch { return fail(path, 'invalid source URL') }
       if (parsed.protocol !== 'https:') fail(path, 'source URL must use HTTPS')
     }
+    const version = d.version === undefined ? undefined : text(d.version, `${path}.version`)
     const files = list(d.files, `${path}.files`, text)
-    if (!files.length || files.some(f => !f.startsWith('app/public/data/') || f.includes('..') || f.includes('\\') || f.slice(16).includes(':'))) fail(path, 'files must be patterns under app/public/data/')
-    return { id: text(d.id, `${path}.id`), name: text(d.name, `${path}.name`), url, usedFor: text(d.usedFor, `${path}.usedFor`), accessed: nullable(d.accessed, `${path}.accessed`, date), files, reasons: reasons(d, path) }
+    if ((!files.length && version === undefined) || files.some(f => !f.startsWith('app/public/data/') || f.includes('..') || f.includes('\\') || f.slice(16).includes(':'))) fail(path, 'files must be patterns under app/public/data/')
+    return { id: text(d.id, `${path}.id`), name: text(d.name, `${path}.name`), url, usedFor: text(d.usedFor, `${path}.usedFor`), accessed: nullable(d.accessed, `${path}.accessed`, date), files, ...(version === undefined ? {} : { version }), reasons: reasons(d, path) }
   }), 'sources')
 }
 

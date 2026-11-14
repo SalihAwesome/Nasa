@@ -19,13 +19,13 @@ test('loads all four shared registries and preserves the U02 channel contract', 
     ['pressure', ['p'], 'PS', 'PS', 10, 'DER_PS', 'PRESSURE', 'daily_mean', true],
     ['ground_temp_10cm', ['t10'], null, null, null, null, null, null, false],
   ])
-  expect(data.sources.map(s => s.id)).toEqual(['power', 'horizons', 'meda', 'naturalearth_50m', 'naturalearth_110m', 'pod', 'computed'])
+  expect(data.sources.filter(s => s.files.length > 0).map(s => s.id)).toEqual(['power', 'horizons', 'meda', 'naturalearth_50m', 'naturalearth_110m', 'pod', 'computed'])
   expect(data.podSite).toMatchObject({ lat: 25.3, lon: 51.5, start: '2026-11-14T00:00:00Z', exclude: [], status: 'default' })
   expect(Object.values(data.podSettings).map(s => [s.value, s.status])).toEqual([
     [400, 'default'], [1000, 'default'], [0.27, 'default'], [0, 'default'],
   ])
   expect(data.channels.every(c => c.status === 'default')).toBe(true)
-  expect(data.sources.filter(s => s.url !== null).every(s => s.accessed === '2026-11-12')).toBe(true)
+  expect(data.sources.filter(s => s.url !== null && s.files.length > 0).every(s => s.accessed === '2026-11-12')).toBe(true)
 })
 
 test('rejects a channel with no unit', () => {
@@ -97,4 +97,15 @@ test('preserves an explicitly missing field site without substituting defaults',
 
 test.each(parsers)('%s rejects a wrong root type', (_name, parse) => {
   expect(() => parse(null)).toThrow(RegistryError)
+})
+
+test('loads reused firmware libraries and requires a version when files is empty', () => {
+  const libraries = loadRegistries().sources.filter(source => source.files.length === 0)
+  expect(libraries).toHaveLength(10)
+  const oneWire = libraries.find(source => source.id === 'onewire')
+  expect(oneWire).toMatchObject({ version: '2.3.8', url: 'https://github.com/PaulStoffregen/OneWire', files: [] })
+  const source = { ...oneWire }
+  delete source.version
+  expect(() => parseSources([source])).toThrow(/files/)
+  expect(() => parseSources([{ ...oneWire, version: '' }])).toThrow(/version/)
 })

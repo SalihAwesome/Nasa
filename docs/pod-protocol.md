@@ -38,7 +38,7 @@ A light reading at or above `lux_max` is saturated. Pass the active `lux_max` to
 
 ## Live links and stored log
 
-The pod gets UTC from the internet at startup. It begins sending and logging records once it has the time. It samples every two seconds and sends each record over WebSocket on port 81 and USB serial at 115,200 baud. It sends the six settings when a link opens. The port and baud rate are D9 defaults.
+The pod gets UTC from the internet at startup. It begins sending and logging records once it has the time. It samples every two seconds and sends each record over WebSocket on port 81 and USB serial at 115,200 baud. It sends the six settings when a link opens. Send a newline over USB serial to request the six settings and the column line again. The port and baud rate are D9 defaults.
 
 The pod writes one-minute averages to `/log.csv` in its own memory and serves the file over HTTP. It timestamps each average at the end of the minute in UTC. The log path is a D9 default. Record the start and end of the field run in `docs/field-log.md`.
 

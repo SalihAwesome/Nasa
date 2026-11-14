@@ -448,6 +448,28 @@ Both origins reported a secure context, exposed `navigator.serial.requestPort`, 
 
 [WebSocket standard](https://websockets.spec.whatwg.org/) · [Chrome Web Serial](https://developer.chrome.com/docs/capabilities/serial) · [Chrome Local Network Access](https://developer.chrome.com/blog/local-network-access)
 
+## Pod firmware toolchain
+
+Checked on 13 November 2026. Arduino CLI `1.6.0` with the Espressif package index installed ESP32 core `3.3.12`. The index is `https://espressif.github.io/arduino-esp32/package_esp32_index.json`. The command `arduino-cli board listall NodeMCU-32S` returned `NodeMCU-32S` with FQBN `esp32:esp32:nodemcu-32s`.
+
+`arduino-cli lib list` returned these external libraries. The project URLs in [the sources registry](../shared/sources.json) come from the installed `library.properties` files or the Arduino library index. The Arduino index lists `https://github.com/PaulStoffregen/OneWire.git` as the repository for OneWire 2.3.8.
+
+| Library | Version |
+| --- | --- |
+| BH1750 | 1.3.0 |
+| Adafruit MLX90614 Library | 2.1.7 |
+| Adafruit BMP280 Library | 3.0.0 |
+| DHT sensor library | 1.4.7 |
+| Adafruit Unified Sensor | 1.1.15 |
+| Adafruit BusIO | 1.17.4 |
+| OneWire | 2.3.8 |
+| DallasTemperature | 4.0.6 |
+| WebSockets | 2.7.2 |
+
+The installed WebSockets library includes `examples/esp32/WebSocketServer/WebSocketServer.ino`. The example starts a server on port 81, handles `WStype_CONNECTED`, and uses `sendTXT` and `broadcastTXT`. The firmware uses this server to send CSV lines. The installed ESP32 core example `libraries/ESP32/examples/Time/SimpleTime/SimpleTime.ino` uses `pool.ntp.org` for time synchronization.
+
+BH1750 `1.3.0` reads an unsigned 16-bit count. In continuous high-resolution mode at MTreg 31, its `readLightLevel` scales the count by `69 / 31 / 1.2`. The maximum is approximately 121,556 lux. D8's 120,000 lux remains the simulator input. The firmware header uses the library-derived maximum.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.
@@ -462,4 +484,3 @@ Confirm each of these with a real call or a real document before you use it. The
 - The grid of `GWETTOP` and of `AOD_55` on the regional endpoint. Only the point endpoint was called.
 - A download for slope and roughness on Earth, the Moon, and Mars, and one for bare ground. The brief names SRTM, LOLA, MOLA, and the MODIS vegetation index. On 12 November 2026 two pages of NASA Earth Observations, for `MOD_NDVI_M` and `SRTM_RAMP2_TOPO`, returned the same 255,301 byte page with no data link, so that site is not a confirmed source.
 - The coordinates of the four known sites in `docs/project-brief.md`. The brief gives names and source links only.
-- The board name that `arduino-cli` uses for the NodeMCU ESP-32S, and a WebSocket library for it.

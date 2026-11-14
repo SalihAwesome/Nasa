@@ -34,6 +34,7 @@ class Channel(TypedDict):
 
 
 class Source(TypedDict):
+    version: NotRequired[str]
     id: str
     name: str
     url: str | None
@@ -192,7 +193,7 @@ def parse_channels(value: object) -> list[Channel]:
 
 def parse_sources(value: object) -> list[Source]:
     def parse(value, path):
-        d = _object(value, path, ["id", "name", "url", "usedFor", "accessed", "files"], ["reasons"])
+        d = _object(value, path, ["id", "name", "url", "usedFor", "accessed", "files"], ["reasons", "version"])
         url = _nullable(d["url"], f"{path}.url", _text)
         if url is not None:
             try:
@@ -201,12 +202,14 @@ def parse_sources(value: object) -> list[Source]:
                     _fail(path, "source URL must use HTTPS with a valid hostname")
             except ValueError:
                 _fail(path, "invalid source URL")
+        version = _text(d["version"], f"{path}.version") if "version" in d else None
         files = _list(d["files"], f"{path}.files", _text)
-        if not files or any(not f.startswith("app/public/data/") or ".." in f or "\\" in f or ":" in f[16:] for f in files):
+        if (not files and version is None) or any(not f.startswith("app/public/data/") or ".." in f or "\\" in f or ":" in f[16:] for f in files):
             _fail(path, "files must be patterns under app/public/data/")
         return {
             **{key: _text(d[key], f"{path}.{key}") for key in ("id", "name", "usedFor")},
             "url": url, "accessed": _nullable(d["accessed"], f"{path}.accessed", _date),
+            **({"version": version} if version is not None else {}),
             "files": files, "reasons": _reasons(d, path),
         }
     return cast(list[Source], _unique(_list(value, "sources", parse), "sources"))
