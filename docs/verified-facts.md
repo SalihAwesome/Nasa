@@ -604,6 +604,30 @@ The source attempts and exact download URLs are recorded in `docs/mobility-sourc
 
 The complete GWETTOP run on machine `YAHIA` printed `647 fetched, 1 cached` with no failures; the initial probe was the cached tile. All 648 tiles matched the existing meteorology grid, including its zero-boundary rule. `python pipeline/pack_mobility.py` then printed `0 fetched, 648 cached` and `Packed GWETTOP dryness: 68816 existing U05 land cells; 12 month files, 137632 bytes each.` The new files are `app/public/data/earth/mobility-01.bin` through `mobility-12.bin`, plus `mobility-manifest.json`. The manifest records the unchanged U05 cell-file fingerprint, source, period, fill value and D20 scale. The raw probe fixture's SHA256 is `62b603b60b3a8191fbbafe0b70b7d233b207b947d7226f45be228409c6e4236b`.
 
+## U10 map outline and package inspection
+
+On 14 November 2026, `.venv/Scripts/python pipeline/fetch_geo.py` fetched the
+registered `naturalearth_110m` URL from `shared/sources.json` and wrote the
+unchanged response to `app/public/data/geo/ne_110m_land.geojson`. It printed:
+
+```text
+Natural Earth land outline: ne_110m_land.geojson, 138160 bytes
+```
+
+Parsing that saved response returned a `FeatureCollection` with 127 features,
+all with `Polygon` geometry. `Get-FileHash -Algorithm SHA256` returned
+`9E0729EE253CA7D7A5C4AE9395FB1902264C5377C52E224D13DD85010E2835D9`.
+This agrees with the earlier verified outline size.
+
+The installed d3-geo package reports version 3.1.2, with its default export
+entry at `dist/d3-geo.mjs`. Reading that file and importing the installed module
+confirmed named exports `geoEqualEarth` and `geoPath`. The installed
+`@types/d3-geo` version is 3.1.1; its declarations include `fitExtent`,
+`GeoProjection`, `GeoPermissibleObjects`, and canvas-context `geoPath`.
+No browser timing result was obtained: the in-app browser timed out on
+localhost, then Windows Computer Use stopped because it could not confidently
+determine Chrome's current URL. U10's browser timing check remains open.
+
 ## Not verified yet
 
 Confirm each of these with a real call or a real document before you use it. Then move it into a section above.

@@ -5,6 +5,7 @@ import { MobilityAvailability } from './mobility/TestSelector'
 import { CardPanel } from './card/FidelityCard'
 import './styles/tokens.css'
 import './styles/shell.css'
+import SiteFinder from './map/SiteFinder'
 
 // View names and purpose: docs/mission-plan.md. Routes: software-plan.md, U28.
 const views = {
@@ -76,7 +77,7 @@ function App() {
           <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
           <p className="view-description">{view.description}</p>
           {route === 'map' && <MobilityAvailability />}
-          {route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
+          {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
             : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <CardPanel hash={hash} />
             : <section className="placeholder" aria-labelledby="placeholder-title">
             <h2 id="placeholder-title">Not available yet</h2>
