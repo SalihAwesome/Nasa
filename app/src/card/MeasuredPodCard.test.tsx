@@ -4,8 +4,8 @@ import { expect, test } from 'vitest'
 import satellite from '../../public/data/earth/pod-site-satellite.json'
 import mars from '../../public/data/mars/jezero-card.json'
 import settings from '../../../shared/pod_settings.json'
-import { readCardSelection, loadSelectedCard } from './cardData'
-import { FidelityCard } from './FidelityCard'
+import { cardTests, readCardSelection, loadSelectedCard } from './cardData'
+import { CardPanel, FidelityCard } from './FidelityCard'
 
 const simulatorPath = 'data/sim/pod-sim.csv'
 const fieldPath = 'data/pod/qatar.csv'
@@ -25,6 +25,16 @@ function assets(log: string, path = simulatorPath) {
 function renderedRow(html: string, id: string) {
   return html.split(`data-channel="${id}"`)[1]?.split('</tr>')[0] ?? ''
 }
+
+test('U22 shows the active test and why other tests are unavailable', () => {
+  const html = renderToStaticMarkup(<CardPanel hash="#/card/pod" />)
+  expect(html).not.toContain('<select')
+  expect(html).toContain('Power is the only available test.')
+  expect(html).toContain('<details id="card-test-availability" open="">')
+  for (const unavailable of cardTests.filter(test => !test.enabled)) {
+    expect(html).toContain(unavailable.reason)
+  }
+})
 
 test('U22 shows six simulated measurements with satellite error bars and MEDA values or reasons', async () => {
   const card = await loadSelectedCard(selection, assets(csv))
