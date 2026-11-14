@@ -101,4 +101,6 @@ test('U22 uses the field log when present and keeps the cell card estimated', as
     return assets(csv)(url)
   })
   expect(cell.rows.every(row => row.evidence === 'estimate')).toBe(true)
+  const cellHtml = renderToStaticMarkup(<FidelityCard card={cell} />)
+  expect(renderedRow(cellHtml, 'uv')).toContain('All Sky Surface UV Index')
 })

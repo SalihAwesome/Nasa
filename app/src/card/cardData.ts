@@ -268,7 +268,7 @@ export function buildCard(data: CardData, selection: CardSelection, measurements
     const weight = definition.weights[channel.id]
     return {
       id: channel.id,
-      label: measurements && channel.id === 'uv' ? 'All Sky Surface UV Index' : channel.label,
+      label: channel.id === 'uv' ? 'All Sky Surface UV Index' : channel.label,
       earth, target: targetValue,
       tolerance: { value: settings.tolerance, unit: settings.unit, status: settings.status },
       score: score(earth.value, targetValue.value, settings.tolerance),
