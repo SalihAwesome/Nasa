@@ -203,3 +203,13 @@ test('both card routes mount the U11 panel in the existing shell', () => {
 test.each(['#/card/cell/-1', '#/card/cell/NaN', '#/card/pod?month=13', '#/card/pod?target=unknown'])('invalid selections fail clearly: %s', hash => {
   expect(() => readCardSelection(hash)).toThrow()
 })
+
+test('the combined score states how many weighted quantities it uses', async () => {
+  const selection = readCardSelection('#/card/pod?target=shackleton&test=power')
+  const card = buildCard(await loadCardData(selection, assets), selection)
+  const total = Object.values(card.test.weights).filter(weight => weight && weight.value > 0).length
+  const scored = total - card.combined.missing.length
+  const html = renderToStaticMarkup(<FidelityCard card={card} />)
+  expect(html).toContain(`data-coverage="${scored}/${total}"`)
+  expect(html).toContain(`Uses ${scored} of ${total} weighted quantities`)
+})

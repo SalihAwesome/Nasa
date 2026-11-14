@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import tests from '../../../shared/tests.json'
-import { combine } from './combine'
+import { combine, coverage } from './combine'
 import { score } from './score'
 
 const weight = (value: number) => ({ value, status: 'default' })
@@ -99,4 +99,11 @@ test('requires the default status on weights', () => {
 test('normalizes very large weights without overflowing the mean', () => {
   expect(combine({ ground_temp: 1, uv: 0 }, { ground_temp: weight(Number.MAX_VALUE), uv: weight(Number.MAX_VALUE) }))
     .toEqual({ score: 0.5, missing: [] })
+})
+
+test('coverage counts the positive-weight quantities a combined score used', () => {
+  const weights = { ground_temp: weight(0.5), uv: weight(0.5), pressure: weight(0) }
+  const result = combine({ ground_temp: 1, uv: null, pressure: 1 }, weights)
+  expect(coverage(result.missing, weights)).toEqual({ scored: 1, total: 2 })
+  expect(coverage(combine({}, weights).missing, weights)).toEqual({ scored: 0, total: 2 })
 })

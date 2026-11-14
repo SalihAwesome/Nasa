@@ -42,3 +42,15 @@ test('ranked links preserve the current target, test and month for the card', as
     expect(href).toContain('month=1')
   }
 })
+
+test('each ranked row states how many weighted quantities its score uses', async () => {
+  vi.stubGlobal('fetch', assets)
+  const data = await loadMapData()
+  const power = tests.find(test => test.id === 'power')!
+  const target = data.targets.find(target => target.id === 'jezero')!
+  const top = rankCells(computeScores(data.months[0], target, data.targetNumbers.jezero, power))
+  const total = Object.values(power.weights).filter(weight => weight.value > 0).length
+  const html = renderToStaticMarkup(<MapView data={data} />)
+  const shown = [...html.matchAll(/data-coverage="([^"]+)"/g)].map(match => match[1])
+  expect(shown).toEqual(top.map(entry => `${total - entry.missing.length} of ${total} quantities`))
+})

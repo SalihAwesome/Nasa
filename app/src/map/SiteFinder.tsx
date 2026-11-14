@@ -3,6 +3,7 @@ import { geoPath } from 'd3-geo'
 import testData from '../../../shared/tests.json'
 import { loadRegistries } from '../data/registries'
 import { cardHash } from '../card/cardData'
+import { coverage } from '../score/combine'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
 import { computeScores, hitCell, MAP_HEIGHT, MAP_WIDTH, projectCells, rankCells } from './model'
@@ -90,6 +91,10 @@ export function MapView({ data }: { data: MapData }) {
     return hitCell(projected.positions, (event.clientX - rect.left) / rect.width * MAP_WIDTH, (event.clientY - rect.top) / rect.height * MAP_HEIGHT)
   }
 
+  const coverageText = (missing: readonly string[]) => {
+    const { scored, total } = coverage(missing, definition.weights)
+    return `${scored} of ${total} quantities`
+  }
   const cell = hovered === null ? null : data.cells[hovered]
   const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
   return <div className="site-finder">
@@ -121,7 +126,7 @@ export function MapView({ data }: { data: MapData }) {
         <p className="map-meta">Equal Earth projection (default). Select a cell on the map or a ranked row to open its card.</p>
         <div className="cell-readout" aria-live="polite">
           {cell && hovered !== null ? <><strong>{cell.lat.toFixed(2)}°, {cell.lon.toFixed(3)}°</strong>
-            <span>{scores[hovered].score === null ? 'No score' : `Match ${scores[hovered].score.toFixed(3)}`}</span>
+            <span>{scores[hovered].score === null ? 'No score' : `Match ${scores[hovered].score.toFixed(3)} · ${coverageText(scores[hovered].missing)}`}</span>
             <dl>{channels.map(channel => <div key={channel.id}><dt>{channel.label}</dt><dd>{layer.layers[channel.id].values[hovered]?.toFixed(2) ?? layer.layers[channel.id].missingReason} {channel.unit}</dd></div>)}</dl>
             {scores[hovered].reason && <p>{scores[hovered].reason}</p>}
           </> : <p>Point to a land cell to inspect its Earth estimates.</p>}
@@ -132,7 +137,7 @@ export function MapView({ data }: { data: MapData }) {
         <p className="map-meta" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
         {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={cellLink(entry.index)}>
           <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{entry.score.toFixed(3)}</strong>
-          {entry.missing.length > 0 && <small>Missing: {entry.missing.join(', ')}</small>}
+          <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.length > 0 && ` · Missing: ${entry.missing.join(', ')}`}</small>
         </a></li>)}</ol> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
         {reasons.length > 0 && <ul className="missing-reasons">{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>}
         <p className="map-meta">Weights and tolerances are defaults. Missing quantities are omitted from the weighted mean.</p>

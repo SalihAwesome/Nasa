@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { cardHash, cardTests, loadSelectedCard, readCardSelection } from './cardData'
 import type { CardModel, CardRow, CardSelection, Reading } from './cardData'
+import { coverage } from '../score/combine'
 import './card.css'
 
 // Names: docs/project-brief.md. All scientific values/settings are loaded data.
@@ -42,6 +43,11 @@ function SourceText({ text }: { text: string }) {
   return <>{parts}{text.slice(end)}</>
 }
 
+function CoverageNote({ missing, card }: { missing: string[]; card: CardModel }) {
+  const { scored, total } = coverage(missing, card.test.weights)
+  return <p className="card-coverage" data-coverage={`${scored}/${total}`}>Uses {scored} of {total} weighted quantities</p>
+}
+
 export function FidelityCard({ card }: { card: CardModel }) {
   const usesPodLog = card.simulated !== undefined
   return <article className="fidelity-card">
@@ -58,7 +64,7 @@ export function FidelityCard({ card }: { card: CardModel }) {
     <section className="card-combined" aria-labelledby="card-combined-heading">
       <div><h3 id="card-combined-heading">{tests[card.test.id]} match</h3><p className="card-total">
         {typeof card.combined.score === 'number' ? number(card.combined.score) : 'no score'}
-      </p></div>
+      </p>{typeof card.combined.score === 'number' && <CoverageNote missing={card.combined.missing} card={card} />}</div>
       <div>{!card.test.enabled && <p>{card.test.reason}</p>}
         <p>Weights and tolerances are defaults. The weighted mean uses only rows with a score.</p>
         {card.combined.missing.length > 0 && <p>Omitted from the mean: {card.combined.missing.map(id => [...card.rows, ...card.sunRows].find(row => row.id === id)?.label ?? id).join(', ')}.</p>}
