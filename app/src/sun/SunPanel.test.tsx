@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, test, vi, afterEach } from 'vitest'
 import App from '../App'
 import { SunComparison } from './SunPanel'
+import { ElevationChart } from './SunViews'
 import { loadSunData, readSunSelection, selectEarth } from './sunData'
 import type { SunNumbers } from './sunData'
 
@@ -68,17 +69,37 @@ test('the Sun route accepts target, latitude and month from the hash', () => {
   }
 })
 
-test('the Earth readout preserves all three metrics from the selected file row', async () => {
+test.each([
+  [-85, 3], [-90, 1], [90, 12], [0, 6], [25.5, 11],
+])('the Earth readout preserves the file metrics at latitude %s in month %s', async (lat, month) => {
   const data = await loadSunData(assets)
-  const selection = readSunSelection('#/sun?target=shackleton&lat=-85&month=3')
+  const selection = { target: 'shackleton', lat, month } as const
   const earth = selectEarth(data, selection)
-  const { months } = JSON.parse(file('earth-rows.json').toString())
-  const expected = months[2][10]
+  const { months }: { months: SunNumbers[][] } = JSON.parse(file('earth-rows.json').toString())
+  const expected = months[month - 1][(lat + 90) * 2]
   expect(earth.numbers).toEqual(expected)
   const html = renderToStaticMarkup(<SunComparison data={data} selection={selection} />)
-  expect(html).toContain(`data-metric="peak_elevation" data-value="${expected.peak_elevation}"`)
-  expect(html).toContain(`data-metric="low_sun_share" data-value="${expected.low_sun_share}"`)
-  expect(html).toContain(`data-metric="horizon_sweep" data-value="${expected.horizon_sweep}"`)
+  const earthHTML = html.split('class="sun-chart sun-chart-earth"')[1]
+  for (const metric of ['peak_elevation', 'low_sun_share', 'horizon_sweep'] as const) {
+    const value = expected[metric]
+    if (value === null) expect(earthHTML).toContain(expected.reasons?.[metric])
+    else expect(earthHTML).toContain(`data-metric="${metric}" data-value="${value}"`)
+  }
+})
+
+test('the Moon chart spans the compass and stays between zero and three degrees', async () => {
+  const data = await loadSunData(assets)
+  const rows = data.targets.shackleton.rows
+  const html = renderToStaticMarkup(<ElevationChart label="Moon" rows={rows} point={rows[0]} range={{ min: 0, max: 3 }} />)
+  const path = html.match(/<path d="([^"]+)" class="sun-path"/)
+  expect(path).not.toBeNull()
+  const coordinates = [...(path?.[1] ?? '').matchAll(/[ML]([\d.-]+),([\d.-]+)/g)]
+  const x = coordinates.map(point => Number(point[1]))
+  const y = coordinates.map(point => Number(point[2]))
+  expect(Math.min(...x)).toBe(55)
+  expect(Math.max(...x)).toBe(480)
+  expect(Math.min(...y)).toBeGreaterThanOrEqual(25)
+  expect(Math.max(...y)).toBeLessThanOrEqual(243)
 })
 
 test('the decoded paths preserve compass coverage and the signed Earth binary', async () => {
