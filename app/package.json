@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "check:map": "node --test ../tools/check-map-build.mjs"
+    "check:map": "node --test ../tools/check-map-build.mjs",
+    "check:ui": "node ../tools/check-new-design.mjs"
   },
   "dependencies": {
     "d3-geo": "^3.1.2",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@types/d3-geo": "^3.1.1",
+    "@types/google.maps": "^3.66.10",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

@@ -114,9 +114,9 @@ export function drawGlobe({
   ctx.clip()
 
   const ocean = ctx.createRadialGradient(cx - radius * 0.26, cy - radius * 0.27, radius * 0.08, cx, cy, radius * 1.05)
-  ocean.addColorStop(0, '#1a344b')
-  ocean.addColorStop(0.73, '#102539')
-  ocean.addColorStop(1, '#09141f')
+  ocean.addColorStop(0, '#287caa')
+  ocean.addColorStop(0.73, '#185c89')
+  ocean.addColorStop(1, '#103e63')
   if (!surfaceReady) {
     ctx.fillStyle = ocean
     ctx.fillRect(0, 0, width, height)

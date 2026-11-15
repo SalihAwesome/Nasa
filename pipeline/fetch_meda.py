@@ -20,6 +20,7 @@ from registries import load_registries
 ROOT = Path(__file__).resolve().parents[1]
 # Column names and native units are from docs/verified-facts.md, MEDA labels.
 EXPECTED_UNITS = {
+    "CAL_RDS": {"RDS_TOP_3": "watt/m2"},
     "CAL_TIRS": {
         "GROUND_TEMP": "kelvin",
         "AIR_TEMP": "kelvin",

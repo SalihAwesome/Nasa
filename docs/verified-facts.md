@@ -750,3 +750,40 @@ The user requested completion of Mobility and Communications using available pub
 - Copernicus: the public record `https://zenodo.org/records/3939050` lists `PROBAV_LC100_global_v3.0.1_2019-nrt_Bare-CoverFraction-layer_EPSG-4326.tif`. A range request returned HTTP 206 and the verified full byte count 3,204,609,492. The complete downloaded file passed the published MD5 `f2c9432c37ced7af02b6d9207036c2dc`. Raster inspection confirmed EPSG:4326, uint8 percent, nodata 255, 362880 by 141120, 0.0009920634920634888-degree pixel spacing, west -180, north 80, and no precomputed overviews. The pipeline averages 504 by 504 source pixels per 0.5-degree region.
 
 An independent direct-source probe using the documented 30 km stencil returned Jezero regional slope 0.79030788 degrees and relief roughness 157.28988779 m. Shackleton returned slope 0.54353905 degrees and relief roughness 1210.79158772 m. These are derived regional metrics, not a rover-obstacle survey. `shared/terrain.json` marks sampling choices, minimum valid sample count, tolerances and spherical radii as defaults. Numeric derived target values and raw SHA256 hashes are written to `app/public/data/terrain/manifest.json` by `pipeline/pack_terrain.py`.
+
+## Google satellite 3D integration, 14 November 2026
+
+Official Google documentation was read in this session:
+- `https://developers.google.com/maps/documentation/javascript/3d/overview`: the supported web integration is Maps JavaScript API `maps3d`, with `Map3DElement`, `HYBRID` and `SATELLITE` modes, markers and built-in 3D imagery. Source documents `https://maps.googleapis.com/maps/api/js` with `v=beta` and an API key. Regions without mesh coverage render satellite imagery on terrain.
+- `https://developers.google.com/maps/documentation/javascript/reference/3d-map`: native camera center/range/tilt/heading, cooperative gestures, `gmp-click` with `LocationClickEvent.position`, and `gmp-error` are documented.
+- `https://developers.google.com/maps/documentation/javascript/reference/3d-map-draw`: `Marker3DInteractiveElement` supports positions, labels and click events.
+- `https://developers.google.com/maps/documentation/javascript/demo-key`: Maps Demo Key supports 2D/3D rendering without billing details, for eligible personal accounts and prototyping only.
+
+Installed package inspected: `@types/google.maps` 3.66.10, including actual Maps3DLibrary, Map3DElement, Marker3DInteractiveElement and LocationClickEvent exports. Live browser check on the configured build rendered Google satellite imagery, mounted the native map, enabled all five custom controls and reported no uncaught browser exceptions. No key is recorded here. See `docs/google-earth.md` for setup and the online/offline boundary.
+
+## New design completion, 15 November 2026
+
+Live browser checks of the configured Google build completed successfully:
+- Satellite tiles load with place labels; analog-site selection populates the original coordinate inputs.
+- The Maps3D `gmp-steadychange` event reported `isSteady: true` with rendered imagery. Native 3D controls wait for this event.
+- An elevated saved site focuses within the expected visual range, and zoom and overview reset work after sending a complete camera command. The camera's zero altitude is relative to ground for local views and absolute for the overview.
+- Satellite / 3D globe / original score-map switching, comparison views and explicit authentication-failure recovery pass without uncaught browser errors.
+
+These are rendering and interaction observations, not new scientific measurements. The implementation still uses the existing grid-cell lookup, score functions, sources and missing-data rules. Reproduction: `npm run build` and `npm run check:ui` in `app/` with a local key. The key remains outside Git. The browser test is `tools/check-new-design.mjs`.
+
+## Committed Maps default, 15 November 2026
+
+The owner explicitly requested committing the Google Maps browser key. `app/google-maps.config.ts` holds it. On 15 November 2026 the owner decided in review that the default build stays offline, so U10's check holds for it. `VITE_GOOGLE_MAPS=on` opts in to the committed key, and `VITE_GOOGLE_MAPS_API_KEY` then replaces it. CI runs `check:map` on the default build, then builds the opt-in Google variant. Other private environment values remain ignored.
+
+## Comparison evidence, 15 November 2026
+
+Real HTTP downloads made by `pipeline/fetch_comparison.py` confirm:
+
+- The official MEDA bundle help page at `https://an.rsl.wustl.edu/help/Content/About%20the%20data/Data%20sets/M20/MEDA%20bundle.htm` describes derived **local relative humidity (%RH)**. This resolves the omitted XML unit without editing the archived source card. The humidity number stays 3.423849033538143 (the saved U07 reduction).
+- Martínez et al. (2023), DOI `10.1029/2022JE007537`, section 2, states that the humidity sensor measures RH **with respect to ice**. The app labels this reference and does not calculate a difference from the separate Earth 2 m RH product without an established common saturation reference.
+- The paper PDF fetched successfully from `https://api-digital.inta.es/api/core/bitstreams/c64568f7-2f03-4948-a3ec-fbdbd7c5de06/content` (2,911,133 bytes, SHA-256 `cff922e2022fd3c0534d9a1fc98fe0bf10062efe469af8b805d88f91ca885e52`). Section 4 and figure 14 report **TES-retrieved albedo 0.147**, 0.25–2.9 µm, around 14:00 LTST, approximately 300 km². This becomes **14.7% TES orbital albedo**, a separately named published retrieval. It is not a MEDA sol 300 measurement and does not enter scoring.
+- The PDS calibrated sol 300 directory lists `data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_RDS_________________P01.CSV` and its `.xml` label under the verified MEDA base URL. The CSV contains 54,424 records and 13,520,885 bytes. Its MD5 `f4640e9653cfe8d670e571f7ead45bf8` agrees with the label. The label states `RDS_TOP_3` in `watt/m2`; blank cells are missing.
+- The instrument paper at `https://pmc.ncbi.nlm.nih.gov/articles/PMC8550605/`, tables 22 and 24, identifies TOP 3 as the surface UV-flux detector, **250–400 nm**, **±15° field of view**. It is not a UV index or hemispherical irradiance. Do not divide TIRS upward shortwave by RDS TOP 7 to invent albedo: their spectral bands differ.
+- The new reduction has **29,656** recorded TOP 3 observations in **54** ten-minute LMST bins. The highest recorded bin mean is **2.788603511572123 W/m²**, starting at **11:00 LMST**. This is a peak of recorded ten-minute means, not a complete daily mean or daily maximum. Empty bins remain missing. A separate numpy reduction of the raw CSV reproduces this result.
+
+`app/public/data/mars/jezero-comparison.json` records the source URLs and SHA-256 fingerprints. Reproduce with `python fetch_comparison.py` from `pipeline/`. The original scored UV-index and MEDA reflectivity fields remain null with reasons. The comparison uses a supplementary display and explains why direct differences are not calculated for different products. `docs/comparison-data.md` records the full method.

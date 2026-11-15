@@ -35,6 +35,7 @@ export function MapView({ data }: { data: MapData }) {
   const [testId, setTestId] = useState(definitions.find(test => test.enabled)!.id)
   const [month, setMonth] = useState(1)
   const [hovered, setHovered] = useState<number | null>(null)
+  const [rankPage, setRankPage] = useState(0)
   const [cities, setCities] = useState(noPlaces)
   useEffect(() => {
     let active = true
@@ -53,6 +54,12 @@ export function MapView({ data }: { data: MapData }) {
     return { scores, top: rankCells(scores), scoredCount: scores.filter(result => result.score !== null).length }
   }), [data.months, target, data.targetNumbers, targetId, definition])
   const { scores, top, scoredCount } = results[month - 1]
+  const rowsPerPage = 5
+  const rankPages = Math.max(1, Math.ceil(top.length / rowsPerPage))
+  const visibleRankPage = Math.min(rankPage, rankPages - 1)
+  const commonMissing = top.length ? top[0].missing.filter(id => top.every(entry => entry.missing.includes(id))) : []
+  const rankContext = `${targetId}/${testId}/${month}`
+  useEffect(() => { setRankPage(0) }, [rankContext])
   const reasons = useMemo(() => [...new Set(Object.keys(definition.weights).flatMap(id => {
     const number = data.targetNumbers[targetId][id]
     return number?.value == null ? [`${id}: ${number?.reason ?? 'Target value is not available.'}`] : []
@@ -97,10 +104,10 @@ export function MapView({ data }: { data: MapData }) {
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
         <div className="map-caption"><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
-        <p className="section-explanation">The colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
         <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
         <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
           onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
+        <p className="section-explanation">{import.meta.env.VITE_GOOGLE_MAPS_API_KEY && 'In Match colors, '}{import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'the' : 'The'} colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
         <div className="map-legend" aria-label="Match score legend"><span>Match</span>{stops.map((stop, index) => <span className="legend-item" key={stop}>
           <i style={{ background: `var(--color-score-${stop})` }} />{matchPercent(index / (stops.length - 1))}
         </span>)}<span className="legend-item"><i className="no-score-swatch" />No score</span></div>
@@ -115,20 +122,35 @@ export function MapView({ data }: { data: MapData }) {
       </section>
       <aside className="rank-panel" aria-labelledby="ranking-title">
         <h2 id="ranking-title">20 highest-scoring Earth areas</h2>
-        <p className="section-explanation">Ranked by match score. Open any row to see the conditions behind its score.</p>
-        <p className="map-meta">{targetLabels[targetId]} · {testLabels[testId]} · {monthLabels[month - 1]}</p>
-        <p className="map-meta" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
-        {top.length ? <ol className="ranked-cells">{top.map(entry => <li key={entry.index}><a href={cellLink(entry.index)}>
-          <span>{data.cells[entry.index].lat.toFixed(2)}°, {data.cells[entry.index].lon.toFixed(3)}°</span><strong>{matchPercent(entry.score)}</strong>
-          <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.length > 0 && ` · Missing: ${entry.missing.join(', ')}`}</small>
-        </a></li>)}</ol> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
-        {reasons.length > 0 && <ul className="missing-reasons">{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>}
-        <p className="map-meta">Weights and tolerances are defaults. Missing quantities are omitted from the weighted mean.</p>
-        {definition.notBuilt.length > 0 && <p className="map-meta">Not included: {definition.notBuilt.join(', ')}.</p>}
-        {definition.weights.slope && <p className="map-meta">{terrainSettings.note}</p>}
+        <p className="section-explanation">Open an area to inspect its conditions and missing measurements.</p>
+        <div className="rank-context"><strong>{targetLabels[targetId]}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
+        <p className="map-meta rank-count" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
+        {top.length ? <>
+          <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => <li key={entry.index} value={index + 1}
+            hidden={Math.floor(index / rowsPerPage) !== visibleRankPage}>
+            <a href={cellLink(entry.index)}>
+              <span className="rank-number" aria-hidden="true">{index + 1}</span>
+              <span className="rank-location">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span>
+              <strong className="rank-score">{matchPercent(entry.score)}<span>match</span></strong>
+              <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.some(id => !commonMissing.includes(id)) && <span className="rank-missing">Missing: {entry.missing.filter(id => !commonMissing.includes(id)).map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}</span>}</small>
+            </a>
+          </li>)}</ol>
+          <div className="rank-pagination" aria-label="Ranked results pages">
+            <button type="button" aria-controls="ranked-results" disabled={visibleRankPage === 0} onClick={() => setRankPage(page => Math.max(0, page - 1))}>Previous</button>
+            <span role="status">{visibleRankPage + 1} / {rankPages}</span>
+            <button type="button" aria-controls="ranked-results" disabled={visibleRankPage === rankPages - 1} onClick={() => setRankPage(page => Math.min(rankPages - 1, page + 1))}>Next</button>
+          </div>
+          {commonMissing.length > 0 && <p className="rank-coverage-note">Unavailable for all results: {commonMissing.map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}.</p>}
+        </> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
+        <details className="ranking-notes"><summary>Data coverage &amp; limitations</summary>
+          {reasons.length > 0 && <ul className="missing-reasons">{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>}
+          <p className="map-meta">Weights and tolerances are defaults. Missing quantities are omitted from the weighted mean.</p>
+          {definition.notBuilt.length > 0 && <p className="map-meta">Not included: {definition.notBuilt.join(', ')}.</p>}
+          {definition.weights.slope && <p className="map-meta">{terrainSettings.note}</p>}
+        </details>
       </aside>
     </div>
-    <p className="map-meta">Land outline and place labels: Natural Earth. Grey cells have no score.</p>
+    <p className="map-meta">{import.meta.env.VITE_GOOGLE_MAPS_API_KEY && 'Match colors view: '}Land outline and place labels: Natural Earth. Grey cells have no score.</p>
   </div>
 }
 

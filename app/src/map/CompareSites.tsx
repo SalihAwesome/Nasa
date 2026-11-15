@@ -26,10 +26,15 @@ function LocationPicker({ label, value, data, cities, onChange }: {
   const id = useId()
   const presets = useMemo(() => locationPresets(data), [data])
   const options = presets.filter(site => site.body === value.body)
-  const landmarks = useMemo(() => value.body === 'earth' ? [
-    ...presets.filter(site => site.body === 'earth'),
-    ...cities.filter(place => place.rank <= 4),
-  ] : presets.filter(site => site.body === value.body), [cities, presets, value.body])
+  const landmarks = useMemo(() => {
+    const saved = presets.filter(site => site.body === value.body)
+    if (value.body !== 'earth') return saved
+    if (import.meta.env.VITE_GOOGLE_MAPS_API_KEY) {
+      // Google already labels cities. Reserve our pins for saved/selected sites.
+      return saved.some(site => site.lat === value.lat && site.lon === value.lon) ? saved : [...saved, value]
+    }
+    return [...saved, ...cities.filter(place => place.rank <= 4)]
+  }, [cities, presets, value])
   const [lat, setLat] = useState(String(value.lat))
   const [lon, setLon] = useState(String(value.lon))
   useEffect(() => { setLat(value.lat.toFixed(4)); setLon(value.lon.toFixed(4)) }, [value.lat, value.lon])
@@ -68,10 +73,29 @@ function LocationPicker({ label, value, data, cities, onChange }: {
   </section>
 }
 
-function Reading({ item }: { item: ComparisonReading }) {
-  return item.value === null ? <>Unavailable<small>{item.reason}</small></> : <>
-    {displayReading(item.value, item.unit)}{item.unit === null && ' (unit unstated)'}
+export function Reading({ item }: { item: ComparisonReading }) {
+  if (item.value === null && item.supplement) return <>
+    <strong>{displayReading(item.supplement.value, item.supplement.unit)}</strong>
+    <small><a href={item.supplement.source} target="_blank" rel="noreferrer">{item.supplement.label} ↗</a></small>
+    <details><summary>Source &amp; coverage</summary><small>{item.supplement.note}</small><small>Primary measurement not recorded. {item.reason}</small></details>
   </>
+  return item.value === null ? <>Not recorded<small>{item.reason}</small></> : <>
+    {displayReading(item.value, item.unit)}{item.unit === null && ' (unit unstated)'}
+    {item.basis && <small>{item.basis}</small>}
+    {item.evidence && <details><summary>Source &amp; unit</summary><small>{item.evidence.note} <a href={item.evidence.source} target="_blank" rel="noreferrer">Documentation ↗</a></small></details>}
+  </>
+}
+
+export function Difference({ left, right }: { left: ComparisonReading; right: ComparisonReading }) {
+  if (left.value !== null && right.value !== null && left.basis !== right.basis) {
+    return <>Different humidity references<small>A common saturation reference is needed for subtraction.</small></>
+  }
+  if (left.value !== null && right.value !== null && left.unit !== null && left.unit === right.unit) {
+    return <>{displayTolerance(Math.abs(left.value - right.value), left.unit)}</>
+  }
+  if (left.supplement || right.supplement) return <>Separate measurements<small>Different products; no direct difference.</small></>
+  if (left.value !== null && right.value !== null) return <>Different units<small>These readings cannot be subtracted directly.</small></>
+  return <>No paired measurement<small>A recorded value is needed at both locations.</small></>
 }
 
 function Comparison({ data, hash }: { data: MapData; hash: string }) {
@@ -107,7 +131,6 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
 
   const change = (setter: (site: ComparisonLocation) => void) => (site: ComparisonLocation) => { setter(site); setResult(null) }
   return <section className="compare-workspace" aria-label="Site comparison">
-    <p className="section-explanation">Choose Earth, the Moon, or Mars on either side. Rotate and zoom each globe, then click a location. You can compare any pair of worlds.</p>
     {cityError && <p role="status">City labels could not load. Coordinates and saved locations are still available.</p>}
     <div className="comparison-globes">
       <LocationPicker label="Location A" value={a} data={data} cities={cities} onChange={change(setA)} />
@@ -120,7 +143,7 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
       <button type="button" className="feature-primary" onClick={() => setResult({ a: { ...a }, b: { ...b }, month })}>Compare selected locations</button>
     </div>
     <p className="feature-muted">Earth values use monthly climate-grid estimates. Moon and Mars values are currently available at the project’s saved reference sites. Other points show which data is unavailable.</p>
-    <p className="feature-muted">Surface imagery: NASA Earth Observatory (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
+    <p className="feature-muted">Surface imagery: {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'Google Maps' : 'NASA Earth Observatory'} (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
     {result && readings && <section className="feature-panel" aria-labelledby="comparison-results">
       <h2 id="comparison-results">How the two locations compare</h2>
       <p className="section-explanation">Read across each row to compare the selected locations. Surface imagery helps you choose a point. The evidence row explains where each numeric value comes from.</p>
@@ -132,10 +155,9 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
           <tbody>
             {comparisonQuantities.map(quantity => {
               const left = readings[0].readings[quantity.id], right = readings[1].readings[quantity.id]
-              const comparable = left.value !== null && right.value !== null && left.unit !== null && left.unit === right.unit
               return <tr key={quantity.id}><th scope="row">{quantity.label}</th>
                 <td><Reading item={left} /></td><td><Reading item={right} /></td>
-                <td>{comparable ? left.unit === null ? 'Unavailable' : displayTolerance(Math.abs((left.value ?? 0) - (right.value ?? 0)), left.unit) : 'Unavailable'}</td>
+                <td><Difference left={left} right={right} /></td>
               </tr>
             })}
             <tr><th scope="row">Evidence and coverage</th>{readings.map((reading, index) => <td key={index}>{reading.evidence}</td>)}<td>Sources and observation windows differ.</td></tr>
