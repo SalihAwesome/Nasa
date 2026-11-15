@@ -4,6 +4,8 @@ import type { EarthManifest, EarthMonth } from '../data/earth'
 import { loadRegistries } from '../data/registries'
 import { loadTargetSettings } from '../data/targets'
 import type { Limit, Target } from '../data/targets'
+import { loadTerrainData, terrainSettings } from '../data/terrain'
+import { loadMobilityMonth } from '../data/mobility'
 import { score } from '../score/score'
 import type { ScoreResult } from '../score/score'
 import { combine } from '../score/combine'
@@ -14,7 +16,7 @@ import { gap, reduceChannel } from '../pod/reduce'
 
 export const cardRegistries = loadRegistries()
 export const cardSettings = loadTargetSettings()
-export type TestDefinition = { id: string; enabled: boolean; reason?: string; weights: Record<string, Weight | undefined>; notBuilt: string[] }
+export type TestDefinition = { id: string; enabled: boolean; partial?: boolean; requiredQuantities?: string[]; reason?: string; weights: Record<string, Weight | undefined>; notBuilt: string[] }
 export const cardTests: TestDefinition[] = testData
 export type CardSelection = {
   site: { kind: 'pod' } | { kind: 'cell'; index: number }
@@ -185,12 +187,17 @@ export async function loadCardData(selection: CardSelection, fetcher: (path: str
     request('sun/earth-rows.json').then(response => response.json()).then(parseEarthSun),
     loadTargetSun(),
   ])
+  const mobility = await loadMobilityMonth(selection.month, { earthManifest: manifest, baseUrl: prefix + 'earth/', fetcher: input => fetcher(String(input)) })
+  Object.assign(month.layers, mobility.layers)
   const targetValues: Record<string, Reading> = {}
   for (const [id, settings] of Object.entries(target.channels)) {
     targetValues[id] = settings.valueFile === null
       ? { value: null, unit: settings.unit, reason: settings.reasons.valueFile }
       : targetData.files.get(settings.valueFile)!.values[id]
   }
+  const terrain = await loadTerrainData({ cellCount: cells.length, baseUrl: prefix, fetcher })
+  Object.assign(month.layers, terrain.layers)
+  for (const [id, reading] of Object.entries(terrain.targets[target.id])) targetValues[id] = { ...reading, unit: reading.unit ?? null }
   return { manifest, cells, month, target: target.id, targetValues, targetSol: targetData.sol, earthSun, targetSun }
 }
 
@@ -291,12 +298,38 @@ export function buildCard(data: CardData, selection: CardSelection, measurements
       counts: definition.enabled && weight !== undefined && weight.value > 0, weight,
     }
   })
+  if (target.mobility && definition.weights.dryness) {
+    const settings = target.mobility.dryness
+    const layer = data.month.layers.dryness
+    const value = layer?.values[index] ?? null
+    const earth: Reading = { value, unit: settings.unit, reason: value === null ? layer?.missingReason ?? 'Surface wetness layer is unavailable.' : undefined, note: 'NASA POWER surface wetness monthly climatology; not measured by the pod.' }
+    const targetValue: Reading = { value: settings.value, unit: settings.unit, note: 'Fully dry target assumption from docs/project-brief.md.' }
+    const weight = definition.weights.dryness
+    rows.push({ id: 'dryness', label: 'Surface wetness (lower is drier)', earth, target: targetValue,
+      tolerance: { value: settings.tolerance.value, unit: settings.unit, status: settings.tolerance.status },
+      score: score(value, targetValue.value, settings.tolerance.value), evidence: 'estimate',
+      counts: definition.enabled && weight !== undefined && weight.value > 0, weight })
+  }
+  for (const settings of terrainSettings.quantities) {
+    if (!definition.weights[settings.id]) continue
+    const layer = data.month.layers[settings.id]
+    const value = layer?.values[index] ?? null
+    const targetValue = data.targetValues[settings.id] ?? { value: null, unit: settings.unit, reason: 'Target terrain data is unavailable.' }
+    const weight = definition.weights[settings.id]
+    rows.push({ id: settings.id, label: settings.label, earth: { value, unit: settings.unit, reason: value === null ? layer?.missingReason ?? 'Terrain layer is unavailable.' : undefined, note: settings.id === 'bare_ground' ? 'Copernicus 2019 regional cover fraction.' : 'NOAA ETOPO1 elevation-derived regional estimate; see sampling method below.' },
+      target: { ...targetValue, note: settings.id === 'bare_ground' ? 'Fully bare target assumption from the team brief.' : 'Derived from LOLA (Moon) or MOLA (Mars) using the same regional method.' },
+      tolerance: { value: settings.tolerance, unit: settings.unit, status: 'default' },
+      score: score(value, targetValue.value, settings.tolerance), evidence: 'estimate',
+      counts: definition.enabled && weight !== undefined && weight.value > 0, weight })
+  }
   const scores = Object.fromEntries([...rows, ...sunRows].map(row => [row.id, row.score]))
+  const combined = combine(definition.enabled ? scores : {}, definition.weights)
+  const blocked = definition.requiredQuantities?.some(id => typeof scores[id] !== 'number')
   return {
     cell: { index, ...data.cells[index] }, isPod: selection.site.kind === 'pod',
     siteNote: selection.site.kind === 'pod' && cardRegistries.podSite.status === 'default' ? cardRegistries.podSite.reason : undefined,
     target: selection.target, targetSol: data.targetSol, month: data.month.month, period: data.manifest.period,
-    rows, sunRows, test: definition, combined: combine(definition.enabled ? scores : {}, definition.weights), limits: cardSettings.limits.card,
+    rows, sunRows, test: definition, combined: blocked ? { ...combined, score: { kind: 'no-score', reason: 'missing-required-quantities' } } : combined, limits: cardSettings.limits.card,
     simulated: measurements?.log.simulated,
   }
 }

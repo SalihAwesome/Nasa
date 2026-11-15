@@ -29,3 +29,27 @@ No numeric bare-ground layer was confirmed by this attempt. The brief's statemen
 Dryness is available as its own packed layer. A comparable slope and roughness layer plus target values was not confirmed, so mobility remains disabled for both targets. The selector displays the reason from `shared/tests.json`. Missing terrain and bare-ground values remain null with reasons in `shared/targets.json`. No HUMAN TASK is claimed as done, and no package was added.
 
 Run the unit checks from `pipeline/` with `python -m pytest tests/test_mobility.py -q -s`, and from `app/` with `npm test -- src/data/mobility.test.tsx --reporter=verbose`. Regenerate the layers from the repo root with `python pipeline/pack_mobility.py`; a second run should reuse the complete cache.
+
+
+## Regional terrain follow-up (14 November 2026)
+
+The user requested completion using any available public data. This supersedes the earlier source-investigation scope. The feature now compares **regional terrain**, not rover-scale obstacles or an RF propagation model.
+
+- NOAA's ETOPO1 ice-surface grid is available through [NOAA AOML ERDDAP](https://oceanwatch.aoml.noaa.gov/erddap/info/etopo180/index.html). A verified request for `altitude[0:6:10800][0:6:21600]` produced a 13,018,388-byte NetCDF file. It contains 1,801 ascending latitudes from -90 to 90, 3,601 longitudes from -180 to 180, and signed metre elevations on a 0.1-degree grid.
+- [NASA SVS's LOLA elevation product](https://svs.gsfc.nasa.gov/4720/) supplied `ldem_4.tif`, 4,153,352 bytes, 1,440 by 720 float32 samples. The DEM is in kilometres relative to a 1,737.4 km sphere, with 0 degrees at the centre. The pipeline converts kilometres to metres. It does not use the aesthetic colour map as measurements.
+- [NASA PDS's MOLA MEGDR](https://pds-geosciences.wustl.edu/mgs/mgs-m-mola-5-megdr-l3-v1/mgsl_300x/meg004/) supplied `megt90n000cb.img`, 2,073,600 bytes, and its 4,796-byte label. The label specifies 720 rows, 1,440 columns, big-endian signed 16-bit metre elevations, 0.25-degree bins, east-positive longitude from 0 to 360, and a 3,396 km reference radius. The provider's grid includes interpolated bins; this remains an elevation-derived estimate, not a claim of a laser shot at every sample.
+- [Copernicus LC100 Collection 3, 2019](https://doi.org/10.5281/zenodo.3939050) supplies the numeric bare-cover fraction raster. Its published size is 3,204,609,492 bytes and MD5 is `f2c9432c37ced7af02b6d9207036c2dc`. The verified raster header specifies uint8 percentages, nodata 255, 362,880 columns, 141,120 rows, EPSG:4326, and latitude coverage from 60 S to 80 N. The pipeline averages valid source pixels into 0.5-degree regions. Values outside coverage remain missing.
+
+### Method and limits
+
+`shared/terrain.json` defines all sampling choices and tolerances as defaults. For each cell and target, `pipeline/pack_terrain.py` samples a 5-by-5 local tangent-frame stencil with 30 km spacing: a 120 km region. Spherical destinations use each world's radius. The pipeline selects the nearest numeric DEM bin; it does not invent missing elevations. A least-squares plane gives the regional slope. The RMS residual height after removing the plane gives regional relief roughness in metres. The same physical stencil and calculation are used on all three worlds.
+
+To avoid treating ocean bathymetry as land relief, negative Earth elevation samples are excluded from the plane fit. At least 13 of 25 samples and a solvable plane are required. This conservative rule also excludes genuine below-sea-level land. Coastal sites and areas outside bare-ground coverage can have no terrain score. The app shows that absence instead of substituting another cell. These estimates do not establish wheel-scale traversability, antenna visibility, frequency suitability, or a radio link budget.
+
+Target coordinates come from `shared/targets.json`, with the existing west-to-east longitude conversion for Mars. Fully dry and fully bare target values are assumptions from the team brief. Numeric terrain target values live in the generated manifest rather than in settings.
+
+### Reproduce
+
+Install the pipeline development dependencies, including rasterio for GeoTIFF and SciPy for classic NetCDF. These two packages extend the original stack to read the verified public numeric products.
+
+From the repo root, run `python tools/download_terrain.py`, then `python tools/download_bare_ground.py`, then `python pipeline/pack_terrain.py`. The bare-ground source is large; interrupted range downloads retain completed segments. Raw files stay under ignored `data/raw/terrain/`. The app ships only a three-layer float32 file in the existing land-cell order and its provenance manifest. Check with `python -m pytest tests/test_terrain.py` from `pipeline/` and `npm test -- src/data/terrain.test.ts src/map/missionTests.test.tsx` from `app/`.

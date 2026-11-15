@@ -1,0 +1,41 @@
+{
+  "status": "default",
+  "sampleSpacingM": 30000,
+  "sampleOffsets": [
+    -2,
+    -1,
+    0,
+    1,
+    2
+  ],
+  "radiusM": {
+    "earth": 6371008.8,
+    "moon": 1737400,
+    "mars": 3396000
+  },
+  "quantities": [
+    {
+      "id": "slope",
+      "label": "Regional slope",
+      "unit": "degrees",
+      "tolerance": 2,
+      "status": "default"
+    },
+    {
+      "id": "roughness",
+      "label": "Regional relief roughness",
+      "unit": "m",
+      "tolerance": 500,
+      "status": "default"
+    },
+    {
+      "id": "bare_ground",
+      "label": "Bare ground",
+      "unit": "%",
+      "tolerance": 20,
+      "status": "default"
+    }
+  ],
+  "note": "Regional screening: slope of a fitted elevation plane and RMS height remaining after removing that plane, from up to 25 samples spaced 30 km across a 120 km region. This does not measure rocks, wheel-scale traversability, antenna visibility or a radio link budget. Earth uses only nonnegative land elevations, requiring at least 13 of 25 samples and a solvable plane; this excludes bathymetry and can exclude below-sea-level land. Bare ground is the 2019 Copernicus regional cover fraction; polar areas outside its coverage remain missing. Weights, tolerances and sampling choices are defaults, not validated engineering limits.",
+  "minimumLandSamples": 13
+}

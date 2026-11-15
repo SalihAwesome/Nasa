@@ -61,9 +61,10 @@ function ChannelChart({ chart, simulated }: { chart: ChannelComparison; simulate
   return <figure className="channel-curve" data-channel={chart.id}>
     <figcaption>
       <div className="channel-curve-heading">
-        <h3>{chart.label}</h3>
+        <h3>{chart.label} over a local day</h3>
         {simulated && <span className="evidence-tag evidence-tag--simulated">simulated</span>}
       </div>
+      <p className="section-explanation">Read the lines at the same local solar hour to compare how {chart.label.toLowerCase()} changes across the available sources.</p>
       {bar.kind === 'missing' ? <p>Satellite gap unavailable. {bar.reason}</p>
         : <p data-chart-gap={bar.gap}>Satellite gap <strong>{number(bar.gap)} {chart.unit}</strong> ({bar.basis})
           {bar.kind === 'gap-and-offset' && <span className="channel-curve-offset">Error bar ±{number(bar.gap + bar.offset)} {chart.unit}, including {number(bar.offset)} {chart.unit} absolute air-temperature offset.</span>}
@@ -86,8 +87,8 @@ function ChannelChart({ chart, simulated }: { chart: ChannelComparison; simulate
       <summary>View exact readings</summary>
       {readingsOpen && <div className="channel-readings" tabIndex={0} role="region" aria-label={`${chart.label} readings`}>
         {curves.map((curve, index) => <table key={curve.label}>
-          <caption>{curve.label}{index === 2 ? ` (${chart.medaUnit ?? 'unit unstated'})` : ` (${chart.unit})`}</caption>
-          <thead><tr><th scope="col">Solar hour</th><th scope="col">Value</th></tr></thead>
+          <caption className="table-title">{curve.label} readings by local solar hour</caption>
+          <thead><tr><th scope="col">Solar hour</th><th scope="col">Reading ({index === 2 ? chart.medaUnit ?? 'unit unstated' : chart.unit})</th></tr></thead>
           <tbody>{curve.points.map((point, pointIndex) => <tr key={pointIndex}><td>{number(point.hour)}</td><td>{point.value === null ? point.reason ?? 'Unavailable' : String(point.value)}</td></tr>)}</tbody>
         </table>)}
       </div>}
@@ -98,7 +99,8 @@ function ChannelChart({ chart, simulated }: { chart: ChannelComparison; simulate
 export function ChannelCurves({ log, sources }: { log: PodLog; sources: CurveSources }) {
   const charts = useMemo(() => buildChannelComparisons(log, sources), [log, sources])
   return <section className="channel-comparisons" aria-labelledby="channel-comparisons-heading">
-    <h2 id="channel-comparisons-heading">Pod, satellite and Mars</h2>
+    <h2 id="channel-comparisons-heading">Compare Qatar and Mars readings</h2>
+    <p className="section-explanation">These graphs put the Qatar pod, satellite estimates for Qatar, and NASA rover readings on the same local solar clock so you can compare the same part of each day.</p>
     <p>First 24 hours of the recording, aligned by local mean solar time. Satellite gaps use every imported record and the same calculation as the Qatar card.</p>
     <p>Pod and satellite time is UTC plus longitude divided by 15. MEDA uses LMST. Missing samples remain gaps.</p>
     {sources.site.reason && <p className="channel-comparison-site">{sources.site.reason}</p>}

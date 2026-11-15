@@ -211,5 +211,5 @@ test('the combined score states how many weighted quantities it uses', async () 
   const scored = total - card.combined.missing.length
   const html = renderToStaticMarkup(<FidelityCard card={card} />)
   expect(html).toContain(`data-coverage="${scored}/${total}"`)
-  expect(html).toContain(`Uses ${scored} of ${total} weighted quantities`)
+  expect(html).toContain(`${scored} of ${total} scoring quantities available`)
 })

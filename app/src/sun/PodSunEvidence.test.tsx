@@ -33,7 +33,7 @@ test('a real log cannot use the simulator site and date as its prediction', () =
 
 test('U18 shows a compass sky view from the published pod prediction', () => {
   const html = renderToStaticMarkup(<PodSunEvidence comparison={comparePodSun(log, prediction)} />)
-  expect(html).toContain('Pod-site Sun 3D sky with compass directions')
+  expect(html).toContain('Pod-site Sun 360-degree sky with compass directions')
   expect(html).toContain('Explore prediction time')
   expect(html).toContain('Compass azimuth')
   expect(html).toContain('Predicted elevation')

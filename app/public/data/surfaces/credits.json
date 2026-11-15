@@ -1,0 +1,29 @@
+[
+  {
+    "body": "earth",
+    "file": "earth.jpg",
+    "source": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-base/january/world.200401.3x21600x10800.jpg",
+    "credit": "NASA Earth Observatory, Blue Marble Next Generation, January 2004",
+    "width": 8192,
+    "height": 4096,
+    "use": "Visual surface context. Resized from the 21600 by 10800 source image."
+  },
+  {
+    "body": "moon",
+    "file": "moon.jpg",
+    "source": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_4k.tif",
+    "credit": "NASA SVS CGI Moon Kit, NASA/GSFC/Arizona State University, LROC and LOLA",
+    "width": 4096,
+    "height": 2048,
+    "use": "Visual surface context. Converted from the source TIFF to JPEG."
+  },
+  {
+    "body": "mars",
+    "file": "mars.jpg",
+    "source": "https://astrogeology.usgs.gov/ckan/dataset/7131d503-cdc9-45a5-8f83-5126c0fd397e/resource/5ea881c6-01b3-41fa-a7af-42d2131b54f1/download/mars_viking_mdim21_clrmosaic_1km.jpg",
+    "credit": "USGS Astrogeology, Mars Viking MDIM 2.1 Colorized Mosaic",
+    "width": 8192,
+    "height": 4096,
+    "use": "Visual surface context. Resized from the 21339 by 10670 source image."
+  }
+]

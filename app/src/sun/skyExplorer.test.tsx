@@ -13,6 +13,12 @@ test('sky zoom stays bounded and rotating preserves the chosen zoom', () => {
   expect(initialCamera.zoom).toBe(1)
 })
 
+test('sky camera passes under the horizon and completes a full vertical turn', () => {
+  expect(rotateCamera(initialCamera, 0, -43).tilt).toBe(345)
+  expect(rotateCamera(initialCamera, 0, 180).tilt).toBe(208)
+  expect(rotateCamera(initialCamera, 360, 360)).toEqual(initialCamera)
+})
+
 test('comparison opens with interactive skies and keeps chart, zoom and fullscreen controls available', async () => {
   const data = await loadSunData(async url => new Response(new Uint8Array(readFileSync(
     new URL('../../public/data/sun/' + url.split('/').at(-1), import.meta.url),

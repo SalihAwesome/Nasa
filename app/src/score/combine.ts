@@ -2,7 +2,7 @@ import type { ScoreResult } from './score'
 
 export type Weight = Readonly<{ value: number; status: string }>
 export type CombinedResult = {
-  score: number | { kind: 'no-score'; reason: 'no-weighted-scores' }
+  score: number | { kind: 'no-score'; reason: 'no-weighted-scores' | 'missing-required-quantities' }
   missing: string[]
 }
 

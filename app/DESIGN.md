@@ -117,6 +117,11 @@ finder. Unrecognised routes show an explicit recovery link.
 
 The card is a detail view of the site finder and keeps its navigation item active.
 The map supplies links to scored land-cell cards. Route changes update the document title and focus the heading.
+Site finder shows the score layer on a rotatable orthographic Earth. Drag or
+use the arrow keys to rotate; pinch or use the zoom controls for a closer view.
+Natural Earth country names and verified analog site names orient the viewer.
+Country labels are geographic context. A named site opens its existing land
+cell card when the corresponding grid cell is available.
 
 Use `.evidence-tag` with `.evidence-tag--estimate`, `.evidence-tag--measured` or
 `.evidence-tag--simulated`. Keep the literal tag text visible. A label never

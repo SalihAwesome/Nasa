@@ -26,15 +26,16 @@ function renderedRow(html: string, id: string) {
   return html.split(`data-channel="${id}"`)[1]?.split('</tr>')[0] ?? ''
 }
 
-test('U22 lets users select Mobility and see why its score is unavailable', async () => {
+test('U22 Mobility uses sourced regional terrain alongside the measured pod card', async () => {
   const hash = '#/card/pod?test=mobility'
   const controls = renderToStaticMarkup(<CardPanel hash={hash} />)
   expect(controls).toContain('<option value="mobility" selected="">')
   const card = await loadSelectedCard(readCardSelection(hash), assets(csv))
   const html = renderToStaticMarkup(<FidelityCard card={card} />)
   expect(card.test.id).toBe('mobility')
-  expect(typeof card.combined.score).not.toBe('number')
-  expect(html).toContain('Mobility match')
+  expect(typeof card.combined.score).toBe('number')
+  expect(card.rows.filter(row => ['slope', 'roughness', 'bare_ground'].includes(row.id)).every(row => row.evidence === 'estimate' && typeof row.score === 'number')).toBe(true)
+  expect(html).toContain('Overall mobility match')
   expect(html).toContain(cardTests.find(test => test.id === 'mobility')?.reason)
 })
 

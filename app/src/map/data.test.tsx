@@ -34,11 +34,14 @@ test('loads all shipped months locally, reads U07 values, keeps its gaps missing
   }
   const html = renderToStaticMarkup(<MapView data={data} />)
   expect(html).toContain('<canvas')
+  expect(html).toContain('Interactive Earth globe')
+  expect(html).toContain('Atacama Desert, Chile')
+  expect(data.countries.find(country => country.name === 'Chile')).toBeDefined()
   expect(html).toContain('type="range"')
-  expect(html).toContain('Top 20 cells')
+  expect(html).toContain('20 highest-scoring Earth areas')
   expect(html).toContain('No score') // Legend retains the missing-data color.
   expect(html).toContain(meda.channels.uv.reason)
-  expect(html.match(/<option[^>]* disabled=""/g)).toHaveLength(4)
+  expect(html.match(/<option[^>]* disabled=""/g) ?? []).toHaveLength(0)
   for (const label of ['Power', 'Mobility', 'Communications', 'Navigation', 'Science tools']) expect(html).toContain(label)
   expect(html.match(/href="#\/card\/cell\//g)).toHaveLength(20)
 })

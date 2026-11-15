@@ -67,7 +67,8 @@ export function PodLogPanel() {
 
   return (
     <section aria-labelledby="pod-log-title" onDragOver={event => event.preventDefault()} onDrop={dropFile}>
-      <h2 id="pod-log-title">Pod log</h2>
+      <h2 id="pod-log-title">Load a sensor recording</h2>
+      <p className="section-explanation">Open a CSV from the Qatar sensor pod to compare its readings with satellite and rover data.</p>
       <label>
         Drop a pod CSV here or choose a file{' '}
         <input type="file" accept=".csv,text/csv" onChange={event => {

@@ -7,9 +7,6 @@ type Reasons = Record<string, string>
 type MobilityDefault = { value: number; status: 'default' }
 export type MobilitySettings = {
   dryness: { value: number; source: 'docs/project-brief.md'; unit: '1'; tolerance: MobilityDefault; scale: MobilityDefault }
-  slope: { value: null; reason: string }
-  roughness: { value: null; reason: string }
-  bare_ground: { value: null; reason: string }
 }
 export type TargetChannel = {
   tolerance: number; unit: string; status: 'default'
@@ -77,7 +74,7 @@ function parseTargetRows(
 }
 
 function parseMobility(input: unknown, path: string): MobilitySettings {
-  const data = object(input, path, ['dryness', 'slope', 'roughness', 'bare_ground'])
+  const data = object(input, path, ['dryness'])
   const dry = object(data.dryness, `${path}.dryness`, ['value', 'source', 'unit', 'tolerance', 'scale'])
   if (dry.value !== 0 || dry.source !== 'docs/project-brief.md' || dry.unit !== '1') fail(path, 'expected the brief\'s fully dry target and verified wetness unit')
   function setting(key: string): MobilityDefault {
@@ -85,12 +82,7 @@ function parseMobility(input: unknown, path: string): MobilitySettings {
     if (row.status !== 'default' || typeof row.value !== 'number' || !Number.isFinite(row.value) || row.value <= 0) fail(path, 'invalid mobility default')
     return { value: row.value, status: 'default' }
   }
-  function missing(key: string): { value: null; reason: string } {
-    const row = object(data[key], `${path}.${key}`, ['value', 'reason'])
-    if (row.value !== null) fail(`${path}.${key}`, 'a matched terrain source has not been confirmed')
-    return { value: null, reason: text(row.reason, `${path}.${key}.reason`) }
-  }
-  return { dryness: { value: 0, source: 'docs/project-brief.md', unit: '1', tolerance: setting('tolerance'), scale: setting('scale') }, slope: missing('slope'), roughness: missing('roughness'), bare_ground: missing('bare_ground') }
+  return { dryness: { value: 0, source: 'docs/project-brief.md', unit: '1', tolerance: setting('tolerance'), scale: setting('scale') } }
 }
 
 /** Validate card and Sun settings while accepting target files from before U15. */

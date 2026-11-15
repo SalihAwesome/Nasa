@@ -5,3 +5,6 @@ app/dist/
 __pycache__/
 .pytest_cache/
 /firmware/pod/secrets.h
+/app/.env
+/app/.env.*
+!/app/.env.example

@@ -1,0 +1,70 @@
+{
+  "cellCount": 68816,
+  "cellsSha256": "c77bef80dd2c36fe81e89af749d5f6c3e9e3492e3d77b07ccadf3e8b18550840",
+  "dtype": "float32",
+  "byteOrder": "little",
+  "layout": "quantity-major",
+  "quantityOrder": [
+    "slope",
+    "roughness",
+    "bare_ground"
+  ],
+  "file": "earth.bin",
+  "targets": {
+    "shackleton": {
+      "slope": {
+        "value": 0.5435390495277325,
+        "unit": "degrees",
+        "source": "LOLA"
+      },
+      "roughness": {
+        "value": 1210.7915877219482,
+        "unit": "m",
+        "source": "LOLA"
+      },
+      "bare_ground": {
+        "value": 100,
+        "unit": "%",
+        "source": "docs/project-brief.md",
+        "status": "default",
+        "note": "Fully bare target assumption from the team brief."
+      }
+    },
+    "jezero": {
+      "slope": {
+        "value": 0.7903078788567709,
+        "unit": "degrees",
+        "source": "MOLA"
+      },
+      "roughness": {
+        "value": 157.28988778685041,
+        "unit": "m",
+        "source": "MOLA"
+      },
+      "bare_ground": {
+        "value": 100,
+        "unit": "%",
+        "source": "docs/project-brief.md",
+        "status": "default",
+        "note": "Fully bare target assumption from the team brief."
+      }
+    }
+  },
+  "sources": {
+    "earth": "https://oceanwatch.aoml.noaa.gov/erddap/info/etopo180/index.html",
+    "moon": "https://svs.gsfc.nasa.gov/4720/",
+    "mars": "https://pds-geosciences.wustl.edu/mgs/mgs-m-mola-5-megdr-l3-v1/mgsl_300x/meg004/megt90n000cb.lbl",
+    "bare_ground": "https://doi.org/10.5281/zenodo.3939050"
+  },
+  "note": "Regional screening: slope of a fitted elevation plane and RMS height remaining after removing that plane, from up to 25 samples spaced 30 km across a 120 km region. This does not measure rocks, wheel-scale traversability, antenna visibility or a radio link budget. Earth uses only nonnegative land elevations, requiring at least 13 of 25 samples and a solvable plane; this excludes bathymetry and can exclude below-sea-level land. Bare ground is the 2019 Copernicus regional cover fraction; polar areas outside its coverage remain missing. Weights, tolerances and sampling choices are defaults, not validated engineering limits.",
+  "bareGroundSourceMd5": "f2c9432c37ced7af02b6d9207036c2dc",
+  "bareGroundAttribution": "Buchhorn, M., et al. (2020). Copernicus Global Land Service: Land Cover 100m, Collection 3, epoch 2019, V3.0.1. DOI: 10.5281/zenodo.3939050.",
+  "missingReason": "No regional sample: fewer than 13 usable land elevations, invalid source data, or outside 2019 bare-ground coverage.",
+  "rawSha256": {
+    "earth.nc": "2adba07532f9021bb4cd8dca55d6952a942204bdddc8b9f92eccf6c1c4c9046b",
+    "moon.tif": "330afa2556a86fd05ac6ba2f912f246600fdade35de2a0d90593d50d07b01b65",
+    "mars.img": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c",
+    "mars.lbl": "5a3fe60256afa1c35fea5d551fe0ab0a9198fb2bcd2c2e161d078aa69627ebac",
+    "bare.npz": "4bbca7b3847ae34d522239b9020b8fb96873b593853913abc3dd6e7a822330d0"
+  }
+}

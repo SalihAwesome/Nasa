@@ -6,6 +6,13 @@ import assert from 'node:assert/strict'
 const dist = resolve(import.meta.dirname, '../app/dist')
 const sources = JSON.parse(readFileSync(resolve(dist, '../../shared/sources.json'), 'utf8'))
 const provenance = new Set(sources.map(source => source.url).filter(Boolean))
+// Site labels use the verified team registry. Its citations are data only;
+// the request checks below still reject using any of these URLs to load code or data.
+const validation = JSON.parse(readFileSync(resolve(dist, '../../shared/validation_sites.json'), 'utf8'))
+for (const site of validation.sites) {
+  provenance.add(site.useSource)
+  provenance.add(site.coordinates.source.url)
+}
 // U11 renders citations copied from the team's brief. Like registry URLs,
 // these strings are provenance, not background requests.
 const limits = JSON.parse(readFileSync(resolve(dist, '../../shared/limits.json'), 'utf8'))

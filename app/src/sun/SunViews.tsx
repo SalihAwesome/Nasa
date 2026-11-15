@@ -1,4 +1,4 @@
-import { useId, useMemo, useRef } from 'react'
+import { useEffect, useId, useMemo, useRef } from 'react'
 import type { SunPoint } from './sunData'
 
 export type Camera = { bearing: number; tilt: number; zoom?: number }
@@ -83,10 +83,11 @@ export function ElevationChart({ label, rows, point, range }: {
 
 const radians = Math.PI / 180
 const circle = Array.from({length: 73}, (_, i) => i * 5)
-const meridian = Array.from({length: 19}, (_, i) => i * 5)
+const meridian = Array.from({length: 37}, (_, i) => i * 5 - 90)
+const wrapAngle = (angle: number) => ((angle % 360) + 360) % 360
 
 export function rotateCamera(camera: Camera, dx: number, dy: number): Camera {
-  return { ...camera, bearing: ((camera.bearing + dx) % 360 + 360) % 360, tilt: Math.max(12, Math.min(72, camera.tilt + dy)) }
+  return { ...camera, bearing: wrapAngle(camera.bearing + dx), tilt: wrapAngle(camera.tilt + dy) }
 }
 
 export function zoomCamera(camera: Camera, delta: number): Camera {
@@ -97,7 +98,12 @@ export function SkyView({ label, rows, index, camera, onCamera }: {
   label: string; rows: SunPoint[]; index: number; camera: Camera; onCamera: (camera: Camera) => void
 }) {
   const glow = useId()
-  const drag = useRef<{ x: number; y: number; camera: Camera } | null>(null)
+  const drag = useRef<{ id: number; x: number; y: number; camera: Camera } | null>(null)
+  const pending = useRef<{ frame: number; camera: Camera } | null>(null)
+  useEffect(() => () => {
+    if (pending.current) cancelAnimationFrame(pending.current.frame)
+    pending.current = null
+  }, [])
   const geometry = useMemo(() => {
     const tilt = camera.tilt * radians
     function project(point: Point, distance = 1) {
@@ -111,22 +117,38 @@ export function SkyView({ label, rows, index, camera, onCamera }: {
     }
     const ring = (elevation: number) => circle.map(azimuth => project({azimuth,elevation}).join(',')).join(' ')
     const arcs = [0,90,180,270].map(azimuth => meridian.map(elevation => project({azimuth,elevation}).join(',')).join(' '))
-    return { project, ring, arcs, paths: pathParts(rows, project, false) }
+    return { project, arcs, rings: [-60, -30, 0, 30, 60].map(ring), paths: pathParts(rows, project, false) }
   }, [rows, camera.bearing, camera.tilt])
-  const { project, ring, arcs, paths } = geometry
+  const { project, rings, arcs, paths } = geometry
   const selected = rows[index]
   const [cx, cy] = project(selected)
   const trail = rows.slice(Math.max(0,index-8), index+1)
   return <svg viewBox="0 0 500 316" className="sun-plot sun-sky" role="img"
-    aria-label={label + ' 3D sky with compass directions, horizon and Sun marker'}
+    aria-label={label + ' 360-degree sky with compass directions, horizon and Sun marker'}
+    tabIndex={0}
+    onKeyDown={event => {
+      const turns: Record<string, [number, number]> = { ArrowLeft: [-15, 0], ArrowRight: [15, 0], ArrowUp: [0, 15], ArrowDown: [0, -15] }
+      const turn = turns[event.key]
+      if (!turn) return
+      event.preventDefault()
+      onCamera(rotateCamera(camera, ...turn))
+    }}
     onPointerDown={event => {
-      if (event.button !== 0) return
-      drag.current = { x: event.clientX, y: event.clientY, camera }
+      if (event.button !== 0 || drag.current) return
+      drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, camera }
       event.currentTarget.setPointerCapture(event.pointerId)
     }}
     onPointerMove={event => {
       const start = drag.current
-      if (start) onCamera(rotateCamera(start.camera, (event.clientX-start.x)*.75, (start.y-event.clientY)*.4))
+      if (!start || start.id !== event.pointerId) return
+      const next = rotateCamera(start.camera, (event.clientX - start.x) * .75, (start.y - event.clientY) * .75)
+      if (pending.current) { pending.current.camera = next; return }
+      const frame = requestAnimationFrame(() => {
+        const update = pending.current
+        pending.current = null
+        if (update) onCamera(update.camera)
+      })
+      pending.current = { frame, camera: next }
     }}
     onLostPointerCapture={() => { drag.current = null }}>
     <defs>
@@ -134,10 +156,10 @@ export function SkyView({ label, rows, index, camera, onCamera }: {
     </defs>
     <g transform={`translate(250 158) scale(${camera.zoom ?? 1}) translate(-250 -158)`}>
     {arcs.map(arc => <polyline key={arc} points={arc} className="sun-dome" />)}
-    {[30,60].map(e => <polygon key={e} points={ring(e)} className="sun-dome" />)}
+    {rings.map((ring, index) => index === 2 ? null : <polygon key={index} points={ring} className="sun-dome" />)}
+    <polygon points={rings[2]} className="sun-ground" />
+    <polygon points={rings[2]} className="sun-horizon-rim" />
     <path d={paths.night} className="sun-path sun-path-night" />
-    <polygon points={ring(0)} className="sun-ground" />
-    <polygon points={ring(0)} className="sun-horizon-rim" />
     {[['N',0],['E',90],['S',180],['W',270]].map(([direction, angle]) => {
       const [x,y] = project({azimuth:Number(angle),elevation:0}, 1.12)
       const [rimX,rimY] = project({azimuth:Number(angle),elevation:0})
