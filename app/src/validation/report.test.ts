@@ -15,6 +15,14 @@ test('U12 evaluates every enabled test and does not mistake limited science evid
     return { bestMonth: 1, score: 0.5, rankPercentile: 1 }
   })
   expect(calls).toEqual(['mobility', 'navigation', 'mobility', 'mobility', 'science_tools'])
+  // The five target/test/expectation pairs in the team's "Proof it works" table.
+  expect(results.map(row => [row.target, row.test, row.expected])).toEqual([
+    ['shackleton', 'mobility', 'should rank high'],
+    ['shackleton', 'navigation', 'should rank low'],
+    ['shackleton', 'mobility', 'should rank high'],
+    ['jezero', 'mobility', 'should rank high'],
+    ['jezero', 'science_tools', 'should rank high'],
+  ])
   expect(results.map(row => row.result)).toEqual(['pass', 'reported', 'pass', 'pass', 'reported'])
   expect(results[4].reason).toContain('Unavailable target UV')
   expect(renderValidation(sites, results)).toContain('without a pass/fail verdict')
