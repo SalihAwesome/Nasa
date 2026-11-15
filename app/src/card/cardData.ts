@@ -13,6 +13,8 @@ import type { CombinedResult, Weight } from '../score/combine'
 import { fetchPodLog } from '../pod/importLog'
 import type { PodLog } from '../pod/importLog'
 import { gap, reduceChannel } from '../pod/reduce'
+import { loadPlanetaryData } from '../data/planetary'
+import { isMissionReference, missionNumbers, pointParams, readTargetPoint } from '../map/missionTarget'
 
 export const cardRegistries = loadRegistries()
 export const cardSettings = loadTargetSettings()
@@ -20,7 +22,7 @@ export type TestDefinition = { id: string; enabled: boolean; partial?: boolean; 
 export const cardTests: TestDefinition[] = testData
 export type CardSelection = {
   site: { kind: 'pod' } | { kind: 'cell'; index: number }
-  target: Target['id']; test: string; month: number
+  target: Target['id']; test: string; month: number; targetPoint?: Cell
 }
 export type Reading = { value: number | null; unit: string | null; reason?: string; unitReason?: string; note?: string }
 type Cell = { lat: number; lon: number }
@@ -34,7 +36,7 @@ const sunLabels: Record<string, string> = {
 export type CardData = {
   manifest: EarthManifest; cells: Cell[]; month: EarthMonth
   target: Target['id']; targetValues: Record<string, Reading>; targetSol?: number
-  earthSun: EarthSun; targetSun: Record<string, Reading>
+  earthSun: EarthSun; targetSun: Record<string, Reading>; targetPoint?: Cell
 }
 export type CardRow = {
   id: string; label: string; earth: Reading; target: Reading
@@ -48,7 +50,7 @@ type ErrorBar =
   | { kind: 'gap-and-offset'; gap: number; offset: number; basis: string }
 export type CardModel = {
   cell: Cell & { index: number }; isPod: boolean; siteNote?: string
-  target: Target['id']; targetSol?: number; month: number; period: EarthManifest['period']
+  target: Target['id']; targetSol?: number; targetPoint?: Cell; month: number; period: EarthManifest['period']
   rows: CardRow[]; sunRows: CardRow[]; test: TestDefinition; combined: CombinedResult; limits: Limit[]; simulated?: boolean
 }
 type CardMeasurements = { log: PodLog; satelliteChannels: Record<string, unknown> }
@@ -112,12 +114,13 @@ export function readCardSelection(hash: string): CardSelection {
   const initialMonth = site.kind === 'pod' && start !== null ? new Date(start).getUTCMonth() + 1 : 1
   const month = params.has('month') ? Number(params.get('month')) : initialMonth
   if (!Number.isInteger(month) || month < 1 || month > 12) fail('month must be from 1 through 12')
-  return { site, target, test, month }
+  return { site, target, test, month, ...(params.has('targetLat') || params.has('targetLon') ? { targetPoint: readTargetPoint(params) } : {}) }
 }
 
 export function cardHash(selection: CardSelection): string {
   const site = selection.site.kind === 'pod' ? 'pod' : `cell/${selection.site.index}`
   const query = new URLSearchParams({ target: selection.target, test: selection.test, month: String(selection.month) })
+  if (selection.targetPoint) for (const [key, value] of Object.entries(pointParams(selection.targetPoint))) query.set(key, value)
   return `#/card/${site}?${query}`
 }
 
@@ -198,6 +201,17 @@ export async function loadCardData(selection: CardSelection, fetcher: (path: str
   const terrain = await loadTerrainData({ cellCount: cells.length, baseUrl: prefix, fetcher })
   Object.assign(month.layers, terrain.layers)
   for (const [id, reading] of Object.entries(terrain.targets[target.id])) targetValues[id] = { ...reading, unit: reading.unit ?? null }
+  const body = target.id === 'jezero' ? 'mars' : 'moon'
+  if (selection.targetPoint && !isMissionReference({ targets: cardSettings.targets }, body, selection.targetPoint)) {
+    const planetary = await loadPlanetaryData(prefix, fetcher)
+    const numbers = missionNumbers({ targets: cardSettings.targets, targetNumbers: { [target.id]: targetValues }, planetary }, body, selection.targetPoint)
+    for (const [id, row] of Object.entries(numbers)) {
+      const reading: Reading = { ...row, unit: row.unit ?? null }
+      if (id in target.sun) targetSun[id] = reading
+      else targetValues[id] = reading
+    }
+    return { manifest, cells, month, target: target.id, targetValues, earthSun, targetSun, targetPoint: selection.targetPoint }
+  }
   return { manifest, cells, month, target: target.id, targetValues, targetSol: targetData.sol, earthSun, targetSun }
 }
 
@@ -209,7 +223,7 @@ export async function loadSelectedCard(
     return buildCard(await loadCardData(selection, fetcher), selection)
   }
 
-  const podSelection = { ...selection, target: 'jezero' } satisfies CardSelection
+  const podSelection = { ...selection, target: 'jezero', targetPoint: undefined } satisfies CardSelection
   const [data, log, satellite] = await Promise.all([
     loadCardData(podSelection, fetcher),
     fetchPodLog(undefined, path => fetcher(String(path))),
@@ -328,7 +342,7 @@ export function buildCard(data: CardData, selection: CardSelection, measurements
   return {
     cell: { index, ...data.cells[index] }, isPod: selection.site.kind === 'pod',
     siteNote: selection.site.kind === 'pod' && cardRegistries.podSite.status === 'default' ? cardRegistries.podSite.reason : undefined,
-    target: selection.target, targetSol: data.targetSol, month: data.month.month, period: data.manifest.period,
+    target: selection.target, targetSol: data.targetSol, targetPoint: data.targetPoint, month: data.month.month, period: data.manifest.period,
     rows, sunRows, test: definition, combined: blocked ? { ...combined, score: { kind: 'no-score', reason: 'missing-required-quantities' } } : combined, limits: cardSettings.limits.card,
     simulated: measurements?.log.simulated,
   }

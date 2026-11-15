@@ -787,3 +787,20 @@ Real HTTP downloads made by `pipeline/fetch_comparison.py` confirm:
 - The new reduction has **29,656** recorded TOP 3 observations in **54** ten-minute LMST bins. The highest recorded bin mean is **2.788603511572123 W/m²**, starting at **11:00 LMST**. This is a peak of recorded ten-minute means, not a complete daily mean or daily maximum. Empty bins remain missing. A separate numpy reduction of the raw CSV reproduces this result.
 
 `app/public/data/mars/jezero-comparison.json` records the source URLs and SHA-256 fingerprints. Reproduce with `python fetch_comparison.py` from `pipeline/`. The original scored UV-index and MEDA reflectivity fields remain null with reasons. The comparison uses a supplementary display and explains why direct differences are not calculated for different products. `docs/comparison-data.md` records the full method.
+
+
+## Global Moon/Mars target points, 15 November 2026
+
+The real Horizons calls recorded in `app/public/data/planetary/manifest.json` returned airless apparent Sun azimuth/elevation (quantity 4) and observer range/range-rate (quantity 20) with `RANGE_UNITS=KM`. The two full equator/prime-meridian responses are saved under `pipeline/tests/fixtures/planetary/`; every response has 721 hourly samples from 2026-11-01 through 2026-12-01 inclusive. `https://ssd-api.jpl.nasa.gov/doc/horizons.html` documents these parameters. Actual response headers identify API version 1.2.
+
+The responses give center radii (km): Moon 1737.4, 1737.4, 1737.4; Mars 3396.19, 3396.19, 3376.2. Mars requires east longitudes encoded as negative values for the west-positive IAU body; positive west representations were rejected by the real call. Validation requests therefore use `-(east_longitude % 360)`.
+
+`pipeline/pack_planetary.py` reconstructs Sun vectors in the body's fixed frame from the actual 0,0 observer response and its equatorial radius. It projects observer-to-Sun vectors onto each cell's ellipsoid normal/east/north frame, converting planetocentric to geodetic latitude for the horizon. Before output, it checks three direct Horizons locations per world (35 N, 110 W; 45 S, 120 E; 89 N, 45 E) using geodetic request latitudes. The manifest records each exact URL, SHA-256, and maximum angular discrepancy.
+
+- moon: maximum validation discrepancy 3.4109137629911856e-06 degrees; binary SHA-256 `d069cdd92ee5051b6bc9385ea2e46c9733040e5d63736ddedf27aa84d684623f`.
+
+- mars: maximum validation discrepancy 0.00014234135556989713 degrees; binary SHA-256 `4b2d5d76f6c2b9ebafd01f640f3d9946d4325d1203cc1d4e7e7def3c5f6d945c`.
+
+Each new binary contains 64,800 one-degree cells and five float32 layers (1,296,000 bytes): regional slope, relief roughness, highest Sun elevation, low-Sun daylight share, and horizon sweep. The terrain reducer uses the same cached LOLA/MOLA numeric DEMs and 120 km sampling method verified in the regional-terrain section. Source DEM fingerprints are included in the manifest. No source imagery is treated as a numeric measurement.
+
+The selected coordinates remain in the URL; data are read at the containing grid-cell center without interpolation. The original reference weather remains restricted to its original coordinates. Other points get no substituted ground/air temperature, humidity, pressure or UV index. Surface dryness and bare-ground assumptions remain from the team's brief and are disclosed. The UI removes the '(default)' suffix from point descriptions, while source metadata retains its status tags. No UV index is invented from the separate RDS UV detector flux. See `docs/planetary-targets.md`.

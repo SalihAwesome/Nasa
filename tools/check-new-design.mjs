@@ -257,6 +257,29 @@ try {
   console.log(
     "PASS ranking: all 20 results across four pages, coverage disclosure, enabled/disabled controls.",
   );
+  await clickText('.target-worlds button', 'Moon');
+  await waitFor('!!document.querySelector(".target-picker canvas[aria-label*=Moon]")', 'Moon target globe');
+  const targetCanvas = await ev('(()=>{const r=document.querySelector(".target-picker .planet-labels").getBoundingClientRect();return {x:r.x+r.width/2+50,y:r.y+r.height/2}})()');
+  await call('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...targetCanvas});
+  await call('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...targetCanvas});
+  await waitFor('document.querySelector(".target-location-settings h3").textContent==="Lunar surface point"', 'selected lunar point');
+  const readMissionPoint = '({lat:document.querySelectorAll(".target-location-settings input")[0].value,lon:document.querySelectorAll(".target-location-settings input")[1].value})';
+  const missionPoint = await ev(readMissionPoint);
+  const pointMapHash = await ev('location.hash');
+  await screenshot('target-moon.png', true);
+  const firstScore = await ev('document.querySelector(".ranked-cells li:not([hidden]) .rank-score").firstChild.textContent');
+  await ev('document.querySelector(".ranked-cells li:not([hidden]) a").click()');
+  await waitFor('!!document.querySelector(".fidelity-card")', 'point-specific fidelity card');
+  assert.equal(await ev('document.querySelector(".card-total").textContent.trim()'), firstScore, 'Selected point rank and card scores agree');
+  assert.ok(await ev('document.querySelector(".card-heading").textContent.includes("Moon · ")'), 'Card names the selected world and point');
+  assert.ok(await ev('location.hash.includes("targetLat=")&&location.hash.includes("targetLon=")'), 'Card link keeps point coordinates');
+  await call('Page.navigate', {url:origin+'/'+pointMapHash});
+  await waitFor('!!document.querySelector(".target-picker")', 'point deep link');
+  await waitFor('JSON.stringify(' + readMissionPoint + ')===' + JSON.stringify(JSON.stringify(missionPoint)), 'Deep link restores selected point');
+  await clickText('.target-worlds button', 'Mars');
+  await waitFor('document.querySelector(".target-location-settings h3").textContent==="Jezero crater"', 'Mars starting point');
+  assert.ok(!await ev('document.querySelector(".target-picker").textContent.includes("(default)")'), 'Starting point has no default suffix');
+  console.log('PASS mission targets: Moon/Mars selection, real surface click, global-data rankings, matching point-specific card, preserved coordinates and reloadable deep links.');
   if (!offline && !layoutOnly) {
     assert.ok(
       await ev(

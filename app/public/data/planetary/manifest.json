@@ -1,0 +1,112 @@
+{
+  "grid": {
+    "status": "default",
+    "stepDegrees": 1,
+    "latitudeStart": 89.5,
+    "longitudeStart": -179.5,
+    "rows": 180,
+    "columns": 360,
+    "validationMaxAngleErrorDegrees": 0.05,
+    "validationPoints": [
+      [
+        35,
+        -110
+      ],
+      [
+        -45,
+        120
+      ],
+      [
+        89,
+        45
+      ]
+    ],
+    "note": "One-degree regional screening cells. Selected coordinates are retained; values are sampled at the containing cell center without interpolation. Sun geometry uses the saved November 2026 hourly Horizons window and an ellipsoid horizon, without local terrain shadows. Bare and dry surface values retain the project brief's assumptions, not local measurements; ice cover is not resolved."
+  },
+  "quantities": [
+    "slope",
+    "roughness",
+    "peak_elevation",
+    "low_sun_share",
+    "horizon_sweep"
+  ],
+  "dtype": "float32",
+  "byteOrder": "little",
+  "layout": "quantity-major",
+  "coordinates": "planetocentric latitude, east-positive longitude",
+  "window": {
+    "start": "2026-11-01",
+    "stop": "2026-12-01",
+    "step_hours": 1,
+    "status": "default"
+  },
+  "bodies": {
+    "moon": {
+      "file": "moon.bin",
+      "sha256": "d069cdd92ee5051b6bc9385ea2e46c9733040e5d63736ddedf27aa84d684623f",
+      "sunSource": {
+        "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40301%27&SITE_COORD=%270%2C0%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+        "sha256": "8e97967c5672b7ce04649cbbf89980f907735ba87d5902b2a17883e4cfa542bf"
+      },
+      "validation": [
+        {
+          "latitude": 35,
+          "longitude": -110,
+          "maxAngleErrorDegrees": 3.4109137629911856e-06,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40301%27&SITE_COORD=%27-110%2C35.0000000000%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "c10523e807d0b910f2b9d8d62e63e53251d4725a0a66628ed426950184102d55"
+        },
+        {
+          "latitude": -45,
+          "longitude": 120,
+          "maxAngleErrorDegrees": 2.8713266715385544e-06,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40301%27&SITE_COORD=%27120%2C-45.0000000000%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "28c170364915e00bb7a7cda754b8963f6b54425d027bdbb9f67cdea577cdca95"
+        },
+        {
+          "latitude": 89,
+          "longitude": 45,
+          "maxAngleErrorDegrees": 1.8093104472427513e-06,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40301%27&SITE_COORD=%2745%2C89.0000000000%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "2cf9f5c409ebc04cb6d69735ad22d6054f66a893dcba2e303e95d66b1d64bf66"
+        }
+      ],
+      "terrainSource": "https://svs.gsfc.nasa.gov/4720/",
+      "terrainSha256": "330afa2556a86fd05ac6ba2f912f246600fdade35de2a0d90593d50d07b01b65"
+    },
+    "mars": {
+      "file": "mars.bin",
+      "sha256": "4b2d5d76f6c2b9ebafd01f640f3d9946d4325d1203cc1d4e7e7def3c5f6d945c",
+      "sunSource": {
+        "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40499%27&SITE_COORD=%270%2C0%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+        "sha256": "c6d6110efc412645b899ea37934595ac13da5952e8f0f1f2c4bf0e7e641bb3ec"
+      },
+      "validation": [
+        {
+          "latitude": 35,
+          "longitude": -110,
+          "maxAngleErrorDegrees": 0.00014234135556989713,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40499%27&SITE_COORD=%27-250%2C35.3184775139%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "8c6d175235d1ac503fd9e99405d9fdbb55e90e8debfd7b762ea6724f3ab4e99c"
+        },
+        {
+          "latitude": -45,
+          "longitude": 120,
+          "maxAngleErrorDegrees": 0.00010843262060689085,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40499%27&SITE_COORD=%27-120%2C-45.3382319534%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "e7efab962e1002b535c2174401afbf5c7c4233d8791b7d5d75939da5fadaf342"
+        },
+        {
+          "latitude": 89,
+          "longitude": 45,
+          "maxAngleErrorDegrees": 4.679997510947942e-05,
+          "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&COORD_TYPE=%27GEODETIC%27&QUANTITIES=%274%2C20%27&CENTER=%27coord%40499%27&SITE_COORD=%27-45%2C89.0117350284%2C0%27&START_TIME=%272026-11-01%27&STOP_TIME=%272026-12-01%27&STEP_SIZE=%271+h%27&RANGE_UNITS=%27KM%27&APPARENT=%27AIRLESS%27",
+          "sha256": "4eddd534fe039557b50f2602308b8f56e0b4456572a8c3c5600a9bb7f4eec889"
+        }
+      ],
+      "terrainSource": "https://pds-geosciences.wustl.edu/mgs/mgs-m-mola-5-megdr-l3-v1/mgsl_300x/meg004/megt90n000cb.lbl",
+      "terrainSha256": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c"
+    }
+  },
+  "note": "One-degree regional screening cells. Selected coordinates are retained; values are sampled at the containing cell center without interpolation. Sun geometry uses the saved November 2026 hourly Horizons window and an ellipsoid horizon, without local terrain shadows. Bare and dry surface values retain the project brief's assumptions, not local measurements; ice cover is not resolved."
+}

@@ -6,6 +6,8 @@ import { fieldSites } from './fieldSites'
 import type { Place } from './places'
 import { nearestPlace } from './places'
 import type { Supplement } from '../data/comparison'
+import { missionNumbers } from './missionTarget'
+import { samplePlanetary } from '../data/planetary'
 
 export type ComparisonLocation = Cell & { body: World; name: string }
 export type ComparisonReading = { value: number | null; unit: string | null; reason: string | null; basis?: string; evidence?: { note: string; source: string }; supplement?: Supplement }
@@ -69,15 +71,16 @@ export function readLocation(data: MapData, location: ComparisonLocation, month:
   const isReference = reference && Math.abs(reference.lat - location.lat) < .0001 && Math.abs(reference.lon - location.lon) < .0001
   const id = location.body === 'moon' ? 'shackleton' : 'jezero'
   const settings = data.targets.find(target => target.id === id)
+  const numbers = missionNumbers(data, location.body, location)
   for (const quantity of comparisonQuantities) {
-    const item = isReference ? data.targetNumbers[id][quantity.id] : undefined
+    const item = numbers[quantity.id]
     const sun = settings?.sun[quantity.id]
     const value = item?.value ?? null
     // Some MEDA quantities have no stated source unit. Reuse that unit from the
     // target card rather than attaching the Earth's configured display unit.
     readings[quantity.id] = { value, unit: sun?.unit ?? item?.unit ?? null,
       reason: value !== null ? null : isReference ? item?.reason ?? 'No sourced value for this quantity.'
-        : 'No local dataset for this selected point. Choose the reference site to inspect its recorded data.' }
+        : item?.reason ?? 'No local measurement for this selected point.' }
   }
   if (isReference && id === 'jezero' && data.comparisonEvidence) {
     const evidence = data.comparisonEvidence
@@ -92,6 +95,6 @@ export function readLocation(data: MapData, location: ComparisonLocation, month:
     }
   }
   return { readings, cell: null, evidence: isReference
-    ? 'Project reference coordinates (default). Sun values use the saved JPL Horizons window. ' + (id === 'jezero' ? 'Jezero weather uses MEDA sol 300. Supplementary UV flux and published TES orbital albedo are separately named and excluded from match scores. ' : '') + 'Regional terrain is derived from LOLA/MOLA; fully dry and bare targets are team assumptions.'
-    : 'Coordinates selected on the surface image. Local weather and Sun values have not been loaded for this point.' }
+    ? 'Project reference coordinates. Sun values use the saved JPL Horizons window. ' + (id === 'jezero' ? 'Jezero weather uses MEDA sol 300. Supplementary UV flux and published TES orbital albedo are separately named and excluded from match scores. ' : '') + 'Regional terrain is derived from LOLA/MOLA; fully dry and bare targets are team assumptions.'
+    : `Selected surface coordinates. Regional sample at ${samplePlanetary(data.planetary, location.body, location).cell.lat}°, ${samplePlanetary(data.planetary, location.body, location).cell.lon}°. ${data.planetary.note} Local weather stays missing.` }
 }
