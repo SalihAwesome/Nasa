@@ -85,7 +85,7 @@ export function ProjectAssistant() {
   return <section className="feature-panel assistant-panel" aria-label="Project assistant">
     {available === null && <p role="status">Checking the assistant connection…</p>}
     {available === false && <p role="status">The assistant server is unavailable. Start the local website server and reload this page.</p>}
-    {available && <p role="status">{configured ? 'OpenAI answers with project sources.' : 'Project-document search is ready. Connect OpenAI below for AI answers.'}</p>}
+    {available && <p role="status">{configured ? 'Short answers with project sources.' : 'Quick help is ready. Connect OpenAI for other questions.'}</p>}
     {available && <details className="assistant-setup" open={!configured}>
       <summary>{configured ? 'Update the OpenAI API key' : 'Connect OpenAI'}</summary>
       <p>The key is saved in the local server’s ignored environment file. Only the server uses it to contact OpenAI.</p>
@@ -101,7 +101,7 @@ export function ProjectAssistant() {
       {messages.map((item, index) => <article key={index} className={`assistant-message assistant-${item.role}`}>
         <strong>{item.role === 'user' ? 'You' : 'Tayf'}</strong>
         <p>{item.content}</p>
-        {!!item.sources?.length && <ul aria-label="Project sources">{item.sources.map(source => <li key={source}>{source}</li>)}</ul>}
+        {!!item.sources?.length && <details className="assistant-sources"><summary>Sources</summary><ul aria-label="Project sources">{item.sources.map(source => <li key={source}>{source}</li>)}</ul></details>}
       </article>)}
     </div>
     {busy && <p role="status">Looking up the project…</p>}
@@ -112,7 +112,7 @@ export function ProjectAssistant() {
     <form onSubmit={event => { event.preventDefault(); void ask() }}>
       <label htmlFor="project-question">Your question</label>
       <textarea id="project-question" value={question} onChange={event => setQuestion(event.target.value)} rows={3} maxLength={1500} />
-      <p className="feature-muted">{configured ? 'Questions and relevant project excerpts are sent to OpenAI.' : 'Search the local project documentation. AI answers become available after connecting your key.'}</p>
+      <p className="feature-muted">{configured ? 'Questions and relevant project excerpts are sent to OpenAI.' : 'Get quick steps for common tasks. Connect OpenAI for other project questions.'}</p>
       <button className="feature-primary" type="submit" disabled={busy || available !== true || !question.trim()}>Ask question</button>
     </form>
   </section>

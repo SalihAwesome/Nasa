@@ -8,8 +8,8 @@ The app predicts, the pod measures, and the app compares.
 
 Open Ask Tayf and use **Connect OpenAI** to save your key on the
 local server. You can also set `OPENAI_API_KEY` in `app/.env.local` and
-restart `npm run dev` in `app`. Without a key, questions search the local
-project documentation. Set `OPENAI_MODEL` in the same file to override the default
+restart `npm run dev` in `app`. Without a key, common task questions get short
+instructions from [Quick help](docs/assistant-help.md). Connect OpenAI for other questions. Set `OPENAI_MODEL` in the same file to override the default
 `gpt-5-mini` model. The assistant reads local project documentation and
 website source files. It sends the question and relevant excerpts to OpenAI.
 The local development and preview servers provide the assistant endpoint.
