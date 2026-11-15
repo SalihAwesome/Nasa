@@ -1,6 +1,6 @@
 # Quick help
 
-These instructions follow the controls in `app/src/map/CompareSites.tsx`, `app/src/map/SiteFinder.tsx`, `app/src/sun/SunPanel.tsx`, and `app/src/pod/PodLogPanel.tsx`.
+These instructions follow the controls in `app/src/map/CompareSites.tsx`, `app/src/map/SiteFinder.tsx`, `app/src/map/TargetPicker.tsx`, `app/src/sun/SunPanel.tsx`, and `app/src/pod/PodLogPanel.tsx`.
 
 ## Compare two sites
 
@@ -12,8 +12,9 @@ These instructions follow the controls in `app/src/map/CompareSites.tsx`, `app/s
 ## Find test sites
 
 1. Open Find test sites.
-2. Choose a Mission target, Equipment test, and Test month.
-3. Open a ranked area to see its conditions, match scores, and missing measurements.
+2. Choose Moon or Mars, then click a point on the globe or enter its coordinates and click Use coordinates.
+3. Choose an Equipment test and Test month.
+4. Open a ranked area to see its conditions, match scores, and missing measurements.
 
 ## Compare sunlight
 
