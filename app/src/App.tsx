@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { Activity, ArrowUpRight, ChartNoAxesCombined, ChevronRight, Columns2, Globe2, Menu, MessageCircle, Moon, Orbit, Sun, X } from 'lucide-react'
 import { PodLogPanel } from './pod/PodLogPanel'
 import { SunPanel } from './sun/SunPanel'
 import { CardPanel } from './card/FidelityCard'
 import { LivePanel, LivePath } from './pod/LivePanel'
 import type { CardHandoff } from './pod/LivePanel'
 import './styles/tokens.css'
-import './styles/shell.css'
 import SiteFinder from './map/SiteFinder'
 import { CompareSites } from './map/CompareSites'
 import { ProjectAssistant } from './assistant/ProjectAssistant'
 import './styles/features.css'
+import './styles/shell.css'
 
 // View names and purpose: docs/mission-plan.md. Routes: software-plan.md, U28.
 const views = {
-  map: { heading: 'Find Earth sites to test Moon and Mars equipment', description: 'Proving Ground helps mission teams find places on Earth to test equipment before sending it to the Moon or Mars. Pick a mission target and a month to see where Earth conditions are most similar.' },
+  map: { heading: 'Find Earth sites to test Moon and Mars equipment', description: 'Help mission teams find places on Earth to test equipment before sending it to the Moon or Mars. Choose a target, equipment test, and month to compare conditions.' },
   card: { heading: 'How this site matches the mission target', description: 'See which conditions are similar, which measurements are missing, and what you would still need to test away from Earth.' },
   sun: { heading: 'Compare sunlight on Earth, the Moon, and Mars', description: 'Choose a Moon or Mars target to see how high the Sun rises and which direction it moves compared with a location on Earth.' },
   truth: { heading: 'Check estimates against field measurements', description: 'See how readings from the Qatar sensor pod compare with satellite estimates for the same site and readings from NASA’s Perseverance rover on Mars.' },
@@ -23,12 +24,14 @@ const views = {
 }
 
 const navigation = [
-  { key: 'map', label: 'Find test sites', href: '#/map', icon: 'M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0ZM9 10a3 3 0 1 0 6 0 3 3 0 0 0-6 0' },
-  { key: 'sun', label: 'Sunlight', href: '#/sun', icon: 'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0' },
-  { key: 'truth', label: 'Field measurements', href: '#/truth', icon: 'M4 20V10m8 10V4m8 16v-7M2 20h20' },
-  { key: 'live', label: 'Sensor pod', href: '#/live', icon: 'M3 12h4l3-7 4 14 3-7h4' },
-  { key: 'compare', label: 'Compare sites', href: '#/compare', icon: 'M4 5h6v14H4zM14 5h6v14h-6z' },
+  { key: 'map', label: 'Find test sites', href: '#/map', icon: Globe2 },
+  { key: 'sun', label: 'Sunlight', href: '#/sun', icon: Sun },
+  { key: 'truth', label: 'Field measurements', href: '#/truth', icon: ChartNoAxesCombined },
+  { key: 'live', label: 'Sensor pod', href: '#/live', icon: Activity },
+  { key: 'compare', label: 'Compare sites', href: '#/compare', icon: Columns2 },
 ]
+
+const routeLabels: Record<string, string> = { map: 'Site finder', card: 'Site evidence', sun: 'Sunlight', truth: 'Field measurements', live: 'Sensor pod', compare: 'Compare sites', ask: 'Project assistant', missing: 'Page not found' }
 
 function readHash() {
   return typeof window === 'undefined' ? '' : window.location.hash
@@ -59,13 +62,17 @@ function App() {
   const [cardHandoff, setCardHandoff] = useState<CardHandoff>()
   const [menuOpen, setMenuOpen] = useState(false)
   const [lightMode, setLightMode] = useState(() => {
-    try { return window.localStorage.getItem('proving-ground-theme') === 'light' } catch { return false }
+    try { return window.localStorage.getItem('proving-ground-theme') !== 'dark' } catch { return true }
   })
 
   useEffect(() => {
     document.documentElement.dataset.theme = lightMode ? 'light' : 'dark'
     try { window.localStorage.setItem('proving-ground-theme', lightMode ? 'light' : 'dark') } catch { /* Use the theme for this visit. */ }
   }, [lightMode])
+
+  useEffect(() => {
+    if (menuOpen) document.querySelector<HTMLAnchorElement>('#main-navigation a[aria-current="page"], #main-navigation a')?.focus()
+  }, [menuOpen])
 
   useEffect(() => {
     document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
@@ -77,78 +84,92 @@ function App() {
   }, [route, view])
 
   return (
-    <div className={route === 'live' ? 'app-shell app-shell--live' : 'app-shell'}>
+    <div className={route === 'live' ? 'app-shell app-shell--live' : 'app-shell'} onKeyDown={event => {
+      if (menuOpen && event.key === 'Escape') {
+        event.preventDefault()
+        setMenuOpen(false)
+        const toggle = document.getElementById('menu-toggle')
+        if (toggle?.getClientRects().length) toggle.focus()
+      }
+    }}>
       <a className="skip-link" href="#main-content" onClick={event => {
         event.preventDefault()
         document.getElementById('main-content')?.focus()
       }}>Skip to content</a>
-      <header className="app-header" onKeyDown={event => {
-        if (menuOpen && event.key === 'Escape') {
-          event.preventDefault()
-          setMenuOpen(false)
-          const toggle = document.getElementById('menu-toggle')
-          if (toggle?.getClientRects().length) toggle.focus()
-        }
-      }}>
+      <header className="app-header">
         <a className="brand" href="#/map" onClick={() => setMenuOpen(false)}>
-          <svg className="brand-mark" aria-hidden="true" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" /><ellipse cx="16" cy="16" rx="15" ry="5" transform="rotate(-35 16 16)" /></svg>
-          Proving Ground
+          <span className="brand-symbol"><Orbit aria-hidden="true" size={23} /></span>
+          <span className="brand-wordmark">Proving Ground<small>Earth to everywhere.</small></span>
         </a>
-
-        <div className="header-actions">
-          <a className="ask-nav" href="#/ask" aria-label="Ask Proving Ground" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>
-            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z" /><path d="M7 10h8M7 14h5" /></svg>
-            <span>Ask Proving Ground</span>
-          </a>
-          <button className="theme-toggle" type="button" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} onClick={() => setLightMode(current => !current)}>
-            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">{lightMode ? <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /> : <><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></>}</svg>
-          </button>
-          <button id="menu-toggle" className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? 'Close' : 'Menu'}
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d={menuOpen ? 'M6 6l12 12M6 18 18 6' : 'M4 7h16M4 12h16M4 17h16'} /></svg>
-          </button>
-        </div>
         <nav id="main-navigation" className="app-nav" data-open={menuOpen} aria-label="Main navigation">
-        {navigation.map(item => <a key={item.key} href={item.href}
-          onClick={() => setMenuOpen(false)}
-          aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d={item.icon} /></svg>{item.label}
-        </a>)}
+          <span className="nav-label">Workspace</span>
+          {navigation.map(item => {
+            const Icon = item.icon
+            return <a key={item.key} href={item.href} onClick={() => setMenuOpen(false)}
+              aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
+              <Icon aria-hidden="true" size={19} /><span>{item.label}</span>
+              {(route === item.key || (route === 'card' && item.key === 'map')) && <ChevronRight className="nav-current" aria-hidden="true" size={15} />}
+            </a>
+          })}
         </nav>
+        <div className="sidebar-note">
+          <div className="sidebar-orbit"><Orbit aria-hidden="true" size={24} /></div>
+          <strong>Test here. Explore further.</strong>
+          <p>The app predicts.<br />The pod measures.<br />You compare the evidence.</p>
+          <a href="#/ask" onClick={() => setMenuOpen(false)}>Explore the project <ArrowUpRight aria-hidden="true" size={16} /></a>
+        </div>
+        <div className="sidebar-footer"><span className="status-dot" />Built on open science</div>
       </header>
-      <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
-        {view ? <>
-          {route === 'card' && <a className="back-link" href="#/map">Back to the Earth test map</a>}
-          <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
-          <p className="view-description">{view.description}</p>
-          {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
-            : route === 'live' ? <LivePanel onHandoff={setCardHandoff} />
-            : route === 'compare' ? <CompareSites hash={hash} />
-            : route === 'ask' ? <ProjectAssistant />
-            : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <>
-              {cardHandoff && /^#\/card\/pod(?:\?|$)/.test(hash) && <div className="live-handoff">
-                <LivePath handoff={cardHandoff} />
-                <p>Last {cardHandoff.simulated ? 'simulated' : 'live'} record received <time dateTime={cardHandoff.timestamp}>{cardHandoff.timestamp}</time>. The card uses the saved log.</p>
-              </div>}
-              <CardPanel hash={hash} />
-            </>
-            : <section className="placeholder" aria-labelledby="placeholder-title">
-            <h2 id="placeholder-title">Not available yet</h2>
-            <p>This view is still being built. No data is loaded here.</p>
-          </section>}
-        </> : <>
-          <h1 id="view-heading" tabIndex={-1}>Page not found</h1>
-          <p className="view-description">This address does not match an app view.</p>
-          <a href="#/map">Return to site finder</a>
-        </>}
-      </main>
-      <footer className="app-footer">
-        <h2>How to read the evidence labels</h2>
-        <ul className="evidence-key" aria-label="Evidence label key">
-          <li><span className="evidence-tag evidence-tag--estimate">estimate</span><span>Model or satellite estimate</span></li>
-          <li><span className="evidence-tag evidence-tag--measured">measured</span><span>Pod observation</span></li>
-          <li><span className="evidence-tag evidence-tag--simulated">simulated</span><span>Generated test data</span></li>
-        </ul>
-      </footer>
+      <div className="workspace-shell">
+        <div className="workspace-topbar">
+          <div className="workspace-breadcrumb"><span>Mission workspace</span><ChevronRight aria-hidden="true" size={14} /><strong>{routeLabels[route]}</strong></div>
+          <div className="header-actions">
+            <a className="ask-nav" href="#/ask" aria-label="Ask Proving Ground" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>
+              <MessageCircle aria-hidden="true" size={18} /><span>Ask Proving Ground</span>
+            </a>
+            <button className="theme-toggle" type="button" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} onClick={() => setLightMode(current => !current)}>
+              {lightMode ? <Moon aria-hidden="true" size={18} /> : <Sun aria-hidden="true" size={18} />}
+            </button>
+            <button id="menu-toggle" className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? 'Close' : 'Menu'}
+              {menuOpen ? <X aria-hidden="true" size={18} /> : <Menu aria-hidden="true" size={18} />}
+            </button>
+          </div>
+        </div>
+        <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
+          {view ? <>
+            {route === 'card' && <a className="back-link" href="#/map">Back to the Earth test map</a>}
+            <h1 id="view-heading" tabIndex={-1}>{view.heading}</h1>
+            <p className="view-description">{view.description}</p>
+            {route === 'map' ? <SiteFinder /> : route === 'truth' ? <PodLogPanel /> : route === 'sun' ? <SunPanel hash={hash} />
+              : route === 'live' ? <LivePanel onHandoff={setCardHandoff} />
+              : route === 'compare' ? <CompareSites hash={hash} />
+              : route === 'ask' ? <ProjectAssistant />
+              : route === 'card' && /^#\/card\/(?:pod(?:\?|$)|cell\/)/.test(hash) ? <>
+                {cardHandoff && /^#\/card\/pod(?:\?|$)/.test(hash) && <div className="live-handoff">
+                  <LivePath handoff={cardHandoff} />
+                  <p>Last {cardHandoff.simulated ? 'simulated' : 'live'} record received <time dateTime={cardHandoff.timestamp}>{cardHandoff.timestamp}</time>. The card uses the saved log.</p>
+                </div>}
+                <CardPanel hash={hash} />
+              </>
+              : <section className="placeholder" aria-labelledby="placeholder-title">
+              <h2 id="placeholder-title">Not available yet</h2>
+              <p>This view is still being built. No data is loaded here.</p>
+            </section>}
+          </> : <>
+            <h1 id="view-heading" tabIndex={-1}>Page not found</h1>
+            <p className="view-description">This address does not match an app view.</p>
+            <a href="#/map">Return to site finder</a>
+          </>}
+        </main>
+        <footer className="app-footer">
+          <h2>How to read the evidence labels</h2>
+          <ul className="evidence-key" aria-label="Evidence label key">
+            <li><span className="evidence-tag evidence-tag--estimate">estimate</span><span>Model or satellite estimate</span></li>
+            <li><span className="evidence-tag evidence-tag--measured">measured</span><span>Pod observation</span></li>
+            <li><span className="evidence-tag evidence-tag--simulated">simulated</span><span>Generated test data</span></li>
+          </ul>
+        </footer>
+      </div>
     </div>
   )
 }

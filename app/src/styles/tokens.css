@@ -7,13 +7,18 @@
 }
 /* U28 design choices only: not measured values, scoring settings or data. */
 :root {
-  --color-background: #101822;
-  --color-surface: #182430;
-  --color-text: #edf3fa;
-  --color-muted: #b8c6d4;
-  --color-border: #374957;
-  --color-accent: #8cdbed;
-  --color-accent-soft: #203646;
+  --color-background: #101c20;
+  --color-surface: #18282d;
+  --color-text: #edf4f3;
+  --color-muted: #b2c4c5;
+  --color-border: #35494e;
+  --color-accent: #87dcc6;
+  --color-accent-soft: #203e3b;
+  --color-sidebar: #142328;
+  --color-surface-subtle: #1c3035;
+  --color-map-ground: #0c1b24;
+  --color-on-map: #d9e7ed;
+  --color-on-accent: #102b24;
   --color-focus: #ffcf52;
   --color-score-0: #172e35;
   --color-score-025: #24504e;
@@ -42,12 +47,13 @@
   --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
   --font-heading: var(--font-body);
   --font-data: Consolas, monospace;
-  --text-small: 0.9375rem;
-  --text-label: 1rem;
-  --text-body: 1.0625rem;
+  --text-small: 0.8125rem;
+  --text-label: 0.875rem;
+  --text-navigation: 1rem;
+  --text-body: 0.9375rem;
   --text-lead: 1.125rem;
   --text-title: 1.5rem;
-  --text-heading: 2.5rem;
+  --text-heading: 2rem;
   --weight-regular: 400;
   --weight-medium: 600;
   --line-body: 1.6;
@@ -60,24 +66,30 @@
   --space-8: 2rem;
   --space-12: 3rem;
   --space-16: 4rem;
-  --radius-small: 0.25rem;
-  --radius-panel: 1rem;
+  --radius-small: 0.5rem;
+  --radius-panel: 0.75rem;
   --border-width: 1px;
   --focus-width: 3px;
   --control-min: 2.75rem;
   --content-max: 96rem;
   --reading-max: 65ch;
+  --sidebar-width: 15.25rem;
+  --z-navigation: 20;
+  --z-skip-link: 30;
 }
 
 :root[data-theme='light'] {
   color-scheme: light;
-  --color-background: #eef2f5;
+  --color-background: #f4f7f7;
   --color-surface: #ffffff;
-  --color-text: #172c3c;
-  --color-muted: #4e6272;
-  --color-border: #bdcbd6;
-  --color-accent: #14627a;
-  --color-accent-soft: #dcecf2;
+  --color-text: #1c3237;
+  --color-muted: #53696e;
+  --color-border: #d9e3e4;
+  --color-accent: #176653;
+  --color-accent-soft: #e4f1eb;
+  --color-sidebar: #ffffff;
+  --color-surface-subtle: #f0f5f4;
+  --color-on-accent: #ffffff;
   --color-focus: #17654c;
   --color-pod: #17654c;
   --color-satellite: #175f9a;

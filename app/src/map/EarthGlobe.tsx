@@ -322,9 +322,9 @@ function LocalEarthGlobe({ data, scores, sites, cities, onHover, onOpen, onDraw 
         : <button type="button" className="globe-site-card" onClick={() => onOpen(coordinateCell)}>Open fidelity card for this cell</button>)}
       <p className="map-meta">Score colors fade at close zoom to reveal the surface. Climate values describe the original grid cell.</p>
       <p className="map-meta">Surface imagery: NASA Earth Observatory. Coastline and labels: Natural Earth.</p>
-      <p id={instructions} className="map-meta globe-help">Drag to rotate. Pinch or use the zoom buttons. At close zoom, click to pin a location and open its grid-cell card below.
+      <details className="globe-guide"><summary>Globe controls</summary><p id={instructions} className="map-meta globe-help">Drag to rotate. Pinch or use the zoom buttons. At close zoom, click to pin a location and open its grid-cell card below.
         <span> With the globe focused, use arrow keys to rotate and + or − to zoom.</span>
-      </p>
+      </p></details>
     </>}
   </div>
 }

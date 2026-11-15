@@ -456,11 +456,15 @@ try {
     deviceScaleFactor: 1,
     mobile: false,
   });
+  const initialTheme = await ev('document.documentElement.dataset.theme');
   await ev('document.querySelector(".theme-toggle").click()');
   await delay(200);
-  assert.equal(await ev("document.documentElement.dataset.theme"), "light");
-  await screenshot("light.png", true);
+  const oppositeTheme = initialTheme === 'light' ? 'dark' : 'light';
+  assert.equal(await ev('document.documentElement.dataset.theme'), oppositeTheme);
+  await screenshot(oppositeTheme + '.png', true);
   await ev('document.querySelector(".theme-toggle").click()');
+  assert.equal(await ev('document.documentElement.dataset.theme'), initialTheme);
+  await screenshot(initialTheme + '.png', true);
   await ev('location.hash="#/compare"');
   await waitFor(
     'document.querySelectorAll(".location-picker").length===2',
