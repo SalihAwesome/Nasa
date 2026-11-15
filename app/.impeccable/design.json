@@ -388,7 +388,7 @@
       "Don't change scientific values, score weights or missing-data semantics for presentation.",
       "Don't use the zero-score color for missing scores or color alone to name a curve.",
       "Don't filter Google imagery, obscure its attribution or present satellite tiles as the score layer.",
-      "Don't commit a real browser key or require a font service for interface type."
+      "Keep other private credentials out of Git; only the owner's explicitly authorized public Maps browser key is committed. Keep interface fonts local."
     ]
   }
 }

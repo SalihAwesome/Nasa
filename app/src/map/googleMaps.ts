@@ -10,7 +10,7 @@ declare global {
 let sdk: Promise<void> | undefined
 let library: Promise<google.maps.Maps3DLibrary> | undefined
 
-/** One SDK request is shared by all mounted Earth views. No key is stored in source. */
+/** One SDK request is shared by all Earth views; Vite supplies the browser key. */
 function loadGoogleSdk() {
   sdk ??= new Promise<void>((resolve, reject) => {
     if (typeof google !== 'undefined') { resolve(); return }

@@ -770,3 +770,7 @@ Live browser checks of the configured Google build completed successfully:
 - Satellite / 3D globe / original score-map switching, comparison views and explicit authentication-failure recovery pass without uncaught browser errors.
 
 These are rendering and interaction observations, not new scientific measurements. The implementation still uses the existing grid-cell lookup, score functions, sources and missing-data rules. Reproduction: `npm run build` and `npm run check:ui` in `app/` with a local key. The key remains outside Git. The browser test is `tools/check-new-design.mjs`.
+
+## Committed Maps default, 15 November 2026
+
+The owner explicitly requested committing the Google Maps browser key and using it automatically. `app/google-maps.config.ts` now provides that public default. `VITE_GOOGLE_MAPS_API_KEY` overrides it; an explicitly empty string selects the offline variant. A production build and real-browser check passed with `.env.local` temporarily absent, then the file was restored. CI validates the unchanged offline checks before building the default Google-enabled variant. Other private environment values remain ignored.

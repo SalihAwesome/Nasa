@@ -6,9 +6,11 @@ The integration uses Google Maps JavaScript API satellite/hybrid maps and Advanc
 
 ## Local configuration
 
-Set `VITE_GOOGLE_MAPS_API_KEY` in `app/.env.local`, which Git ignores. Restart Vite after changing it. The environment variable is a browser API key and is included in the online browser build by design. Use website and Maps JavaScript API restrictions for a production key. Never commit a real key or copy it into documentation, tests or screenshots.
+Google Maps loads by default using the public browser key in `app/google-maps.config.ts`, committed at the owner’s explicit request on 15 November 2026. No local environment file is needed. The key is visible in repository history and in browser builds. Restrict its permitted websites and Maps JavaScript API usage in Google Cloud.
 
-An empty or absent key produces the existing fully local map build. With a configured key, Earth uses Google satellite/hybrid imagery by default in Site finder and Compare sites, with an optional 3D globe. Match colors switches to the full original score map, which remains usable if Google is unavailable. Google imagery streams over the internet; the scientific score files are still shipped locally. Do not label the configured Google build offline-capable.
+To override the default, set `VITE_GOOGLE_MAPS_API_KEY` in ignored `app/.env.local` or in the build environment. Restart Vite after changing it. An explicit empty string disables Google Maps; an absent variable uses the committed default. Other private credentials remain in ignored environment files.
+
+An explicitly empty key override produces the existing fully local map build. With a configured key, Earth uses Google satellite/hybrid imagery by default in Site finder and Compare sites, with an optional 3D globe. Match colors switches to the full original score map, which remains usable if Google is unavailable. Google imagery streams over the internet; the scientific score files are still shipped locally. Do not label the configured Google build offline-capable.
 
 Google offers a Maps Demo Key for eligible personal Google accounts, without billing details, for prototyping only. Production requires the applicable Google Maps Platform setup. Photorealistic building coverage varies by region; satellite imagery over 3D terrain is used where meshes are unavailable.
 
@@ -35,7 +37,7 @@ Remove-Item Env:VITE_GOOGLE_MAPS_API_KEY
 npm run build
 ```
 
-The last build restores the online configuration. `check:map` deliberately rejects remote URLs in an online Google build; that original check is unchanged.
+The last build restores the default online configuration. CI checks the unchanged offline build first, then produces the default Google Maps build. `check:map` deliberately rejects remote URLs in an online Google build; that original check is unchanged.
 
 Official sources read on 14 November 2026:
 - https://developers.google.com/maps/documentation/javascript/3d/overview
