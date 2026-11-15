@@ -1,4 +1,4 @@
-.google-earth-stage { position: relative; height: clamp(24rem, 44vw, 40rem); background: #0b111b; border-radius: var(--radius-small); overflow: hidden; }
+.google-earth-stage { position: relative; height: clamp(24rem, 44vw, 40rem); border-radius: var(--radius-small); overflow: hidden; }
 .google-earth-host, .google-earth-host > gmp-map-3d { display: block; width: 100%; height: 100%; }
 .google-earth-status { position: absolute; top: var(--space-4); left: var(--space-4); right: var(--space-4); max-width: none; padding: var(--space-4); background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-small); pointer-events: none; }
 .google-earth-error { pointer-events: auto; }

@@ -99,7 +99,7 @@ export function ProjectAssistant() {
     </details>}
     <div className="assistant-messages" aria-live="polite" aria-busy={busy}>
       {messages.map((item, index) => <article key={index} className={`assistant-message assistant-${item.role}`}>
-        <strong>{item.role === 'user' ? 'You' : 'Proving Ground'}</strong>
+        <strong>{item.role === 'user' ? 'You' : 'Tayf'}</strong>
         <p>{item.content}</p>
         {!!item.sources?.length && <ul aria-label="Project sources">{item.sources.map(source => <li key={source}>{source}</li>)}</ul>}
       </article>)}
