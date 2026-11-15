@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowUpRight, Crosshair, Globe2, SlidersHorizontal } from 'lucide-react'
 import testData from '../../../shared/tests.json'
 import { loadRegistries } from '../data/registries'
 import { cardHash } from '../card/cardData'
@@ -82,29 +83,31 @@ export function MapView({ data }: { data: MapData }) {
   const nearby = useMemo(() => cell && nearestPlace(cell, cities), [cell, cities])
   const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
   return <div className="site-finder">
+    <div className="planning-heading"><SlidersHorizontal aria-hidden="true" size={17} /><h2>Plan your field test</h2><span>Change a setting to update the matches</span></div>
     <div className="map-controls">
       <label>Mission target<select value={targetId} onChange={event => { setTargetId(event.target.value); setHovered(null) }}>
         {data.targets.map(target => <option key={target.id} value={target.id}>{targetLabels[target.id]}</option>)}
       </select></label>
-      <label>Test<select value={testId} onChange={event => setTestId(event.target.value)} aria-describedby="disabled-tests">
+      <label>Equipment test<select value={testId} onChange={event => setTestId(event.target.value)} aria-describedby="disabled-tests">
         {definitions.map(test => <option key={test.id} value={test.id} disabled={!test.enabled} title={test.reason}>
           {testLabels[test.id]}{!test.enabled ? ' (unavailable)' : ''}
         </option>)}
       </select></label>
-      <label className="month-control" htmlFor="map-month">Month <output htmlFor="map-month">{monthLabels[month - 1]}</output>
+      <label className="month-control" htmlFor="map-month">Test month <output htmlFor="map-month">{monthLabels[month - 1]}</output>
         <input id="map-month" aria-valuetext={monthLabels[month - 1]} type="range" min="1" max={data.months.length} step="1" value={month}
           onChange={event => { changeStarted.current = performance.now(); setMonth(Number(event.target.value)) }} />
+        <span className="month-endpoints" aria-hidden="true"><span>{monthLabels[0].slice(0, 3)}</span><span>{monthLabels[monthLabels.length - 1].slice(0, 3)}</span></span>
       </label>
     </div>
     {definition.reason && <p className="map-meta" role="status">{definition.reason}</p>}
     <div className="map-actions">
       <TestAvailability />
-      <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month) })}`}>Compare sites</a>
+      <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month) })}`}>Compare sites <ArrowUpRight aria-hidden="true" size={16} /></a>
     </div>
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
-        <div className="map-caption"><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
-        <p className="map-meta">NASA POWER monthly climatology · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} · {data.manifest.cellCount.toLocaleString('en')} land cells</p>
+        <div className="map-panel-heading"><div className="map-caption"><Globe2 aria-hidden="true" size={19} /><h2 id="map-title">Earth test site map for {monthLabels[month - 1]}</h2><span className="evidence-tag evidence-tag--estimate">estimate</span></div>
+        <p className="map-meta">NASA POWER · {data.manifest.period.start.slice(0, 4)}–{data.manifest.period.end.slice(0, 4)} monthly climatology · {data.manifest.cellCount.toLocaleString('en')} land cells</p></div>
         <EarthGlobe data={data} scores={scores} sites={sites} cities={cities} onHover={setHovered}
           onOpen={index => { window.location.hash = cellLink(index) }} onDraw={reportMonthChange} />
         <p className="section-explanation">{import.meta.env.VITE_GOOGLE_MAPS_API_KEY && 'In Match colors, '}{import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'the' : 'The'} colors show how closely each area matches the chosen mission target. 100% is the closest match on this index; it is not a probability of mission success. Select an area to see its conditions.</p>
@@ -117,24 +120,27 @@ export function MapView({ data }: { data: MapData }) {
             <span>{scores[hovered].score === null ? 'No score' : `Match ${matchPercent(scores[hovered].score)} · ${coverageText(scores[hovered].missing)}`}</span>
             <dl>{channels.map(channel => { const reading = layer.layers[channel.id]; const value = reading.values[hovered]; return <div key={channel.id}><dt>{channel.label}</dt><dd>{value === null ? reading.missingReason : displayReading(value, reading.unit)}</dd></div> })}</dl>
             {scores[hovered].reason && <p>{scores[hovered].reason}</p>}
-          </> : <p>Point to a land cell or choose an analog site to see its Earth estimates.</p>}
+          </> : <p className="readout-empty"><Crosshair aria-hidden="true" size={20} /><span><strong>A closer look starts with a location</strong>Point to a land cell or choose an analog site to see its Earth estimates.</span></p>}
         </div>
       </section>
       <aside className="rank-panel" aria-labelledby="ranking-title">
-        <h2 id="ranking-title">20 highest-scoring Earth areas</h2>
+        <div className="ranking-heading"><h2 id="ranking-title">20 highest-scoring Earth areas</h2><Crosshair aria-hidden="true" size={20} /></div>
         <p className="section-explanation">Open an area to inspect its conditions and missing measurements.</p>
         <div className="rank-context"><strong>{targetLabels[targetId]}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
         <p className="map-meta rank-count" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
         {top.length ? <>
-          <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => <li key={entry.index} value={index + 1}
+          <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => {
+            const place = nearestPlace(data.cells[entry.index], cities)
+            return <li key={entry.index} value={index + 1}
             hidden={Math.floor(index / rowsPerPage) !== visibleRankPage}>
             <a href={cellLink(entry.index)}>
               <span className="rank-number" aria-hidden="true">{index + 1}</span>
-              <span className="rank-location">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span>
+              <span className="rank-location">{place && <span className="rank-place">{place.name}<span className="rank-place-distance">Nearest mapped place · {place.distanceKm.toLocaleString('en')} km</span></span>}<span className="rank-coordinates">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span></span>
               <strong className="rank-score">{matchPercent(entry.score)}<span>match</span></strong>
               <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.some(id => !commonMissing.includes(id)) && <span className="rank-missing">Missing: {entry.missing.filter(id => !commonMissing.includes(id)).map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}</span>}</small>
+              <span className="rank-track" aria-hidden="true"><span style={{ width: `${(entry.score ?? 0) * 100}%` }} /></span><ArrowUpRight className="rank-open" aria-hidden="true" size={15} />
             </a>
-          </li>)}</ol>
+          </li>})}</ol>
           <div className="rank-pagination" aria-label="Ranked results pages">
             <button type="button" aria-controls="ranked-results" disabled={visibleRankPage === 0} onClick={() => setRankPage(page => Math.max(0, page - 1))}>Previous</button>
             <span role="status">{visibleRankPage + 1} / {rankPages}</span>
@@ -163,6 +169,6 @@ export default function SiteFinder() {
     return () => { active = false }
   }, [])
   if (error) return <section className="placeholder" role="alert"><h2>Map could not load</h2><p>{error}</p><button onClick={() => window.location.reload()}>Retry</button></section>
-  if (!data) return <><TestAvailability /><section className="placeholder" role="status"><h2>Loading the Earth test site map</h2><p>Preparing the globe and monthly match scores…</p></section></>
+  if (!data) return <><TestAvailability /><section className="placeholder map-loading" role="status"><h2>Loading the Earth test site map</h2><p>Preparing the globe and monthly match scores…</p><div className="map-loading-shape" aria-hidden="true"><Globe2 size={64} /></div></section></>
   return <MapView data={data} />
 }
