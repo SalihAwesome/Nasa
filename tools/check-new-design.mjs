@@ -44,7 +44,7 @@ const server = createServer(async (req, res) => {
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const origin = `http://127.0.0.1:${server.address().port}`;
 const profileRoot = resolve(tmpdir());
-const profile = await mkdtemp(join(profileRoot, "proving-ground-ui-"));
+const profile = await mkdtemp(join(profileRoot, "tayf-ui-"));
 const chromePath = [
   process.env.CHROME_PATH,
   "C:/Program Files/Google/Chrome/Application/chrome.exe",

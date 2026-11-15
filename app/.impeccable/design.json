@@ -1,12 +1,16 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-14T21:22:24.657809+00:00",
-  "title": "Design System: Proving Ground",
+  "generatedAt": "2026-11-15T07:53:07.179Z",
+  "title": "Design System: Tayf",
   "extensions": {
     "colorMeta": {
+      "frame": {
+        "role": "neutral",
+        "displayName": "Frame"
+      },
       "background": {
         "role": "neutral",
-        "displayName": "Background"
+        "displayName": "Sheet"
       },
       "surface": {
         "role": "neutral",
@@ -14,381 +18,56 @@
       },
       "text": {
         "role": "neutral",
-        "displayName": "Text"
+        "displayName": "Ink"
       },
       "muted": {
         "role": "neutral",
         "displayName": "Muted"
       },
-      "border": {
-        "role": "neutral",
-        "displayName": "Border"
-      },
       "accent": {
+        "role": "accent",
+        "displayName": "Data accent"
+      },
+      "primary": {
         "role": "primary",
-        "displayName": "Accent"
-      },
-      "accent-soft": {
-        "role": "neutral",
-        "displayName": "Accent Soft"
-      },
-      "focus": {
-        "role": "neutral",
-        "displayName": "Focus"
-      },
-      "score-0": {
-        "role": "neutral",
-        "displayName": "Score 0"
-      },
-      "score-025": {
-        "role": "neutral",
-        "displayName": "Score 025"
-      },
-      "score-05": {
-        "role": "neutral",
-        "displayName": "Score 05"
-      },
-      "score-075": {
-        "role": "neutral",
-        "displayName": "Score 075"
-      },
-      "score-1": {
-        "role": "neutral",
-        "displayName": "Score 1"
-      },
-      "no-score": {
-        "role": "neutral",
-        "displayName": "No Score"
-      },
-      "pod": {
-        "role": "neutral",
-        "displayName": "Pod"
-      },
-      "satellite": {
-        "role": "neutral",
-        "displayName": "Satellite"
-      },
-      "mars": {
-        "role": "neutral",
-        "displayName": "Mars"
-      },
-      "sun": {
-        "role": "neutral",
-        "displayName": "Sun"
-      },
-      "sun-outline": {
-        "role": "neutral",
-        "displayName": "Sun Outline"
-      },
-      "sky-glow": {
-        "role": "neutral",
-        "displayName": "Sky Glow"
-      },
-      "temperature-plot": {
-        "role": "neutral",
-        "displayName": "Temperature Plot"
-      },
-      "temperature-text": {
-        "role": "neutral",
-        "displayName": "Temperature Text"
-      },
-      "temperature-grid": {
-        "role": "neutral",
-        "displayName": "Temperature Grid"
-      },
-      "temperature-cold": {
-        "role": "neutral",
-        "displayName": "Temperature Cold"
-      },
-      "temperature-mild": {
-        "role": "neutral",
-        "displayName": "Temperature Mild"
-      },
-      "temperature-warm": {
-        "role": "neutral",
-        "displayName": "Temperature Warm"
-      },
-      "estimate-text": {
-        "role": "neutral",
-        "displayName": "Estimate Text"
-      },
-      "estimate-background": {
-        "role": "neutral",
-        "displayName": "Estimate Background"
-      },
-      "measured-text": {
-        "role": "neutral",
-        "displayName": "Measured Text"
-      },
-      "measured-background": {
-        "role": "neutral",
-        "displayName": "Measured Background"
-      },
-      "simulated-text": {
-        "role": "neutral",
-        "displayName": "Simulated Text"
-      },
-      "simulated-background": {
-        "role": "neutral",
-        "displayName": "Simulated Background"
-      },
-      "light-background": {
-        "role": "neutral",
-        "displayName": "Light Background"
-      },
-      "light-surface": {
-        "role": "neutral",
-        "displayName": "Light Surface"
-      },
-      "light-text": {
-        "role": "neutral",
-        "displayName": "Light Text"
-      },
-      "light-muted": {
-        "role": "neutral",
-        "displayName": "Light Muted"
-      },
-      "light-border": {
-        "role": "neutral",
-        "displayName": "Light Border"
-      },
-      "light-accent": {
-        "role": "primary",
-        "displayName": "Light Accent"
-      },
-      "light-accent-soft": {
-        "role": "neutral",
-        "displayName": "Light Accent Soft"
-      },
-      "light-focus": {
-        "role": "neutral",
-        "displayName": "Light Focus"
-      },
-      "light-pod": {
-        "role": "neutral",
-        "displayName": "Light Pod"
-      },
-      "light-satellite": {
-        "role": "neutral",
-        "displayName": "Light Satellite"
-      },
-      "light-mars": {
-        "role": "neutral",
-        "displayName": "Light Mars"
-      },
-      "light-sun": {
-        "role": "neutral",
-        "displayName": "Light Sun"
-      },
-      "light-sun-outline": {
-        "role": "neutral",
-        "displayName": "Light Sun Outline"
-      },
-      "light-sky-glow": {
-        "role": "neutral",
-        "displayName": "Light Sky Glow"
-      },
-      "light-temperature-plot": {
-        "role": "neutral",
-        "displayName": "Light Temperature Plot"
-      },
-      "light-temperature-text": {
-        "role": "neutral",
-        "displayName": "Light Temperature Text"
-      },
-      "light-temperature-grid": {
-        "role": "neutral",
-        "displayName": "Light Temperature Grid"
-      },
-      "light-temperature-cold": {
-        "role": "neutral",
-        "displayName": "Light Temperature Cold"
-      },
-      "light-temperature-mild": {
-        "role": "neutral",
-        "displayName": "Light Temperature Mild"
-      },
-      "light-temperature-warm": {
-        "role": "neutral",
-        "displayName": "Light Temperature Warm"
-      },
-      "light-estimate-text": {
-        "role": "neutral",
-        "displayName": "Light Estimate Text"
-      },
-      "light-estimate-background": {
-        "role": "neutral",
-        "displayName": "Light Estimate Background"
-      },
-      "light-measured-text": {
-        "role": "neutral",
-        "displayName": "Light Measured Text"
-      },
-      "light-measured-background": {
-        "role": "neutral",
-        "displayName": "Light Measured Background"
-      },
-      "light-simulated-text": {
-        "role": "neutral",
-        "displayName": "Light Simulated Text"
-      },
-      "light-simulated-background": {
-        "role": "neutral",
-        "displayName": "Light Simulated Background"
+        "displayName": "Primary action"
       }
     },
     "typographyMeta": {
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "Responsive page headings."
-      },
-      "title": {
-        "displayName": "Title",
-        "purpose": "Section headings."
-      },
       "body": {
-        "displayName": "Body",
-        "purpose": "17px interface prose."
-      },
-      "label": {
-        "displayName": "Label",
-        "purpose": "16px navigation and field labels."
-      },
-      "metadata": {
-        "displayName": "Metadata",
-        "purpose": "15px supporting metadata."
+        "displayName": "IBM Plex Sans"
       },
       "data": {
-        "displayName": "Data",
-        "purpose": "Numeric readings and code."
+        "displayName": "IBM Plex Mono (readings only)"
       }
     },
     "shadows": [],
-    "motion": [
-      {
-        "name": "workspace-enter",
-        "value": "420ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "Main view entrance from 0.65 opacity and translateY(6px); only without reduced motion."
-      },
-      {
-        "name": "control-transition",
-        "value": "160ms",
-        "purpose": "Background, border/color and pressed feedback."
-      }
-    ],
-    "breakpoints": [
-      {
-        "name": "navigation-and-finder-stack",
-        "value": "68rem"
-      },
-      {
-        "name": "comparison-globes-stack",
-        "value": "55rem"
-      },
-      {
-        "name": "sun-comparisons-stack",
-        "value": "52rem"
-      },
-      {
-        "name": "comparison-selectors-stack",
-        "value": "47rem"
-      },
-      {
-        "name": "phone-layout",
-        "value": "40rem"
-      }
-    ]
-  },
-  "components": [
-    {
-      "name": "Primary action",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "Accent action with theme-aware text.",
-      "html": "<button class=\"ds-primary\">Compare sites</button>",
-      "css": ".ds-primary{font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);min-height:var(--control-min);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-small);background:var(--color-surface);cursor:pointer;background:var(--color-accent);border-color:var(--color-accent);color:var(--color-background);font-weight:var(--weight-medium)}:host-context([data-theme=\"light\"]) .ds-primary{color:var(--color-surface)}.ds-primary:hover{border-color:var(--color-accent)}.ds-primary:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:var(--space-1)}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:background 160ms,border-color 160ms,transform 160ms}.ds-primary:active{transform:translateY(1px)}}"
+    "motion": {
+      "press": "transform scale(0.97) 120ms cubic-bezier(0.23,1,0.32,1)",
+      "navPill": "spring duration 0.35s bounce 0.12 (motion layoutId)",
+      "themeIcon": "opacity and rotate 200ms cubic-bezier(0.23,1,0.32,1)",
+      "colour": "150ms ease",
+      "reducedMotion": "all interface transitions off"
     },
-    {
-      "name": "Secondary action",
-      "kind": "button",
-      "refersTo": "button-secondary",
-      "description": "Surface control with border feedback.",
-      "html": "<button class=\"ds-secondary\">Reset view</button>",
-      "css": ".ds-secondary{font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);min-height:var(--control-min);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-small);background:var(--color-surface);cursor:pointer;}.ds-secondary:hover{border-color:var(--color-accent)}.ds-secondary:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:var(--space-1)}@media(prefers-reduced-motion:no-preference){.ds-secondary{transition:background 160ms,border-color 160ms,transform 160ms}.ds-secondary:active{transform:translateY(1px)}}"
-    },
-    {
-      "name": "Coordinate field",
-      "kind": "input",
-      "refersTo": "input",
-      "description": "Labelled numeric input with a visible focus ring.",
-      "html": "<label class=\"ds-field\">Latitude<input class=\"ds-input\" type=\"number\" min=\"-90\" max=\"90\" step=\"any\" placeholder=\"Latitude\"></label>",
-      "css": ".ds-field{display:grid;gap:var(--space-1);font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);}.ds-input{font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);min-height:var(--control-min);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-small);background:var(--color-surface);cursor:pointer;width:100%;cursor:text}.ds-input:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:var(--space-1)}"
-    },
-    {
-      "name": "Tool navigation",
-      "kind": "nav",
-      "refersTo": "nav-active",
-      "description": "Five equal tabs, with selected surface and desktop underline.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Tools\"><a href=\"#/map\" aria-current=\"page\">Find test sites</a><a href=\"#/sun\">Sunlight</a><a href=\"#/truth\">Field measurements</a><a href=\"#/live\">Sensor pod</a><a href=\"#/compare\">Compare sites</a></nav>",
-      "css": ".ds-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--space-2);font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);}.ds-nav a{position:relative;display:flex;align-items:center;justify-content:center;min-height:64px;padding:var(--space-3);border-radius:8px 8px 0 0;color:var(--color-muted);text-decoration:none;font-weight:500;transition:background 160ms,color 160ms}.ds-nav a[aria-current],.ds-nav a:hover{background:var(--color-accent-soft);color:var(--color-text)}.ds-nav a[aria-current]::after{content:\"\";position:absolute;left:16px;right:16px;bottom:-1px;height:3px;background:var(--color-accent);border-radius:3px 3px 0 0}.ds-nav a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:var(--space-1)}@media(max-width:68rem){.ds-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.ds-nav a{justify-content:start;min-height:56px;border-radius:8px}.ds-nav a[aria-current]::after{display:none}}@media(max-width:40rem){.ds-nav{grid-template-columns:minmax(0,1fr)}}"
-    },
-    {
-      "name": "Measured evidence",
-      "kind": "chip",
-      "refersTo": "evidence-measured",
-      "description": "A literal evidence category, not an interactive filter.",
-      "html": "<span class=\"ds-evidence\">Measured</span>",
-      "css": ".ds-evidence{display:inline-block;font-family:var(--font-body);font-size:var(--text-small);font-weight:var(--weight-medium);padding:var(--space-1) var(--space-2);border-radius:var(--radius-small);color:var(--color-measured-text);background:var(--color-measured-background)}"
-    },
-    {
-      "name": "Content panel",
-      "kind": "card",
-      "refersTo": "panel",
-      "description": "Bordered tonal container for related controls and evidence.",
-      "html": "<section class=\"ds-panel\"><h2>Field measurements</h2><p>Load a sensor recording to check estimates.</p></section>",
-      "css": ".ds-panel{font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);background:var(--color-surface);border:var(--border-width) solid var(--color-border);border-radius:var(--radius-panel);padding:var(--space-6);line-height:var(--line-body)}.ds-panel h2{font-size:clamp(1.15rem,1.6vw,1.4rem);font-weight:700;line-height:var(--line-heading);margin:0 0 var(--space-3)}.ds-panel p{margin:0;color:var(--color-muted)}"
-    },
-    {
-      "name": "Earth mode controls",
-      "kind": "custom",
-      "refersTo": "button-secondary",
-      "description": "Three adjacent imagery/score modes with explicit selected state.",
-      "html": "<div class=\"ds-modes\" role=\"group\" aria-label=\"Earth map layer\"><button aria-pressed=\"true\">Satellite</button><button aria-pressed=\"false\">3D globe</button><button aria-pressed=\"false\">Match colors</button></div>",
-      "css": ".ds-modes{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-block:var(--space-3)}.ds-modes button{font-family:var(--font-body);font-size:var(--text-label);color:var(--color-text);min-height:var(--control-min);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-small);background:var(--color-surface);cursor:pointer;}.ds-modes button[aria-pressed=\"true\"]{background:var(--color-accent-soft);border-color:var(--color-accent);color:var(--color-accent)}.ds-modes button:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:var(--space-1)}@media(max-width:40rem){.ds-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.ds-modes button{padding:8px;font-size:var(--text-small);width:100%}}"
+    "breakpoints": {
+      "frameFolds": "68rem",
+      "rankStacks": "60rem",
+      "phone": "40rem"
     }
-  ],
+  },
+  "components": [],
   "narrative": {
-    "northStar": "The Proving Ground",
-    "overview": "Proving Ground is a working application for comparing Earth field-test conditions with Moon and Mars targets. The NASA Eyes reference informs the exploration canvas: dark blue ground, readable slate surfaces, bright neutral type and restrained teal actions. The light theme uses cool white surfaces with the same information hierarchy.\n\nThe interface gives the map, comparison controls and scientific evidence room to be read on a laptop or phone. Presentation choices do not change source data, scoring weights, thresholds or missing-data semantics. Product context lives in `../docs/project-brief.md` and `../docs/mission-plan.md`; measured facts live in `../docs/verified-facts.md`. This document records the implemented system, not a paused design draft.",
-    "keyCharacteristics": [
-      "Separate identity/actions row and five tool tabs.",
-      "Local IBM Plex Sans, clear hierarchy and generous control targets.",
-      "Explicit score coverage, evidence labels and missing-data reasons.",
-      "Real Google imagery when configured; local scientific views remain available."
-    ],
-    "rules": [
-      {
-        "name": "The Evidence Rule",
-        "body": "Keep literal Estimate, Measured and Simulated labels visible. A label never changes missing data into data. Show a labelled score legend and the reason a score is missing; curve keys name their sources and distinguish line styles.",
-        "section": "colors"
-      },
-      {
-        "name": "The Reading Rule",
-        "body": "Preserve the distinction between body copy, navigation labels and metadata. Keep numeric comparisons aligned with tabular figures and retain visible units.",
-        "section": "typography"
-      }
-    ],
+    "northStar": "The spectrum of evidence",
+    "overview": "Tayf (Arabic and Turkish for spectrum) is a working application for comparing Earth field-test conditions with Moon and Mars targets. A tinted frame holds the sidebar and top bar; the work sits on a white sheet. Colour goes on data, the chrome stays grey, and the five-stop match spectrum is the brand mark.",
     "dos": [
-      "Do use the actual CSS tokens in both themes and preserve visible focus states.",
-      "Do keep score, coverage, evidence labels, units and missing-data reasons readable together.",
-      "Do retain all ranked cell links, map modes, source attribution and explicit recovery states.",
-      "Do verify changes against the actual application at desktop and narrow widths."
+      "Put colour on data and the one selected state",
+      "Keep one near-black primary action per view",
+      "Show estimate, measured and simulated labels on every view that uses them"
     ],
     "donts": [
-      "Don't change scientific values, score weights or missing-data semantics for presentation.",
-      "Don't use the zero-score color for missing scores or color alone to name a curve.",
-      "Don't filter Google imagery, obscure its attribution or present satellite tiles as the score layer.",
-      "Keep other private credentials out of Git; only the owner's explicitly authorized public Maps browser key is committed. Keep interface fonts local."
+      "No shadows on resting panels",
+      "No gradients outside data encodings",
+      "No navy or slate in the dark theme"
     ]
   }
 }

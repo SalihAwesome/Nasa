@@ -1,4 +1,6 @@
-# Proving Ground
+# Tayf
+
+Tayf means "spectrum" in Arabic and Turkish. The project brief called the product Proving Ground as a working title; the owner renamed it Tayf on 15 November 2026.
 
 ## Register
 
@@ -14,7 +16,7 @@ Help a planner choose a target, test and month, inspect ranked Earth areas, and 
 
 ## Brand Personality
 
-Precise, approachable, exploratory. The owner requested a redesign inspired by Croptions and delegated design decisions after project discovery on 15 November 2026.
+Precise, approachable, exploratory. On 15 November 2026 the owner asked for a full redesign under the new name and delegated the design decisions.
 
 ## Anti-references
 

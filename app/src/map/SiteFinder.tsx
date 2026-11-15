@@ -135,10 +135,10 @@ export function MapView({ data }: { data: MapData }) {
             hidden={Math.floor(index / rowsPerPage) !== visibleRankPage}>
             <a href={cellLink(entry.index)}>
               <span className="rank-number" aria-hidden="true">{index + 1}</span>
-              <span className="rank-location">{place && <span className="rank-place">{place.name}<span className="rank-place-distance">Nearest mapped place · {place.distanceKm.toLocaleString('en')} km</span></span>}<span className="rank-coordinates">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span></span>
+              <span className="rank-location">{place && <span className="rank-place"><span className="rank-name">{place.name}</span><span className="rank-place-distance">Nearest mapped place · {place.distanceKm.toLocaleString('en')} km</span></span>}<span className="rank-coordinates">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span></span>
               <strong className="rank-score">{matchPercent(entry.score)}<span>match</span></strong>
               <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.some(id => !commonMissing.includes(id)) && <span className="rank-missing">Missing: {entry.missing.filter(id => !commonMissing.includes(id)).map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}</span>}</small>
-              <span className="rank-track" aria-hidden="true"><span style={{ width: `${(entry.score ?? 0) * 100}%` }} /></span><ArrowUpRight className="rank-open" aria-hidden="true" size={15} />
+              <span className="rank-track" aria-hidden="true"><span style={{ width: `${(entry.score ?? 0) * 100}%` }} /></span>
             </a>
           </li>})}</ol>
           <div className="rank-pagination" aria-label="Ranked results pages">

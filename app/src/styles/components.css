@@ -1,0 +1,76 @@
+/* One control vocabulary for every tool. Selectors stay at specificity 0,1,2 so a tool's own
+   variants (pressed, primary, segmented) keep winning; 0,2,1 marks the shared variants. */
+.app-shell main :is(button, select, textarea),
+.app-shell main input:where(:not([type='range'], [type='checkbox'], [type='radio'], [type='color'])) {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-control);
+  border-radius: var(--radius-small);
+  font-family: inherit;
+}
+.app-shell main button {
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 120ms var(--ease-out);
+}
+.app-shell main button:enabled:active { transform: scale(0.97); }
+.app-shell main :is(input, select, textarea) { transition: border-color 150ms ease, box-shadow 150ms ease; }
+.app-shell main :is(input, select, textarea):focus-visible { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.app-shell main select {
+  appearance: none;
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23555b62' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+:root[data-theme='dark'] .app-shell main select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23a8aeb5' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+}
+.app-shell main :is(button, select):disabled { opacity: .5; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell main button:enabled:hover { background-color: var(--color-surface-subtle); border-color: var(--color-muted); }
+  .app-shell main select:enabled:hover { border-color: var(--color-muted); }
+}
+
+.app-shell main input[type='file'] { max-width: 100%; padding: 4px; font-size: var(--text-label); }
+.app-shell main input[type='file']::file-selector-button {
+  margin-right: 10px; padding: 6px 12px; border: 1px solid var(--color-control); border-radius: 4px;
+  color: var(--color-text); background: var(--color-surface-subtle); font: inherit; font-weight: 500; cursor: pointer;
+}
+
+/* Pressed toggles read as selected: a neutral fill and an ink edge, not a second accent. */
+.app-shell main button[aria-pressed='true'] { color: var(--color-text); background-color: var(--color-active); border-color: var(--color-text); }
+
+/* The one primary action per view is near-black (inverted in the dark theme). */
+.app-shell main :is(.feature-primary, .sun-primary),
+.app-shell .live-controls button[type='submit'] {
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell main :is(.feature-primary, .sun-primary):enabled:hover,
+  .app-shell .live-controls button[type='submit']:enabled:hover { color: var(--color-on-primary); background-color: color-mix(in srgb, var(--color-primary) 86%, var(--color-background)); border-color: var(--color-primary); }
+}
+
+/* Panels: one edge, one radius, no shadow. */
+.feature-panel, .location-picker { padding: 24px; }
+.feature-panel, .map-panel, .rank-panel, .map-controls, .sun-chart, .location-picker, .fidelity-card, .pod-readings {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+}
+.app-shell main summary { color: var(--color-muted); transition: color 150ms ease; }
+.app-shell main summary:hover { color: var(--color-text); }
+.app-shell main :is(table) { font-variant-numeric: tabular-nums; }
+.app-shell main :is(thead th) { color: var(--color-muted); font-size: var(--text-small); font-weight: 500; }
+
+/* Visualisation grounds stay dark in both themes so the globes and sky read the same way. */
+.google-earth-stage, .planet-stage { background: var(--color-map-ground); }
+.planet-loading { color: var(--color-on-map); background: color-mix(in srgb, var(--color-map-ground) 88%, white); border-radius: var(--radius-small); }
+.sun-sky { background: var(--color-surface-subtle); }
+
+@media (max-width: 40rem) {
+  .feature-panel, .location-picker { padding: 18px; }
+}

@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { Activity, ArrowUpRight, ChartNoAxesCombined, ChevronRight, Columns2, Globe2, Menu, MessageCircle, Moon, Orbit, Sun, X } from 'lucide-react'
+import type { CSSProperties } from 'react'
+import { Activity, ChartNoAxesCombined, ChevronRight, Columns2, Globe2, Menu, MessageCircle, Moon, Sun, X } from 'lucide-react'
+import { animate } from 'motion/mini'
+import { TayfMark } from './TayfMark'
 import { PodLogPanel } from './pod/PodLogPanel'
 import { SunPanel } from './sun/SunPanel'
 import { CardPanel } from './card/FidelityCard'
@@ -11,6 +14,7 @@ import { CompareSites } from './map/CompareSites'
 import { ProjectAssistant } from './assistant/ProjectAssistant'
 import './styles/features.css'
 import './styles/shell.css'
+import './styles/components.css'
 
 // View names and purpose: docs/mission-plan.md. Routes: software-plan.md, U28.
 const views = {
@@ -20,7 +24,7 @@ const views = {
   truth: { heading: 'Check estimates against field measurements', description: 'See how readings from the Qatar sensor pod compare with satellite estimates for the same site and readings from NASA’s Perseverance rover on Mars.' },
   live: { heading: 'Watch the Qatar sensor pod', description: 'Connect the field sensor pod or replay a sample recording to watch temperature, humidity, light, and other readings update.' },
   compare: { heading: 'Compare locations on Earth, the Moon, and Mars', description: 'Choose any two worlds and explore their surfaces side by side. Select locations on the maps to compare the data available for each point.' },
-  ask: { heading: 'Ask Proving Ground', description: 'Ask what a score means, how to use a tool, or where the data comes from. Answers draw on this project’s documentation and website source.' },
+  ask: { heading: 'Ask Tayf', description: 'Ask what a score means, how to use a tool, or where the data comes from. Answers draw on this project’s documentation and website source.' },
 }
 
 const navigation = [
@@ -59,15 +63,22 @@ function App() {
   const route = resolveView(hash.split('?')[0])
   const view = route === 'missing' ? null : views[route]
   const previousRoute = useRef(route)
+  const currentIndex = navigation.findIndex(item => item.key === (route === 'card' ? 'map' : route))
   const [cardHandoff, setCardHandoff] = useState<CardHandoff>()
   const [menuOpen, setMenuOpen] = useState(false)
   const [lightMode, setLightMode] = useState(() => {
-    try { return window.localStorage.getItem('proving-ground-theme') !== 'dark' } catch { return true }
+    try { return window.localStorage.getItem('tayf-theme') !== 'dark' } catch { return true }
   })
+
+  const themeIcon = useRef<HTMLSpanElement>(null)
+  const shownTheme = useRef(lightMode)
 
   useEffect(() => {
     document.documentElement.dataset.theme = lightMode ? 'light' : 'dark'
-    try { window.localStorage.setItem('proving-ground-theme', lightMode ? 'light' : 'dark') } catch { /* Use the theme for this visit. */ }
+    if (shownTheme.current !== lightMode && themeIcon.current && !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      animate(themeIcon.current, { transform: ['rotate(-90deg) scale(0.6)', 'rotate(0deg) scale(1)'], opacity: [0, 1] }, { duration: 0.22, ease: [0.23, 1, 0.32, 1] })
+    shownTheme.current = lightMode
+    try { window.localStorage.setItem('tayf-theme', lightMode ? 'light' : 'dark') } catch { /* Use the theme for this visit. */ }
   }, [lightMode])
 
   useEffect(() => {
@@ -75,7 +86,7 @@ function App() {
   }, [menuOpen])
 
   useEffect(() => {
-    document.title = `${view?.heading ?? 'Page not found'} · Proving Ground`
+    document.title = `${view?.heading ?? 'Page not found'} · Tayf`
     if (previousRoute.current !== route) {
       if (route !== 'card') setCardHandoff(undefined)
       previousRoute.current = route
@@ -98,43 +109,38 @@ function App() {
       }}>Skip to content</a>
       <header className="app-header">
         <a className="brand" href="#/map" onClick={() => setMenuOpen(false)}>
-          <span className="brand-symbol"><Orbit aria-hidden="true" size={23} /></span>
-          <span className="brand-wordmark">Proving Ground<small>Earth to everywhere.</small></span>
+          <TayfMark size={32} />
+          <span className="brand-wordmark">Tayf<small>Analog site finder</small></span>
         </a>
         <nav id="main-navigation" className="app-nav" data-open={menuOpen} aria-label="Main navigation">
-          <span className="nav-label">Workspace</span>
-          {navigation.map(item => {
-            const Icon = item.icon
-            return <a key={item.key} href={item.href} onClick={() => setMenuOpen(false)}
-              aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
-              <Icon aria-hidden="true" size={19} /><span>{item.label}</span>
-              {(route === item.key || (route === 'card' && item.key === 'map')) && <ChevronRight className="nav-current" aria-hidden="true" size={15} />}
-            </a>
-          })}
+          <span className="nav-label">Tools</span>
+          <div className="nav-links" style={{ '--nav-index': currentIndex } as CSSProperties}>
+            <span className="nav-pill" aria-hidden="true" data-visible={currentIndex >= 0} />
+            {navigation.map((item, index) => {
+              const Icon = item.icon
+              return <a key={item.key} href={item.href} onClick={() => setMenuOpen(false)} aria-current={index === currentIndex ? 'page' : undefined}>
+                <Icon aria-hidden="true" size={18} /><span>{item.label}</span>
+              </a>
+            })}
+          </div>
         </nav>
-        <div className="sidebar-note">
-          <div className="sidebar-orbit"><Orbit aria-hidden="true" size={24} /></div>
-          <strong>Test here. Explore further.</strong>
-          <p>The app predicts.<br />The pod measures.<br />You compare the evidence.</p>
-          <a href="#/ask" onClick={() => setMenuOpen(false)}>Explore the project <ArrowUpRight aria-hidden="true" size={16} /></a>
-        </div>
-        <div className="sidebar-footer"><span className="status-dot" />Built on open science</div>
       </header>
       <div className="workspace-shell">
         <div className="workspace-topbar">
-          <div className="workspace-breadcrumb"><span>Mission workspace</span><ChevronRight aria-hidden="true" size={14} /><strong>{routeLabels[route]}</strong></div>
+          <div className="workspace-breadcrumb"><span>Tayf</span><ChevronRight aria-hidden="true" size={14} /><strong>{routeLabels[route]}</strong></div>
           <div className="header-actions">
-            <a className="ask-nav" href="#/ask" aria-label="Ask Proving Ground" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>
-              <MessageCircle aria-hidden="true" size={18} /><span>Ask Proving Ground</span>
+            <a className="ask-nav" href="#/ask" aria-label="Ask Tayf" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>
+              <MessageCircle aria-hidden="true" size={17} /><span>Ask Tayf</span>
             </a>
             <button className="theme-toggle" type="button" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} onClick={() => setLightMode(current => !current)}>
-              {lightMode ? <Moon aria-hidden="true" size={18} /> : <Sun aria-hidden="true" size={18} />}
+              <span ref={themeIcon} className="theme-icon">{lightMode ? <Moon aria-hidden="true" size={18} /> : <Sun aria-hidden="true" size={18} />}</span>
             </button>
             <button id="menu-toggle" className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? 'Close' : 'Menu'}
               {menuOpen ? <X aria-hidden="true" size={18} /> : <Menu aria-hidden="true" size={18} />}
             </button>
           </div>
         </div>
+        <div className="workspace-sheet">
         <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
           {view ? <>
             {route === 'card' && <a className="back-link" href="#/map">Back to the Earth test map</a>}
@@ -169,6 +175,7 @@ function App() {
             <li><span className="evidence-tag evidence-tag--simulated">simulated</span><span>Generated test data</span></li>
           </ul>
         </footer>
+        </div>
       </div>
     </div>
   )
