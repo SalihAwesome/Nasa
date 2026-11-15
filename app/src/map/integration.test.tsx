@@ -48,7 +48,7 @@ test('each ranked row states how many weighted quantities its score uses', async
   const data = await loadMapData()
   const power = tests.find(test => test.id === 'power')!
   const target = data.targets.find(target => target.id === 'jezero')!
-  const top = rankCells(computeScores(data.months[0], target, data.targetNumbers.jezero, power))
+  const top = rankCells(computeScores(data.months[0], target, data.targetNumbers.jezero, power), data.cells)
   const total = Object.values(power.weights).filter(weight => weight.value > 0).length
   const html = renderToStaticMarkup(<MapView data={data} />)
   const shown = [...html.matchAll(/data-coverage="([^"]+)"/g)].map(match => match[1])
