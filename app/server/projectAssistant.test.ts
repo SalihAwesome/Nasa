@@ -31,3 +31,8 @@ test('does not substitute a task guide or paste source documents for an unsuppor
   expect(reply.answer).not.toContain('Open Sunlight')
   expect(reply.sources).toEqual([])
 })
+
+test.each(['What happens when a score is missing?', 'What does this app do?'])('only gives the overview for questions about the website itself: %s', question => {
+  const reply = documentAnswer([{ role: 'user', content: question }], passages)
+  expect(reply.answer.startsWith('Find Earth locations')).toBe(question === 'What does this app do?')
+})
