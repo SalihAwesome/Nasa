@@ -35,6 +35,17 @@ published orbital retrieval is fetched and parsed rather than typed into the app
 
 ## Decisions that shape every unit
 
+### Selectable planetary targets, 15 November 2026
+
+The user requested Moon/Mars selection, surface-point selection, downloaded data
+in the repository, and a separate PR. `pipeline/pack_planetary.py` writes global
+one-degree regional terrain and Horizons-derived Sun grids for both worlds.
+Map rankings, cards, and comparison links preserve the selected point. Original
+reference weather is never extended to a new point. Existing surface assumptions,
+weights, and missing-data rules are retained. The ranking summarizes compared
+conditions and keeps omitted quantities in its coverage disclosure.
+`docs/planetary-targets.md` records acquisition, resolution, validation and limits.
+
 | Decision | Choice | Reason |
 |---|---|---|
 | Split of work | Python fetches and reduces data. TypeScript scores, combines, and draws. | Each rule lives in one language, so the map and the card cannot disagree. |

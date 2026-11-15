@@ -21,11 +21,18 @@ test('Moon and Mars references use east-positive display longitude', () => {
   expect(references.find(item => item.body === 'moon')?.lon).toBeCloseTo(-137.31, 8)
 })
 
-test('arbitrary Moon and Mars points keep local data missing', () => {
+test('arbitrary Moon and Mars points use global terrain and Sun data without substituting rover weather', () => {
   for (const body of ['moon', 'mars'] as const) {
     const location = { body, lat: 0, lon: 0, name: 'Selected point' }
     const result = readLocation(data, location, 1)
-    expect(Object.values(result.readings).every(item => item.value === null && item.reason?.includes('No local dataset') && item.supplement === undefined)).toBe(true)
+    for (const key of ['ground_temp', 'reflectivity', 'uv', 'air_temp', 'humidity', 'pressure']) {
+      expect(result.readings[key].value).toBeNull()
+      expect(result.readings[key].reason).toContain('No local weather measurement')
+      expect(result.readings[key].supplement).toBeUndefined()
+    }
+    expect(result.readings.slope.value).toBeGreaterThanOrEqual(0)
+    expect(result.readings.roughness.value).toBeGreaterThanOrEqual(0)
+    expect(result.readings.peak_elevation.value).not.toBeNull()
   }
 })
 

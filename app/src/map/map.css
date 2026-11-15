@@ -120,3 +120,23 @@ main .rank-panel > .section-explanation { font-size: var(--text-small); margin-b
   .map-legend { row-gap: 8px; }
   .cell-readout > span { margin: 8px 0 0; display: block; }
 }
+
+.target-picker { margin-bottom: var(--space-6); padding: var(--space-6); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-panel); }
+.target-picker-heading { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); margin-bottom: var(--space-6); }
+.target-picker-heading h2 { margin: 0; }
+.target-picker-heading p { margin: var(--space-2) 0 0; color: var(--color-muted); }
+.target-worlds { display: flex; gap: var(--space-2); }
+.site-finder .target-worlds button { width: auto; min-width: 6rem; cursor: pointer; }
+.target-worlds button[aria-pressed="true"] { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent); }
+.target-picker-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, .85fr); gap: var(--space-8); align-items: center; }
+.target-picker .planet-stage { height: 20rem; }
+.site-finder .target-picker .planet-toolbar button { width: auto; cursor: pointer; }
+.target-location-settings { min-width: 0; }
+.target-location-settings h3 { margin-top: 0; }
+.target-coordinates { font-variant-numeric: tabular-nums; color: var(--color-accent); }
+.target-location-settings summary { cursor: pointer; min-height: var(--control-min); align-content: center; }
+.site-finder .target-reference { width: auto; margin-block: var(--space-4); cursor: pointer; }
+.selected-mission { display: grid; gap: var(--space-2); }
+.selected-mission > span { font-size: var(--text-label); color: var(--color-muted); }
+.site-finder .target-location-settings .coordinate-form button { width: auto; cursor: pointer; }
+@media (max-width: 47rem) { .target-picker { padding: var(--space-4); } .target-picker-heading { align-items: start; flex-direction: column; } .target-picker-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } .target-worlds { width: 100%; } .site-finder .target-worlds button { flex: 1; } }

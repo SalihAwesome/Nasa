@@ -12,6 +12,7 @@ import { PlanetGlobe, worldNames } from './PlanetGlobe'
 import type { World } from './PlanetGlobe'
 import { comparisonQuantities, locationName, locationPresets, readLocation } from './comparison'
 import type { ComparisonLocation, ComparisonReading } from './comparison'
+import { missionNumbers, readTargetPoint } from './missionTarget'
 
 const worlds: World[] = ['earth', 'moon', 'mars']
 const emptyPlaces: Place[] = []
@@ -104,7 +105,10 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
   const pinnedIndex = Number(params.get('cell') ?? -1)
   const pinned = Number.isSafeInteger(pinnedIndex) ? data.cells[pinnedIndex] : undefined
   const [a, setA] = useState<ComparisonLocation>(() => pinned ? { ...pinned, body: 'earth', name: 'Selected Earth area' } : presets[0])
-  const [b, setB] = useState<ComparisonLocation>(() => presets.find(site => site.body === (params.get('target') === 'shackleton' ? 'moon' : 'mars')) ?? presets[1])
+  const [b, setB] = useState<ComparisonLocation>(() => {
+    const site = presets.find(site => site.body === (params.get('target') === 'shackleton' ? 'moon' : 'mars')) ?? presets[1]
+    try { const point = readTargetPoint(params); return point ? { ...site, ...point, name: 'Selected mission point' } : site } catch { return site }
+  })
   const [cities, setCities] = useState(emptyPlaces)
   const [cityError, setCityError] = useState(false)
   const requestedMonth = Number(params.get('month') ?? 1)
@@ -122,11 +126,14 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
   const readings = useMemo(() => result && [readLocation(data, result.a, result.month), readLocation(data, result.b, result.month)], [data, result])
   const scoreRows = useMemo(() => {
     if (!result || !readings) return null
-    const target = data.targets.find(item => item.id === targetId)
+    const planet = result.b.body !== 'earth' ? result.b : result.a.body !== 'earth' ? result.a : null
+    const selectedTarget = planet ? planet.body === 'mars' ? 'jezero' : 'shackleton' : targetId
+    const target = data.targets.find(item => item.id === selectedTarget)
     const test = tests.find(item => item.id === testId)
     if (!target || !test) return null
-    const scores = computeScores(data.months[result.month - 1], target, data.targetNumbers[target.id], test)
-    return { target, test, scores }
+    const numbers = planet && planet.body !== 'earth' ? missionNumbers(data, planet.body, planet) : data.targetNumbers[target.id]
+    const scores = computeScores(data.months[result.month - 1], target, numbers, test)
+    return { target, test, scores, planet }
   }, [data, readings, result, targetId, testId])
 
   const change = (setter: (site: ComparisonLocation) => void) => (site: ComparisonLocation) => { setter(site); setResult(null) }
@@ -142,7 +149,7 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
       </select></label>
       <button type="button" className="feature-primary" onClick={() => setResult({ a: { ...a }, b: { ...b }, month })}>Compare selected locations</button>
     </div>
-    <p className="feature-muted">Earth values use monthly climate-grid estimates. Moon and Mars values are currently available at the project’s saved reference sites. Other points show which data is unavailable.</p>
+    <p className="feature-muted">Earth values use monthly climate-grid estimates. Moon and Mars have global regional terrain and Sun data on a 1° grid. Local weather measurements are available only at their recorded sites.</p>
     <p className="feature-muted">Surface imagery: {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'Google Maps' : 'NASA Earth Observatory'} (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
     {result && readings && <section className="feature-panel" aria-labelledby="comparison-results">
       <h2 id="comparison-results">How the two locations compare</h2>
@@ -166,11 +173,11 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
       </div>
       {readings.some(item => item.cell !== null) && scoreRows && <>
         <h3>Earth-site mission match</h3>
-        <p className="section-explanation">Score the selected Earth areas against one existing mission reference. These scores use the project’s default tolerances and available quantities.</p>
+        <p className="section-explanation">Score the selected Earth areas against {scoreRows.planet ? 'the selected ' + worldNames[scoreRows.planet.body] + ' point' : 'a saved mission reference'}. Scores use the project’s tolerances and available quantities.</p>
         <div className="compare-settings">
-          <label>Mission reference<select value={targetId} onChange={event => setTargetId(event.target.value)}>
+          {!scoreRows.planet && <label>Mission reference<select value={targetId} onChange={event => setTargetId(event.target.value)}>
             <option value="jezero">Jezero · Mars</option><option value="shackleton">Shackleton · Moon</option>
-          </select></label>
+          </select></label>}
           <label>Equipment test<select value={testId} onChange={event => setTestId(event.target.value)}>
             {tests.map(item => <option value={item.id} key={item.id}>{item.id === 'science_tools' ? 'Science tools' : item.id === 'navigation' ? 'Navigation' : item.id === 'mobility' ? 'Mobility' : item.id === 'communications' ? 'Communications' : 'Power'}</option>)}
           </select></label>
@@ -183,7 +190,7 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
             const count = coverage(item.missing, scoreRows.test.weights)
             return <p key={index}><strong>{index === 0 ? result.a.name : result.b.name} · {item.score === null ? 'No score' : matchPercent(item.score)}</strong>
               <span>{count.scored} of {count.total} quantities</span>
-              <a href={cardHash({ site: { kind: 'cell', index: reading.cell }, target: scoreRows.target.id, test: scoreRows.test.id, month: result.month })}>Open fidelity card</a>
+              <a href={cardHash({ site: { kind: 'cell', index: reading.cell }, target: scoreRows.target.id, test: scoreRows.test.id, month: result.month, ...(scoreRows.planet ? { targetPoint: scoreRows.planet } : {}) })}>Open fidelity card</a>
             </p>
           })}
         </div>

@@ -66,6 +66,7 @@ export function FidelityCard({ card }: { card: CardModel }) {
   const totalWeight = Object.values(card.test.weights).reduce((sum, weight) => sum + (weight?.value ?? 0), 0)
   const weightLabel = (row: CardRow) => matchPercent((row.weight?.value ?? 0) / totalWeight)
   const compare = new URLSearchParams({ cell: String(card.cell.index), target: card.target, test: card.test.id, month: String(card.month) })
+  if (card.targetPoint) { compare.set('targetLat', String(card.targetPoint.lat)); compare.set('targetLon', String(card.targetPoint.lon)) }
   return <article className="fidelity-card">
     <header className="card-heading">
       <div><h3>{card.isPod ? 'Qatar sensor site' : `Earth site at ${number(lat)}°, ${number(lon)}°`}</h3>
@@ -73,7 +74,8 @@ export function FidelityCard({ card }: { card: CardModel }) {
         <p className="card-coordinates">{number(lat)}°, {number(lon)}°{!usesPodLog && ` · ${months[card.month - 1]}`}</p>
         {place && <p>Nearest mapped place: <strong>{place.name}</strong> · {place.distanceKm} km away</p>}
         <a href={`#/compare?${compare}`}>Compare this location</a></div>
-      <p>Against <strong>{targets[card.target]}</strong></p>
+      <p>Against <strong>{card.targetPoint ? `${card.target === 'jezero' ? 'Mars' : 'Moon'} · ${card.targetPoint.lat.toFixed(4)}°, ${card.targetPoint.lon.toFixed(4)}°` : targets[card.target]}</strong></p>
+      {card.targetPoint && <p className="card-basis">Selected point · regional terrain and Sun geometry on a 1° grid. Rover weather is not substituted. Bare and dry surface values remain team assumptions.</p>}
       <p className="card-basis">{usesPodLog ? 'Earth values from the pod log. Error bars use NASA POWER.'
         : `Earth: NASA POWER monthly climatology, ${card.period.start.slice(0, 4)}–${card.period.end.slice(0, 4)}.`}
         {card.targetSol !== undefined && <> Target: MEDA sol {card.targetSol}.</>}</p>
@@ -150,13 +152,17 @@ export function CardPanel({ hash }: { hash: string }) {
   try { selection = readCardSelection(hash) }
   catch (error) { return <section className="card-panel"><h2>Site comparison</h2><p role="alert">{String(error)}</p><a href="#/card/pod">Open the Qatar card</a></section> }
   const isPod = selection.site.kind === 'pod'
-  if (isPod) selection = { ...selection, target: 'jezero' }
+  if (isPod) selection = { ...selection, target: 'jezero', targetPoint: undefined }
   const unavailableTests = cardTests.filter(test => !test.enabled)
   const change = (patch: Partial<CardSelection>) => { window.location.hash = cardHash({ ...selection, ...patch }) }
   return <section className="card-panel" aria-labelledby="card-panel-heading">
     <h2 id="card-panel-heading">Site comparison</h2>
     <div className="card-controls">
-      {!isPod && <label>Target<select value={selection.target} onChange={event => change({ target: event.target.value as CardSelection['target'] })}>
+      {!isPod && <label>Target<select value={selection.targetPoint ? 'point' : selection.target} onChange={event => {
+        const target = event.target.value
+        if (target === 'jezero' || target === 'shackleton') change({ target, targetPoint: undefined })
+      }}>
+        {selection.targetPoint && <option value="point" disabled>{selection.target === 'jezero' ? 'Mars' : 'Moon'} · selected point</option>}
         {Object.entries(targets).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
       </select></label>}
       <label>Test<select value={selection.test} onChange={event => change({ test: event.target.value })} aria-describedby={unavailableTests.length ? 'card-test-availability' : undefined}>

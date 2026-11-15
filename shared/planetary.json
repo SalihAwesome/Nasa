@@ -1,0 +1,11 @@
+{
+  "status": "default",
+  "stepDegrees": 1,
+  "latitudeStart": 89.5,
+  "longitudeStart": -179.5,
+  "rows": 180,
+  "columns": 360,
+  "validationMaxAngleErrorDegrees": 0.05,
+  "validationPoints": [[35, -110], [-45, 120], [89, 45]],
+  "note": "One-degree regional screening cells. Selected coordinates are retained; values are sampled at the containing cell center without interpolation. Sun geometry uses the saved November 2026 hourly Horizons window and an ellipsoid horizon, without local terrain shadows. Bare and dry surface values retain the project brief's assumptions, not local measurements; ice cover is not resolved."
+}

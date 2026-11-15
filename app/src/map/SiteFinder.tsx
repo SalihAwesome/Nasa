@@ -14,6 +14,10 @@ import { EarthGlobe } from './EarthGlobe'
 import { fieldSites } from './fieldSites'
 import { loadPlaces, nearestPlace } from './places'
 import type { Place } from './places'
+import { TargetPicker } from './TargetPicker'
+import { isMissionReference, missionNumbers, missionReference, pointParams, readTargetPoint } from './missionTarget'
+import type { Planet } from '../data/planetary'
+import type { Cell } from './model'
 import './map.css'
 
 // Target/test names: docs/project-brief.md. Score scale: app/DESIGN.md.
@@ -32,9 +36,15 @@ function TestAvailability() {
 }
 
 export function MapView({ data }: { data: MapData }) {
-  const [targetId, setTargetId] = useState('jezero')
-  const [testId, setTestId] = useState(definitions.find(test => test.enabled)!.id)
-  const [month, setMonth] = useState(1)
+  const params = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.hash.split('?')[1])
+  const [targetId, setTargetId] = useState(params.get('target') === 'shackleton' ? 'shackleton' : 'jezero')
+  const body: Planet = targetId === 'jezero' ? 'mars' : 'moon'
+  const [point, setPoint] = useState<Cell>(() => {
+    try { return readTargetPoint(params) ?? missionReference(data, body) } catch { return missionReference(data, body) }
+  })
+  const [testId, setTestId] = useState(definitions.find(test => test.enabled && test.id === params.get('test'))?.id ?? definitions.find(test => test.enabled)!.id)
+  const requestedMonth = Number(params.get('month') ?? 1)
+  const [month, setMonth] = useState(Number.isInteger(requestedMonth) && requestedMonth >= 1 && requestedMonth <= 12 ? requestedMonth : 1)
   const [hovered, setHovered] = useState<number | null>(null)
   const [rankPage, setRankPage] = useState(0)
   const [cities, setCities] = useState(noPlaces)
@@ -46,25 +56,39 @@ export function MapView({ data }: { data: MapData }) {
   const changeStarted = useRef<number | null>(null)
   const target = data.targets.find(target => target.id === targetId)!
   const definition = definitions.find(test => test.id === testId)!
+  const numbers = useMemo(() => missionNumbers(data, body, point), [data, body, point])
+  const reference = isMissionReference(data, body, point)
+  const targetLabel = reference ? targetLabels[targetId] : `${body === 'moon' ? 'Moon' : 'Mars'} · ${point.lat.toFixed(2)}°, ${point.lon.toFixed(2)}°`
+  useEffect(() => {
+    const query = new URLSearchParams({ target: targetId, test: testId, month: String(month), ...pointParams(point) })
+    window.history.replaceState(null, '', '#/map?' + query)
+  }, [targetId, testId, month, point])
   const layer = data.months[month - 1]
   const sites = useMemo(() => fieldSites(data), [data])
-  // Score and rank the shipped months when the target/test changes. Slider
-  // updates reuse these results with the current globe orientation.
-  const results = useMemo(() => data.months.map(layer => {
-    const scores = computeScores(layer, target, data.targetNumbers[targetId], definition)
-    return { scores, top: rankCells(scores), scoredCount: scores.filter(result => result.score !== null).length }
-  }), [data.months, target, data.targetNumbers, targetId, definition])
-  const { scores, top, scoredCount } = results[month - 1]
+  // A point selection needs only the current month. Cache visited months rather
+  // than blocking every surface click on twelve complete global rankings.
+  const results = useMemo(() => new Map<number, {
+    scores: ReturnType<typeof computeScores>; top: ReturnType<typeof rankCells>; scoredCount: number
+  }>(), [data.months, target, numbers, definition])
+  let result = results.get(month)
+  if (!result) {
+    const scores = computeScores(layer, target, numbers, definition)
+    result = { scores, top: rankCells(scores), scoredCount: scores.filter(row => row.score !== null).length }
+    results.set(month, result)
+  }
+  const { scores, top, scoredCount } = result
   const rowsPerPage = 5
   const rankPages = Math.max(1, Math.ceil(top.length / rowsPerPage))
   const visibleRankPage = Math.min(rankPage, rankPages - 1)
   const commonMissing = top.length ? top[0].missing.filter(id => top.every(entry => entry.missing.includes(id))) : []
-  const rankContext = `${targetId}/${testId}/${month}`
+  const rankContext = `${targetId}/${point.lat}/${point.lon}/${testId}/${month}`
   useEffect(() => { setRankPage(0) }, [rankContext])
   const reasons = useMemo(() => [...new Set(Object.keys(definition.weights).flatMap(id => {
-    const number = data.targetNumbers[targetId][id]
-    return number?.value == null ? [`${id}: ${number?.reason ?? 'Target value is not available.'}`] : []
-  }))], [definition, data.targetNumbers, targetId])
+    const number = numbers[id]
+    return number?.value == null ? [id === 'uv'
+      ? 'UV index: no compatible local UV-index dataset. Recorded UV detector flux is a different quantity and cannot be substituted. ' + (number?.reason ?? '')
+      : `${id}: ${number?.reason ?? 'Target value is not available.'}`] : []
+  }))], [definition, numbers])
 
   function reportMonthChange() {
     const start = changeStarted.current
@@ -81,13 +105,14 @@ export function MapView({ data }: { data: MapData }) {
   }
   const cell = hovered === null ? null : data.cells[hovered]
   const nearby = useMemo(() => cell && nearestPlace(cell, cities), [cell, cities])
-  const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month })
+  const cellLink = (index: number) => cardHash({ site: { kind: 'cell', index }, target: target.id, test: testId, month, ...(!reference ? { targetPoint: point } : {}) })
   return <div className="site-finder">
     <div className="planning-heading"><SlidersHorizontal aria-hidden="true" size={17} /><h2>Plan your field test</h2><span>Change a setting to update the matches</span></div>
+    <TargetPicker data={data} body={body} point={point} onChange={(body, point) => {
+      setTargetId(body === 'mars' ? 'jezero' : 'shackleton'); setPoint(point); setHovered(null)
+    }} />
     <div className="map-controls">
-      <label>Mission target<select value={targetId} onChange={event => { setTargetId(event.target.value); setHovered(null) }}>
-        {data.targets.map(target => <option key={target.id} value={target.id}>{targetLabels[target.id]}</option>)}
-      </select></label>
+      <div className="selected-mission"><span>Mission target</span><strong>{targetLabel}</strong></div>
       <label>Equipment test<select value={testId} onChange={event => setTestId(event.target.value)} aria-describedby="disabled-tests">
         {definitions.map(test => <option key={test.id} value={test.id} disabled={!test.enabled} title={test.reason}>
           {testLabels[test.id]}{!test.enabled ? ' (unavailable)' : ''}
@@ -102,7 +127,7 @@ export function MapView({ data }: { data: MapData }) {
     {definition.reason && <p className="map-meta" role="status">{definition.reason}</p>}
     <div className="map-actions">
       <TestAvailability />
-      <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month) })}`}>Compare sites <ArrowUpRight aria-hidden="true" size={16} /></a>
+      <a href={`#/compare?${new URLSearchParams({ target: targetId, test: testId, month: String(month), ...pointParams(point) })}`}>Compare sites <ArrowUpRight aria-hidden="true" size={16} /></a>
     </div>
     <div className="map-layout">
       <section className="map-panel" aria-labelledby="map-title">
@@ -126,7 +151,7 @@ export function MapView({ data }: { data: MapData }) {
       <aside className="rank-panel" aria-labelledby="ranking-title">
         <div className="ranking-heading"><h2 id="ranking-title">20 highest-scoring Earth areas</h2><Crosshair aria-hidden="true" size={20} /></div>
         <p className="section-explanation">Open an area to inspect its conditions and missing measurements.</p>
-        <div className="rank-context"><strong>{targetLabels[targetId]}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
+        <div className="rank-context"><strong>{targetLabel}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
         <p className="map-meta rank-count" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
         {top.length ? <>
           <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => {
@@ -137,7 +162,7 @@ export function MapView({ data }: { data: MapData }) {
               <span className="rank-number" aria-hidden="true">{index + 1}</span>
               <span className="rank-location">{place && <span className="rank-place"><span className="rank-name">{place.name}</span><span className="rank-place-distance">Nearest mapped place · {place.distanceKm.toLocaleString('en')} km</span></span>}<span className="rank-coordinates">{Math.abs(data.cells[entry.index].lat).toFixed(2)}° {data.cells[entry.index].lat < 0 ? 'S' : 'N'}<span className="coordinate-divider"> / </span>{Math.abs(data.cells[entry.index].lon).toFixed(3)}° {data.cells[entry.index].lon < 0 ? 'W' : 'E'}</span></span>
               <strong className="rank-score">{matchPercent(entry.score)}<span>match</span></strong>
-              <small data-coverage={coverageText(entry.missing)}>{coverageText(entry.missing)}{entry.missing.some(id => !commonMissing.includes(id)) && <span className="rank-missing">Missing: {entry.missing.filter(id => !commonMissing.includes(id)).map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}</span>}</small>
+              <small data-coverage={coverageText(entry.missing)} aria-label={coverageText(entry.missing)}>{coverage(entry.missing, definition.weights).scored} conditions compared{entry.missing.some(id => !commonMissing.includes(id)) && <span className="rank-missing">Missing: {entry.missing.filter(id => !commonMissing.includes(id)).map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}</span>}</small>
               <span className="rank-track" aria-hidden="true"><span style={{ width: `${(entry.score ?? 0) * 100}%` }} /></span>
             </a>
           </li>})}</ol>
@@ -146,9 +171,10 @@ export function MapView({ data }: { data: MapData }) {
             <span role="status">{visibleRankPage + 1} / {rankPages}</span>
             <button type="button" aria-controls="ranked-results" disabled={visibleRankPage === rankPages - 1} onClick={() => setRankPage(page => Math.min(rankPages - 1, page + 1))}>Next</button>
           </div>
-          {commonMissing.length > 0 && <p className="rank-coverage-note">Unavailable for all results: {commonMissing.map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}.</p>}
         </> : <div className="missing-target"><h3>No score</h3><p>No cells can be ranked until a weighted quantity has both an Earth value and a target value.</p></div>}
         <details className="ranking-notes"><summary>Data coverage &amp; limitations</summary>
+          <p className="rank-coverage-note">{top[0] ? coverageText(top[0].missing) + ' contribute to the leading score.' : 'No comparable measurements.'}</p>
+          {commonMissing.length > 0 && <p>Excluded from every score: {commonMissing.map(id => channels.find(channel => channel.id === id)?.label ?? id).join(', ')}.</p>}
           {reasons.length > 0 && <ul className="missing-reasons">{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>}
           <p className="map-meta">Weights and tolerances are defaults. Missing quantities are omitted from the weighted mean.</p>
           {definition.notBuilt.length > 0 && <p className="map-meta">Not included: {definition.notBuilt.join(', ')}.</p>}

@@ -257,6 +257,36 @@ try {
   console.log(
     "PASS ranking: all 20 results across four pages, coverage disclosure, enabled/disabled controls.",
   );
+  await clickText('.target-worlds button', 'Moon');
+  await waitFor('!!document.querySelector(".target-picker canvas[aria-label*=Moon]")', 'Moon target globe');
+  const targetCanvas = await ev('(()=>{const r=document.querySelector(".target-picker .planet-labels").getBoundingClientRect();return {x:r.x+r.width/2+50,y:r.y+r.height/2}})()');
+  await call('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...targetCanvas});
+  await call('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...targetCanvas});
+  await waitFor('document.querySelector(".target-location-settings h3").textContent==="Lunar surface point"', 'selected lunar point');
+  const readMissionPoint = '({lat:document.querySelectorAll(".target-location-settings input")[0].value,lon:document.querySelectorAll(".target-location-settings input")[1].value})';
+  await waitFor('(()=>{const p=new URLSearchParams(location.hash.split("?")[1]);return document.querySelector(".target-coordinates").textContent===Number(p.get("targetLat")).toFixed(4)+"°, "+Number(p.get("targetLon")).toFixed(4)+"°"})()', 'point URL reflects the selected coordinates');
+  const missionPoint = await ev('(()=>{const p=new URLSearchParams(location.hash.split("?")[1]);return {lat:Number(p.get("targetLat")).toFixed(4),lon:Number(p.get("targetLon")).toFixed(4)}})()');
+  const pointMapHash = await ev('location.hash');
+  await screenshot('target-moon.png', true);
+  const firstScore = await ev('document.querySelector(".ranked-cells li:not([hidden]) .rank-score").firstChild.textContent');
+  await ev('document.querySelector(".ranked-cells li:not([hidden]) a").click()');
+  await waitFor('!!document.querySelector(".fidelity-card")', 'point-specific fidelity card');
+  assert.equal(await ev('document.querySelector(".card-total").textContent.trim()'), firstScore, 'Selected point rank and card scores agree');
+  assert.ok(await ev('document.querySelector(".card-heading").textContent.includes("Moon · ")'), 'Card names the selected world and point');
+  assert.ok(await ev('location.hash.includes("targetLat=")&&location.hash.includes("targetLon=")'), 'Card link keeps point coordinates');
+  await call('Page.navigate', {url:origin+'/'+pointMapHash});
+  await call('Page.reload');
+  await waitFor('!!document.querySelector(".target-picker")', 'point deep link');
+  try {
+    await waitFor('JSON.stringify(' + readMissionPoint + ')===' + JSON.stringify(JSON.stringify(missionPoint)), 'Deep link restores selected point');
+  } catch (error) {
+    console.log('Deep-link diagnostic', {expected:missionPoint,hash:pointMapHash,actual:await ev(readMissionPoint)});
+    throw error;
+  }
+  await clickText('.target-worlds button', 'Mars');
+  await waitFor('document.querySelector(".target-location-settings h3").textContent==="Jezero crater"', 'Mars starting point');
+  assert.ok(!await ev('document.querySelector(".target-picker").textContent.includes("(default)")'), 'Starting point has no default suffix');
+  console.log('PASS mission targets: Moon/Mars selection, real surface click, global-data rankings, matching point-specific card, preserved coordinates and reloadable deep links.');
   if (!offline && !layoutOnly) {
     assert.ok(
       await ev(
@@ -433,11 +463,15 @@ try {
     deviceScaleFactor: 1,
     mobile: false,
   });
+  const initialTheme = await ev('document.documentElement.dataset.theme');
   await ev('document.querySelector(".theme-toggle").click()');
   await delay(200);
-  assert.equal(await ev("document.documentElement.dataset.theme"), "light");
-  await screenshot("light.png", true);
+  const oppositeTheme = initialTheme === 'light' ? 'dark' : 'light';
+  assert.equal(await ev('document.documentElement.dataset.theme'), oppositeTheme);
+  await screenshot(oppositeTheme + '.png', true);
   await ev('document.querySelector(".theme-toggle").click()');
+  assert.equal(await ev('document.documentElement.dataset.theme'), initialTheme);
+  await screenshot(initialTheme + '.png', true);
   await ev('location.hash="#/compare"');
   await waitFor(
     'document.querySelectorAll(".location-picker").length===2',
