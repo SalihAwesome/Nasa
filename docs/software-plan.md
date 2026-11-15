@@ -21,9 +21,7 @@ Mobility weights slope, roughness, bare ground and dryness. Communications weigh
 
 Scores use a 0–100% match index, with available-quantity counts and units. This index is not a probability of mission success. Validation still reports actual outcomes without changing the fixed pass rule. Earlier unit descriptions below record the original scope.
 
-## Decisions that shape every unit
-
-### Comparison evidence follow-up, 15 November 2026
+## Comparison evidence follow-up, 15 November 2026
 
 The user authorized fetching missing comparison data. `pipeline/fetch_comparison.py` writes
 `app/public/data/mars/jezero-comparison.json` from archived MEDA RDS sol 300 observations,
@@ -34,6 +32,8 @@ the missing MEDA UV-index/albedo scoring slots. Their observation windows, spect
 bands, field of view and coverage are disclosed. `docs/comparison-data.md` describes
 reproduction. PDF text extraction adds `pypdf` to the pipeline dependencies so the
 published orbital retrieval is fetched and parsed rather than typed into the app.
+
+## Decisions that shape every unit
 
 | Decision | Choice | Reason |
 |---|---|---|

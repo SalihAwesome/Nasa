@@ -773,7 +773,7 @@ These are rendering and interaction observations, not new scientific measurement
 
 ## Committed Maps default, 15 November 2026
 
-The owner explicitly requested committing the Google Maps browser key and using it automatically. `app/google-maps.config.ts` now provides that public default. `VITE_GOOGLE_MAPS_API_KEY` overrides it; an explicitly empty string selects the offline variant. A production build and real-browser check passed with `.env.local` temporarily absent, then the file was restored. CI validates the unchanged offline checks before building the default Google-enabled variant. Other private environment values remain ignored.
+The owner explicitly requested committing the Google Maps browser key. `app/google-maps.config.ts` holds it. On 15 November 2026 the owner decided in review that the default build stays offline, so U10's check holds for it. `VITE_GOOGLE_MAPS=on` opts in to the committed key, and `VITE_GOOGLE_MAPS_API_KEY` then replaces it. CI runs `check:map` on the default build, then builds the opt-in Google variant. Other private environment values remain ignored.
 
 ## Comparison evidence, 15 November 2026
 

@@ -32,7 +32,7 @@ Full-page captures are generated under `app/.impeccable/review/`: desktop, the u
 
 ## Scope and configuration
 
-At the owner’s explicit follow-up request, the public Google Maps browser key is committed in `app/google-maps.config.ts`, so new checkouts and hosted builds use Google Maps by default. The key is visible in Git history and browser builds. `VITE_GOOGLE_MAPS_API_KEY` can override it; an explicit empty override retains the local globe and score layer. Other private environment values stay ignored. Google imagery requires internet access. No Google imagery tiles are cached or redistributed by the application.
+At the owner’s explicit follow-up request, the public Google Maps browser key is committed in `app/google-maps.config.ts`. The key is visible in Git history and browser builds. On review, the owner decided the default build stays offline: `VITE_GOOGLE_MAPS=on` opts in to Google Maps, and `VITE_GOOGLE_MAPS_API_KEY` then replaces the committed key. Without the opt-in, the build keeps the local globe and score layer. Other private environment values stay ignored. Google imagery requires internet access. No Google imagery tiles are cached or redistributed by the application.
 
 The static browser smoke test observes expected missing-data responses for the team's absent `data/pod/qatar.csv` recording and for the assistant API when no development server is present. Their existing recovery states remain visible; this work does not supply a physical pod recording or deploy the assistant backend.
 
