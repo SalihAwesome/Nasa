@@ -1,9 +1,10 @@
 # Planetary target verification
 
 Verified on 15 November 2026 against the actual production build and the generated
-datasets. The branch includes the workspace redesign merged in PR #38 while this
-feature was being built. Its sidebar, themes, nearest-place labels, score tracks
-and design files are preserved.
+datasets. The branch includes the workspace changes merged in PRs #38 and #40
+while this feature was being built, including the Tayf name and framed sheet.
+Their sidebar, themes, nearest-place labels, score tracks and design files are
+preserved.
 
 ## Behavior
 
@@ -24,7 +25,7 @@ existing recovery states.
 npm test -- --maxWorkers=2
 Test Files  32 passed (32)
 Tests       231 passed (231)
-Duration    20.89s
+Duration    44.34s
 
 pipeline/.venv/Scripts/python.exe -m pytest -q
 117 passed in 54.61s
