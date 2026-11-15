@@ -214,7 +214,7 @@ The software plan starts from this table. Each part has one row: what the code r
 | Down-facing light sensor | BH1750 | I2C 0x5C (ADDR to 3.3 V), GPIO 21 and 22 | lux | BH1750 (Christopher Laws) | Same settings as the up-facing one. Reflectivity = (down ÷ up) ÷ correction factor, worked out in the app. |
 | Infrared sensor | MLX90614, long-range version from Voltaat | I2C 0x5A, GPIO 21 and 22 | °C | Adafruit MLX90614 | Send the object temperature (the ground). Its ambient reading is the sensor's own temperature, so log it but don't use it as air temperature. Keep the bus at 100 kHz. |
 | Pressure sensor | BMP280 | I2C 0x76 or 0x77, GPIO 21 and 22 | hPa | Adafruit BMP280 | Scan the bus once to find which address the board uses. |
-| Air temperature and humidity | DHT22 | Digital, GPIO 26 | °C and % relative humidity | DHT sensor library and Adafruit Unified Sensor (Adafruit) | Read no faster than once every 2 seconds. If the kit's blue DHT11 is used instead, change the sensor type in code and expect about ±2 °C. |
+| Air temperature and humidity | DHT11, the kit's blue module. The plan chose a DHT22, but on 15 November 2026 the team said the pod uses the DHT11. | Digital, GPIO 26 | °C and % relative humidity | DHT sensor library and Adafruit Unified Sensor (Adafruit) | Read no faster than once every 2 seconds. `firmware/pod/pod.ino` sets the sensor type to `DHT11`. Expect about ±2 °C. |
 | UV sensor | GUVA-S12SD analog module | Analog, GPIO 34 | UV index | None, built-in analogReadMilliVolts() | UV index ≈ output in millivolts ÷ 100. This is the usual rule for this module, not a calibration, so label it approximate. Average about 16 readings, because the ESP32's analog input is noisy. |
 | Ground probe | DS18B20 waterproof, 2 m cable or extended | Digital, GPIO 27, 4.7 kilohm pull-up to 3.3 V | °C | OneWire and DallasTemperature | One reading takes about 0.75 seconds at full resolution. |
 | Grey card | Photographer's 18% grey card | None | None | None | Used once to measure the reflectivity correction factor, which is typed into the log header. |
@@ -256,6 +256,7 @@ The parts to buy come to about 188 QAR, reusing the pod's controller board. Pric
 
 **Notes on the list**
 
+- **Air sensor.** The pod uses the kit's blue DHT11 instead of the DHT22 in this list (team, 15 November 2026). The DHT22 row keeps the planned price.
 - **Already owned, so not counted:** the NodeMCU ESP-32S board, a power bank, a USB cable and the laptops.
 - **If a new board is needed.** An [ESP32 board](https://www.voltaat.com/products/doit-esp32-devkit-v1-development-board) is 39 QAR, which takes the total to 227 QAR. To stay under 200, replace the infrared sensor with a second temperature probe laid on the surface. That brings it to about 196 QAR.
 - **Stock.** The pressure sensor and the waterproof probe each showed 1 in stock. Check before going.

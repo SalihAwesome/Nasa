@@ -55,7 +55,7 @@ BH1750 upLight;
 BH1750 downLight;
 Adafruit_MLX90614 infrared;
 Adafruit_BMP280 pressureSensor;
-DHT airSensor(airPin, DHT22);
+DHT airSensor(airPin, DHT11);
 OneWire soilBus(soilPin);
 DallasTemperature soilSensor(&soilBus);
 WebSocketsServer socketServer(81);
@@ -143,7 +143,7 @@ void readSensors(Readings& readings) {
   readings[Humidity] = airSensor.readHumidity();
   if (!isfinite(readings[Air]) || !isfinite(readings[Humidity])) {
     static bool reported;
-    if (!reported) Serial.println("# DHT22 missing or reading failed");
+    if (!reported) Serial.println("# DHT11 missing or reading failed");
     reported = true;
   }
 
