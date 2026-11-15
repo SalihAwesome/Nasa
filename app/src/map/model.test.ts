@@ -47,3 +47,22 @@ test('a malformed or simulated target file cannot silently turn into a score', (
   expect(() => readTargetNumbers({ simulated: true }, target, '')).toThrow()
   expect(() => readTargetNumbers({ channels: { ground_temp: { value: Infinity } } }, target, '')).toThrow()
 })
+
+test('a tie larger than the list is spread across the globe, and every row keeps the top score', () => {
+  const cells = Array.from({ length: 360 }, (_, i) => ({ lat: -28, lon: -179.5 + i }))
+  const scores = cells.map((_, i) => ({ score: i < 300 ? 0.675 : 0.5, reason: null, missing: [] }))
+  const byIndex = rankCells(scores)
+  expect(byIndex.map(row => row.index)).toEqual(Array.from({ length: 20 }, (_, i) => i))
+  const spread = rankCells(scores, cells)
+  expect(spread).toHaveLength(20)
+  expect(spread.every(row => row.score === 0.675)).toBe(true)
+  const lons = spread.map(row => cells[row.index].lon)
+  expect(Math.max(...lons) - Math.min(...lons)).toBeGreaterThan(250)
+  expect(new Set(spread.map(row => row.index)).size).toBe(20)
+})
+
+test('ties that fit in the list keep score order and index order', () => {
+  const cells = Array.from({ length: 30 }, (_, i) => ({ lat: i, lon: 0 }))
+  const scores = cells.map((_, i) => ({ score: i < 5 ? 0.9 : 0.4, reason: null, missing: [] }))
+  expect(rankCells(scores, cells).slice(0, 5).map(row => row.index)).toEqual([0, 1, 2, 3, 4])
+})

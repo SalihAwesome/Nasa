@@ -68,15 +68,17 @@ export function MapView({ data }: { data: MapData }) {
   // A point selection needs only the current month. Cache visited months rather
   // than blocking every surface click on twelve complete global rankings.
   const results = useMemo(() => new Map<number, {
-    scores: ReturnType<typeof computeScores>; top: ReturnType<typeof rankCells>; scoredCount: number
+    scores: ReturnType<typeof computeScores>; top: ReturnType<typeof rankCells>; scoredCount: number; tiedAtTop: number
   }>(), [data.months, target, numbers, definition])
   let result = results.get(month)
   if (!result) {
     const scores = computeScores(layer, target, numbers, definition)
-    result = { scores, top: rankCells(scores), scoredCount: scores.filter(row => row.score !== null).length }
+    const top = rankCells(scores, data.cells)
+    result = { scores, top, scoredCount: scores.filter(row => row.score !== null).length,
+      tiedAtTop: top.length ? scores.filter(row => row.score === top[0].score).length : 0 }
     results.set(month, result)
   }
-  const { scores, top, scoredCount } = result
+  const { scores, top, scoredCount, tiedAtTop } = result
   const rowsPerPage = 5
   const rankPages = Math.max(1, Math.ceil(top.length / rowsPerPage))
   const visibleRankPage = Math.min(rankPage, rankPages - 1)
@@ -153,6 +155,7 @@ export function MapView({ data }: { data: MapData }) {
         <p className="section-explanation">Open an area to inspect its conditions and missing measurements.</p>
         <div className="rank-context"><strong>{targetLabel}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
         <p className="map-meta rank-count" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
+        {tiedAtTop > 1 && <p className="rank-tie-note">{tiedAtTop.toLocaleString('en')} areas share the top score of {matchPercent(top[0].score)}. The list spreads tied areas around the world rather than showing neighbours.</p>}
         {top.length ? <>
           <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => {
             const place = nearestPlace(data.cells[entry.index], cities)
