@@ -5,11 +5,12 @@ import { cardRegistries, findPodCell } from '../card/cardData'
 import { fieldSites } from './fieldSites'
 import type { Place } from './places'
 import { nearestPlace } from './places'
+import type { Supplement } from '../data/comparison'
 
 export type ComparisonLocation = Cell & { body: World; name: string }
-export type ComparisonReading = { value: number | null; unit: string | null; reason: string | null }
+export type ComparisonReading = { value: number | null; unit: string | null; reason: string | null; basis?: string; evidence?: { note: string; source: string }; supplement?: Supplement }
 export const comparisonQuantities = [
-  ...cardRegistries.channels.filter(channel => channel.onCard).map(channel => ({ id: channel.id, label: channel.label })),
+  ...cardRegistries.channels.filter(channel => channel.onCard).map(channel => ({ id: channel.id, label: channel.id === 'uv' ? 'Ultraviolet exposure' : channel.label })),
   { id: 'slope', label: 'Regional slope' },
   { id: 'roughness', label: 'Regional relief roughness' },
   { id: 'bare_ground', label: 'Bare ground (2019)' },
@@ -78,7 +79,19 @@ export function readLocation(data: MapData, location: ComparisonLocation, month:
       reason: value !== null ? null : isReference ? item?.reason ?? 'No sourced value for this quantity.'
         : 'No local dataset for this selected point. Choose the reference site to inspect its recorded data.' }
   }
+  if (isReference && id === 'jezero' && data.comparisonEvidence) {
+    const evidence = data.comparisonEvidence
+    const humidity = readings.humidity
+    if (humidity.value !== null && humidity.unit === null) {
+      humidity.unit = evidence.humidity.unit
+      humidity.basis = evidence.humidity.basis
+      humidity.evidence = evidence.humidity
+    }
+    for (const key of ['uv', 'reflectivity'] as const) {
+      if (readings[key].value === null) readings[key].supplement = evidence.supplements[key]
+    }
+  }
   return { readings, cell: null, evidence: isReference
-    ? 'Project reference coordinates (default). Sun values use the saved JPL Horizons window. Jezero weather uses MEDA sol 300. Regional terrain is derived from LOLA/MOLA; fully dry and bare targets are team assumptions.'
+    ? 'Project reference coordinates (default). Sun values use the saved JPL Horizons window. ' + (id === 'jezero' ? 'Jezero weather uses MEDA sol 300. Supplementary UV flux and published TES orbital albedo are separately named and excluded from match scores. ' : '') + 'Regional terrain is derived from LOLA/MOLA; fully dry and bare targets are team assumptions.'
     : 'Coordinates selected on the surface image. Local weather and Sun values have not been loaded for this point.' }
 }

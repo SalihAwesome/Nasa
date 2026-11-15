@@ -9,6 +9,7 @@ import type { TargetNumbers } from './model'
 import { loadSunData } from '../sun/sunData'
 import type { SunNumbers } from '../sun/sunData'
 import { parsePlaces } from './places'
+import { parseComparisonEvidence } from '../data/comparison'
 
 type SunQuantity = Exclude<keyof SunNumbers, 'reasons'>
 
@@ -26,7 +27,7 @@ async function request(path: string) {
 export async function loadMapData() {
   const manifest = parseEarthManifest(await (await request('earth/manifest.json')).json())
   const targets = parseTargets(targetData)
-  const [cells, land, countries, months, targetNumbers, sun] = await Promise.all([
+  const [cells, land, countries, months, targetNumbers, sun, comparisonEvidence] = await Promise.all([
     request(`earth/${manifest.cellsFile}`).then(r => r.arrayBuffer()).then(b => decodeCells(b, manifest)),
     request('geo/ne_50m_land.geojson').then(r => r.json()).then((data: unknown) => {
       if (!data || typeof data !== 'object' || !('type' in data) || data.type !== 'FeatureCollection' || !('features' in data) || !Array.isArray(data.features)) throw new Error('Local land outline is not a FeatureCollection.')
@@ -50,6 +51,8 @@ export async function loadMapData() {
       }
     })).then(entries => Object.fromEntries(entries) as Record<string, TargetNumbers>),
     loadSunData(path => fetch(path.startsWith('/') ? `.${path}` : path)),
+    // Supplementary products never become inputs to the scoring model.
+    request('mars/jezero-comparison.json').then(r => r.json()).then(parseComparisonEvidence).catch(() => null),
   ])
   const mobilityMonths = await Promise.all(months.map(month => loadMobilityMonth(month.month, { earthManifest: manifest, baseUrl: prefix + 'earth/' })))
   for (const month of months) Object.assign(month.layers, mobilityMonths[month.month - 1].layers)
@@ -84,7 +87,7 @@ export async function loadMapData() {
       }
     }
   }
-  return { manifest, targets, cells, land, countries, months, targetNumbers }
+  return { manifest, targets, cells, land, countries, months, targetNumbers, comparisonEvidence }
 }
 
 export type MapData = Awaited<ReturnType<typeof loadMapData>>

@@ -25,17 +25,31 @@ test('arbitrary Moon and Mars points keep local data missing', () => {
   for (const body of ['moon', 'mars'] as const) {
     const location = { body, lat: 0, lon: 0, name: 'Selected point' }
     const result = readLocation(data, location, 1)
-    expect(Object.values(result.readings).every(item => item.value === null && item.reason?.includes('No local dataset'))).toBe(true)
+    expect(Object.values(result.readings).every(item => item.value === null && item.reason?.includes('No local dataset') && item.supplement === undefined)).toBe(true)
   }
 })
 
-test('Jezero reference values retain unknown units and the saved source values', () => {
+test('Jezero humidity uses the documented unit while the original XML-derived card is preserved', () => {
   const reference = referenceLocations(data).find(item => item.body === 'mars')
   if (!reference) throw new Error('Mars reference is missing')
   const result = readLocation(data, reference, 1)
-  expect(result.readings.humidity.unit).toBeNull()
+  expect(data.targetNumbers.jezero.humidity.unit).toBeNull()
+  expect(result.readings.humidity.unit).toBe('%')
+  expect(result.readings.humidity.evidence?.source).toContain('10.1029/2022JE007537')
+  expect(result.readings.humidity.basis).toBe('Relative to ice')
   expect(result.readings.ground_temp.value).toBe(data.targetNumbers.jezero.ground_temp.value)
   expect(result.readings.peak_elevation.value).toBe(data.targetNumbers.jezero.peak_elevation.value)
+})
+
+test('Jezero supplemental products keep the missing scored measurements null', () => {
+  const reference = referenceLocations(data).find(item => item.body === 'mars')
+  if (!reference) throw new Error('Mars reference is missing')
+  const readings = readLocation(data, reference, 1).readings
+  for (const id of ['uv', 'reflectivity'] as const) {
+    expect(readings[id].value).toBeNull()
+    expect(data.targetNumbers.jezero[id].value).toBeNull()
+    expect(readings[id].supplement).toEqual(data.comparisonEvidence?.supplements[id])
+  }
 })
 
 test('both sides of an Earth pair read their own grid values', () => {

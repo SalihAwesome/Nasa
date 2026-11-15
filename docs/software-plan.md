@@ -23,6 +23,18 @@ Scores use a 0–100% match index, with available-quantity counts and units. Thi
 
 ## Decisions that shape every unit
 
+### Comparison evidence follow-up, 15 November 2026
+
+The user authorized fetching missing comparison data. `pipeline/fetch_comparison.py` writes
+`app/public/data/mars/jezero-comparison.json` from archived MEDA RDS sol 300 observations,
+the official bundle documentation, and Martínez et al. (2023). The comparison screen
+resolves local relative humidity to %RH using the documentation and shows separately
+named UV detector flux and TES orbital albedo. These supplemental products never fill
+the missing MEDA UV-index/albedo scoring slots. Their observation windows, spectral
+bands, field of view and coverage are disclosed. `docs/comparison-data.md` describes
+reproduction. PDF text extraction adds `pypdf` to the pipeline dependencies so the
+published orbital retrieval is fetched and parsed rather than typed into the app.
+
 | Decision | Choice | Reason |
 |---|---|---|
 | Split of work | Python fetches and reduces data. TypeScript scores, combines, and draws. | Each rule lives in one language, so the map and the card cannot disagree. |

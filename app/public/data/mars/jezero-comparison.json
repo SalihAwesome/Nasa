@@ -1,0 +1,52 @@
+{
+  "target": "jezero",
+  "sol": 300,
+  "unitClarifications": {
+    "humidity": {
+      "unit": "%",
+      "source": "https://an.rsl.wustl.edu/help/Content/About%20the%20data/Data%20sets/M20/MEDA%20bundle.htm",
+      "basis": "Relative to ice",
+      "referenceSource": "https://doi.org/10.1029/2022JE007537",
+      "note": "MEDA local relative humidity (%RH), resolved from the official bundle documentation; the product XML omits its unit. Martínez et al. (2023), section 2, identifies ice as the saturation reference. Earth uses a separate 2 m RH product; a common saturation reference has not been established, so no direct difference is calculated."
+    }
+  },
+  "supplements": {
+    "reflectivity": {
+      "value": 14.7,
+      "unit": "%",
+      "label": "TES orbital albedo",
+      "source": "https://doi.org/10.1029/2022JE007537",
+      "note": "Published regional retrieval, 0.25–2.9 µm, around 14:00 local true solar time; about 300 km². Martínez et al. (2023), section 4 / figure 14. Separate from the missing MEDA sol 300 albedo; excluded from match scores."
+    },
+    "uv": {
+      "value": 2.788603511572123,
+      "recordedBins": 54,
+      "observations": 29656,
+      "peakBinStartMinute": 660,
+      "unit": "W/m²",
+      "label": "MEDA recorded UV detector flux",
+      "source": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_RDS_________________P01.xml",
+      "note": "Sol 300, RDS TOP 3, 250–400 nm, ±15° field of view. Highest recorded ten-minute mean; incomplete daily coverage. A detector flux, not a UV index or hemispherical daily exposure; excluded from match scores.",
+      "instrumentSource": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8550605/",
+      "binMinutes": 10
+    }
+  },
+  "sources": {
+    "paper": {
+      "url": "https://api-digital.inta.es/api/core/bitstreams/c64568f7-2f03-4948-a3ec-fbdbd7c5de06/content",
+      "sha256": "cff922e2022fd3c0534d9a1fc98fe0bf10062efe469af8b805d88f91ca885e52"
+    },
+    "humidity": {
+      "url": "https://an.rsl.wustl.edu/help/Content/About%20the%20data/Data%20sets/M20/MEDA%20bundle.htm",
+      "sha256": "5ed62b4a81bb254dd676838cc86ee549fadf2c4bec82e088733ed73c18de61bd"
+    },
+    "rdsLabel": {
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_RDS_________________P01.xml",
+      "sha256": "aaa1ec0eb33d2f0866d42968be6677c0b023eaa1a263d768b125a0241b5540d3"
+    },
+    "rds": {
+      "url": "https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0300_0419/sol_0300/WE__0300___________CAL_RDS_________________P01.CSV",
+      "sha256": "8f8166a27a7b36ec256b5516405d6cb67f5113edd69c88c2b23dac5d59c30ab8"
+    }
+  }
+}

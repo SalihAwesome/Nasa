@@ -62,10 +62,13 @@ p { text-wrap: pretty; }
 .compare-pickers { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
 .compare-settings { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); }
 .compare-table-scroll { overflow-x: auto; margin-block: var(--space-4); }
-.compare-table { border-collapse: collapse; width: 100%; min-width: 34rem; text-align: left; font-variant-numeric: tabular-nums; }
+.compare-table { border-collapse: collapse; width: 100%; min-width: 48rem; text-align: left; font-variant-numeric: tabular-nums; }
 .compare-table :is(th,td) { border-bottom: 1px solid var(--color-border); padding: var(--space-3); vertical-align: top; }
 .compare-table thead th { background: var(--color-accent-soft); }
-.compare-table td { width: 33%; }
+.compare-table tbody th { width: 22%; }
+.compare-table td { width: 26%; }
+.compare-table details { margin-top: var(--space-2); font-size: var(--text-small); }
+.compare-table summary { cursor: pointer; color: var(--color-muted); }
 .compare-table td small { display: block; color: var(--color-muted); }
 .map-actions { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
 .coordinate-form { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: end; margin-top: var(--space-4); }

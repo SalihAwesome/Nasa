@@ -12,6 +12,6 @@ export function displayReading(value: number, unit: string | null): string {
 
 export function displayTolerance(value: number, unit: string): string {
   if (unit === 'ratio' || unit === '1') return `${new Intl.NumberFormat('en', { maximumFractionDigits: 1 }).format(value * 100)} percentage points`
-  if (unit === '%') return `${value} percentage points`
+  if (unit === '%') return `${new Intl.NumberFormat('en', { maximumFractionDigits: 2 }).format(value)} percentage points`
   return displayReading(value, unit)
 }

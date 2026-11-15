@@ -452,6 +452,19 @@ try {
     await ev('!!document.querySelector(".planet-surface")'),
     "Mars local surface",
   );
+  await clickText(".compare-run button", "Compare selected locations");
+  await waitFor('!!document.querySelector(".compare-table")', "comparison results");
+  const comparisonText = await ev('document.querySelector(".compare-table").textContent');
+  for (const expected of ["14.7%", "TES orbital albedo", "2.79 W/m²", "MEDA recorded UV detector flux", "3.42%", "Relative to ice", "Different humidity references"])
+    assert.ok(comparisonText.includes(expected), "Comparison evidence: " + expected);
+  assert.ok(!comparisonText.includes("Unavailable"), "Specific comparison explanations replace generic unavailable cells");
+  assert.ok(!/\d+\.\d{5,} percentage points/.test(comparisonText), "Readable percentage-point precision");
+  await clickText(".compare-table summary", "Source & coverage");
+  assert.ok(await ev('document.querySelector(".compare-table details").open'), "Source details expand");
+  await clickText(".compare-table summary", "Source & coverage");
+  await ev('document.querySelector("#comparison-results").scrollIntoView({block:"start"})');
+  await screenshot("comparison-results.png");
+  console.log("PASS comparison data: sourced TES albedo, measured RDS flux, ice-relative humidity, source disclosure and readable differences; supplemental products remain separate.");
   await ev("scrollTo(0,0)");
   await screenshot("comparison.png", true);
   await call("Emulation.setDeviceMetricsOverride", {
