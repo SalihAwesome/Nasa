@@ -8,14 +8,14 @@ The integration uses Google Maps JavaScript API satellite/hybrid maps and Advanc
 
 Set `VITE_GOOGLE_MAPS_API_KEY` in `app/.env.local`, which Git ignores. Restart Vite after changing it. The environment variable is a browser API key and is included in the online browser build by design. Use website and Maps JavaScript API restrictions for a production key. Never commit a real key or copy it into documentation, tests or screenshots.
 
-An empty or absent key produces the existing fully local map build. With a configured key, Earth uses Google satellite/hybrid imagery by default in Site finder and Compare sites, with an optional 3D terrain view. Match colors switches to the full original score map, which remains usable if Google is unavailable. Google imagery streams over the internet; the scientific score files are still shipped locally. Do not label the configured Google build offline-capable.
+An empty or absent key produces the existing fully local map build. With a configured key, Earth uses Google satellite/hybrid imagery by default in Site finder and Compare sites, with an optional 3D globe. Match colors switches to the full original score map, which remains usable if Google is unavailable. Google imagery streams over the internet; the scientific score files are still shipped locally. Do not label the configured Google build offline-capable.
 
 Google offers a Maps Demo Key for eligible personal Google accounts, without billing details, for prototyping only. Production requires the applicable Google Maps Platform setup. Photorealistic building coverage varies by region; satellite imagery over 3D terrain is used where meshes are unavailable.
 
 ## Interaction and data boundaries
 
 - Select an analog site, enter coordinates, or select Google's terrain to inspect a location. Explicit site/coordinate selection centers the camera with a local terrain view.
-- Zoom, tilt into terrain, reset the view, or toggle Google's place labels. Controls can be used while Google streams sharper imagery.
+- Zoom, tilt into terrain, reset the view, or toggle Google's place labels. 3D camera controls wait for Google's steady-scene event; a loading failure offers a return to satellite imagery.
 - Selected coordinates use the existing `findPodCell` lookup; no nearby land cell substitutes for a missing cell. Ranked links and fidelity-card selections retain target, test and month.
 - Match colors shows the complete score layer separately, avoiding an opaque climate overlay over the satellite imagery. The Earth satellite view does not claim to display the heatmap.
 - Camera ranges, tilt and toolbar limits are visual defaults, not scientific observations or scoring parameters.
@@ -43,6 +43,8 @@ Official sources read on 14 November 2026:
 - https://developers.google.com/maps/documentation/javascript/reference/3d-map-draw
 - https://developers.google.com/maps/documentation/javascript/demo-key
 
-## Paused draft
+## Verified completion, 15 November 2026
 
-The final satellite-default implementation compiles but is not yet browser-verified. Longer 3D checks exposed unresolved imagery and camera issues. See `docs/earth-map-checkpoint.md` for exact verification limits and remaining work.
+Satellite tiles and detailed 3D terrain were verified in a real browser with the local key. Site focusing, zoom/reset, label toggles, mode changes, comparison, authentication-failure recovery and small-screen layouts pass. Camera updates now send a complete center/range/tilt/heading together; terrain targets use zero relative-to-ground altitude, while overview views use absolute altitude. This prevents interpreting a previous absolute terrain elevation as another height above ground. Duplicate selected-site pins and city-pin clutter are removed.
+
+Run `npm run check:ui` in `app/` after building with a key, or `npm run check:ui -- --offline` after a no-key build. Captures go to `app/.impeccable/review/`, with offline captures in its `offline/` subdirectory. The browser check uses Chrome or Edge on Windows or Chromium on Linux; set `CHROME_PATH` if it is installed elsewhere. See `docs/new-design-verification.md` for results and limits.

@@ -18,16 +18,16 @@ const views = {
   sun: { heading: 'Compare sunlight on Earth, the Moon, and Mars', description: 'Choose a Moon or Mars target to see how high the Sun rises and which direction it moves compared with a location on Earth.' },
   truth: { heading: 'Check estimates against field measurements', description: 'See how readings from the Qatar sensor pod compare with satellite estimates for the same site and readings from NASA’s Perseverance rover on Mars.' },
   live: { heading: 'Watch the Qatar sensor pod', description: 'Connect the field sensor pod or replay a sample recording to watch temperature, humidity, light, and other readings update.' },
-  compare: { heading: 'Compare locations on Earth, the Moon, and Mars', description: 'Choose any two worlds and explore their surfaces side by side. Select locations on the globes to compare the data available for each point.' },
+  compare: { heading: 'Compare locations on Earth, the Moon, and Mars', description: 'Choose any two worlds and explore their surfaces side by side. Select locations on the maps to compare the data available for each point.' },
   ask: { heading: 'Ask Proving Ground', description: 'Ask what a score means, how to use a tool, or where the data comes from. Answers draw on this project’s documentation and website source.' },
 }
 
 const navigation = [
-  { key: 'map', label: 'Find test sites', href: '#/map' },
-  { key: 'sun', label: 'Sunlight', href: '#/sun' },
-  { key: 'truth', label: 'Field data', href: '#/truth' },
-  { key: 'live', label: 'Sensor pod', href: '#/live' },
-  { key: 'compare', label: 'Compare sites', href: '#/compare' },
+  { key: 'map', label: 'Find test sites', href: '#/map', icon: 'M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0ZM9 10a3 3 0 1 0 6 0 3 3 0 0 0-6 0' },
+  { key: 'sun', label: 'Sunlight', href: '#/sun', icon: 'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0' },
+  { key: 'truth', label: 'Field measurements', href: '#/truth', icon: 'M4 20V10m8 10V4m8 16v-7M2 20h20' },
+  { key: 'live', label: 'Sensor pod', href: '#/live', icon: 'M3 12h4l3-7 4 14 3-7h4' },
+  { key: 'compare', label: 'Compare sites', href: '#/compare', icon: 'M4 5h6v14H4zM14 5h6v14h-6z' },
 ]
 
 function readHash() {
@@ -82,22 +82,24 @@ function App() {
         event.preventDefault()
         document.getElementById('main-content')?.focus()
       }}>Skip to content</a>
-      <header className="app-header">
+      <header className="app-header" onKeyDown={event => {
+        if (menuOpen && event.key === 'Escape') {
+          event.preventDefault()
+          setMenuOpen(false)
+          const toggle = document.getElementById('menu-toggle')
+          if (toggle?.getClientRects().length) toggle.focus()
+        }
+      }}>
         <a className="brand" href="#/map" onClick={() => setMenuOpen(false)}>
           <svg className="brand-mark" aria-hidden="true" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" /><ellipse cx="16" cy="16" rx="15" ry="5" transform="rotate(-35 16 16)" /></svg>
           Proving Ground
         </a>
-        <nav id="main-navigation" className="app-nav" data-open={menuOpen} aria-label="Main navigation" onKeyDown={event => {
-          if (event.key === 'Escape') { setMenuOpen(false); document.getElementById('menu-toggle')?.focus() }
-        }}>
-        {navigation.map(item => <a key={item.key} href={item.href}
-          onClick={() => setMenuOpen(false)}
-          aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
-          {item.label}
-        </a>)}
-        <a className="ask-nav" href="#/ask" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>Ask Proving Ground <span aria-hidden="true">↗</span></a>
-        </nav>
+
         <div className="header-actions">
+          <a className="ask-nav" href="#/ask" aria-label="Ask Proving Ground" onClick={() => setMenuOpen(false)} aria-current={route === 'ask' ? 'page' : undefined}>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z" /><path d="M7 10h8M7 14h5" /></svg>
+            <span>Ask Proving Ground</span>
+          </a>
           <button className="theme-toggle" type="button" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} onClick={() => setLightMode(current => !current)}>
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">{lightMode ? <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /> : <><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></>}</svg>
           </button>
@@ -105,6 +107,13 @@ function App() {
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d={menuOpen ? 'M6 6l12 12M6 18 18 6' : 'M4 7h16M4 12h16M4 17h16'} /></svg>
           </button>
         </div>
+        <nav id="main-navigation" className="app-nav" data-open={menuOpen} aria-label="Main navigation">
+        {navigation.map(item => <a key={item.key} href={item.href}
+          onClick={() => setMenuOpen(false)}
+          aria-current={route === item.key || (route === 'card' && item.key === 'map') ? 'page' : undefined}>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d={item.icon} /></svg>{item.label}
+        </a>)}
+        </nav>
       </header>
       <main id="main-content" className={route === 'live' ? 'live-main' : undefined} tabIndex={-1}>
         {view ? <>

@@ -37,14 +37,15 @@ const GoogleEarthExplorer = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   ? lazy(() => import('./GoogleEarthExplorer')) : null
 
 export function EarthGlobe(props: EarthGlobeProps) {
-  const [satellite, setSatellite] = useState(true)
+  const [mode, setMode] = useState<'satellite' | 'terrain' | 'scores'>('satellite')
   if (!GoogleEarthExplorer) return <LocalEarthGlobe {...props} />
   return <>
     <div className="earth-map-modes" role="group" aria-label="Earth map layer">
-      <button type="button" aria-pressed={satellite} onClick={() => setSatellite(true)}>Google Earth</button>
-      <button type="button" aria-pressed={!satellite} onClick={() => setSatellite(false)}>Match colors</button>
+      <button type="button" aria-pressed={mode === 'satellite'} onClick={() => setMode('satellite')}>Satellite</button>
+      <button type="button" aria-pressed={mode === 'terrain'} onClick={() => setMode('terrain')}>3D globe</button>
+      <button type="button" aria-pressed={mode === 'scores'} onClick={() => setMode('scores')}>Match colors</button>
     </div>
-    {satellite ? <Suspense fallback={<p role="status">Loading Google Earth view…</p>}><GoogleEarthExplorer {...props} /></Suspense>
+    {mode !== 'scores' ? <Suspense fallback={<p role="status">Loading Google Earth view…</p>}><GoogleEarthExplorer {...props} view={{ mode, onChange: setMode }} /></Suspense>
       : <LocalEarthGlobe {...props} />}
   </>
 }

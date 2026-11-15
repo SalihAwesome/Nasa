@@ -1,4 +1,6 @@
-# Resume checkpoint: Earth imagery and workspace redesign
+# Historical checkpoint: Earth imagery and workspace redesign
+
+Resumed and completed on 15 November 2026. The notes below record the earlier paused state. See `docs/new-design-verification.md` for the completed implementation and current checks.
 
 Paused at the user's request on 14 November 2026. This is a draft checkpoint, not a completed or approved map replacement.
 

@@ -7,11 +7,11 @@
 }
 /* U28 design choices only: not measured values, scoring settings or data. */
 :root {
-  --color-background: #0b111b;
-  --color-surface: #131e2c;
+  --color-background: #101822;
+  --color-surface: #182430;
   --color-text: #edf3fa;
   --color-muted: #b8c6d4;
-  --color-border: #304154;
+  --color-border: #374957;
   --color-accent: #8cdbed;
   --color-accent-soft: #203646;
   --color-focus: #ffcf52;
@@ -42,9 +42,9 @@
   --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
   --font-heading: var(--font-body);
   --font-data: Consolas, monospace;
-  --text-small: 0.875rem;
-  --text-label: 0.9375rem;
-  --text-body: 1rem;
+  --text-small: 0.9375rem;
+  --text-label: 1rem;
+  --text-body: 1.0625rem;
   --text-lead: 1.125rem;
   --text-title: 1.5rem;
   --text-heading: 2.5rem;

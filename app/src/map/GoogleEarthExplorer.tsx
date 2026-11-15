@@ -6,7 +6,9 @@ import { homeView } from './globe'
 import { findPodCell } from '../card/cardData'
 import { nearestPlace } from './places'
 
-export default function GoogleEarthExplorer({ data, sites, cities, scores, onHover, onOpen, onDraw }: EarthGlobeProps) {
+export default function GoogleEarthExplorer({ data, sites, cities, scores, onHover, onOpen, onDraw, view }: EarthGlobeProps & {
+  view: NonNullable<Parameters<typeof GoogleEarthView>[0]['view']>
+}) {
   const [selected, setSelected] = useState<Cell | null>(null)
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
@@ -16,7 +18,7 @@ export default function GoogleEarthExplorer({ data, sites, cities, scores, onHov
     try { return findPodCell(data, selected) } catch { return null }
   }, [data, selected])
   const nearest = useMemo(() => selected && nearestPlace(selected, cities), [selected, cities])
-  const landmarks = useMemo(() => selected
+  const landmarks = useMemo(() => selected && !sites.some(site => site.lat === selected.lat && site.lon === selected.lon)
     ? [...sites, { ...selected, name: 'Selected location' }] : sites, [sites, selected])
   useEffect(() => { onHover(cellIndex) }, [cellIndex, onHover])
   useEffect(() => { const frame = requestAnimationFrame(onDraw); return () => cancelAnimationFrame(frame) }, [scores, onDraw])
@@ -29,7 +31,7 @@ export default function GoogleEarthExplorer({ data, sites, cities, scores, onHov
   }
 
   return <div className="globe-explorer">
-    <GoogleEarthView selection={selected ?? homeView} landmarks={landmarks} onSelect={choose} focusRange={selected ? 30000 : undefined} />
+    <GoogleEarthView selection={selected ?? homeView} landmarks={landmarks} onSelect={choose} focusRange={selected ? 30000 : undefined} view={view} />
     <label className="globe-sites">Analog sites
       <select value={siteId} onChange={event => {
         const site = sites.find(item => item.id === event.target.value)

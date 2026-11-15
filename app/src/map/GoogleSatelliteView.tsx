@@ -21,8 +21,10 @@ export default function GoogleSatelliteView({ selection, landmarks, onSelect, in
     const element = host.current
     if (!element) return
     let active = true
+    let failed = false
     let removeListeners = () => {}
-    const fail = () => { if (active) setStatus('error') }
+    const fail = () => { failed = true; if (active) setStatus('error') }
+    const timeout = window.setTimeout(fail, 45000)
     window.addEventListener('google-maps-auth-failure', fail)
     loadGoogleSatellite().then(library => {
       if (!active) return
@@ -37,11 +39,14 @@ export default function GoogleSatelliteView({ selection, landmarks, onSelect, in
       const click = view.addListener('click', (event: google.maps.MapMouseEvent) => {
         if (event.latLng) callback.current({ lat: event.latLng.lat(), lon: event.latLng.lng() })
       })
-      const ready = view.addListener('tilesloaded', () => { if (active) setStatus('ready') })
+      const ready = view.addListener('tilesloaded', () => {
+        if (active && !failed) { window.clearTimeout(timeout); setStatus('ready') }
+      })
       removeListeners = () => { click.remove(); ready.remove(); element.replaceChildren() }
     }).catch(fail)
     return () => {
       active = false
+      window.clearTimeout(timeout)
       window.removeEventListener('google-maps-auth-failure', fail)
       removeListeners()
       map.current = null

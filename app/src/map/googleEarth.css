@@ -6,7 +6,11 @@
 .google-earth-toolbar, .earth-map-modes { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-block: var(--space-3); }
 .google-earth-toolbar button, .earth-map-modes button { min-height: var(--control-min); padding: var(--space-2) var(--space-3); font: inherit; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-small); cursor: pointer; }
 .site-finder .google-earth-toolbar button, .site-finder .earth-map-modes button { width: auto; }
-.earth-map-modes button[aria-pressed='true'] { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent); }
+.earth-map-modes button[aria-pressed='true'], .google-earth-toolbar button[aria-pressed='true'] { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent); }
 .google-earth-toolbar button:disabled { opacity: .55; cursor: default; }
 .location-picker .google-earth-stage { height: clamp(22rem, 36vw, 32rem); }
-@media (max-width: 40rem) { .google-earth-stage { height: 28rem; } }
+@media (max-width: 40rem) {
+  .google-earth-stage { height: 28rem; }
+  .earth-map-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .site-finder .earth-map-modes button { padding: 8px; font-size: var(--text-small); width: 100%; }
+}

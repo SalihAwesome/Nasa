@@ -26,10 +26,15 @@ function LocationPicker({ label, value, data, cities, onChange }: {
   const id = useId()
   const presets = useMemo(() => locationPresets(data), [data])
   const options = presets.filter(site => site.body === value.body)
-  const landmarks = useMemo(() => value.body === 'earth' ? [
-    ...presets.filter(site => site.body === 'earth'),
-    ...cities.filter(place => place.rank <= 4),
-  ] : presets.filter(site => site.body === value.body), [cities, presets, value.body])
+  const landmarks = useMemo(() => {
+    const saved = presets.filter(site => site.body === value.body)
+    if (value.body !== 'earth') return saved
+    if (import.meta.env.VITE_GOOGLE_MAPS_API_KEY) {
+      // Google already labels cities. Reserve our pins for saved/selected sites.
+      return saved.some(site => site.lat === value.lat && site.lon === value.lon) ? saved : [...saved, value]
+    }
+    return [...saved, ...cities.filter(place => place.rank <= 4)]
+  }, [cities, presets, value])
   const [lat, setLat] = useState(String(value.lat))
   const [lon, setLon] = useState(String(value.lon))
   useEffect(() => { setLat(value.lat.toFixed(4)); setLon(value.lon.toFixed(4)) }, [value.lat, value.lon])
@@ -107,7 +112,6 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
 
   const change = (setter: (site: ComparisonLocation) => void) => (site: ComparisonLocation) => { setter(site); setResult(null) }
   return <section className="compare-workspace" aria-label="Site comparison">
-    <p className="section-explanation">Choose Earth, the Moon, or Mars on either side. Rotate and zoom each globe, then click a location. You can compare any pair of worlds.</p>
     {cityError && <p role="status">City labels could not load. Coordinates and saved locations are still available.</p>}
     <div className="comparison-globes">
       <LocationPicker label="Location A" value={a} data={data} cities={cities} onChange={change(setA)} />
@@ -120,7 +124,7 @@ function Comparison({ data, hash }: { data: MapData; hash: string }) {
       <button type="button" className="feature-primary" onClick={() => setResult({ a: { ...a }, b: { ...b }, month })}>Compare selected locations</button>
     </div>
     <p className="feature-muted">Earth values use monthly climate-grid estimates. Moon and Mars values are currently available at the project’s saved reference sites. Other points show which data is unavailable.</p>
-    <p className="feature-muted">Surface imagery: NASA Earth Observatory (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
+    <p className="feature-muted">Surface imagery: {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 'Google Maps' : 'NASA Earth Observatory'} (Earth), NASA LRO (Moon), and USGS Viking MDIM 2.1 (Mars).</p>
     {result && readings && <section className="feature-panel" aria-labelledby="comparison-results">
       <h2 id="comparison-results">How the two locations compare</h2>
       <p className="section-explanation">Read across each row to compare the selected locations. Surface imagery helps you choose a point. The evidence row explains where each numeric value comes from.</p>

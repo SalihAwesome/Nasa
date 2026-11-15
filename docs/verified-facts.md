@@ -760,3 +760,13 @@ Official Google documentation was read in this session:
 - `https://developers.google.com/maps/documentation/javascript/demo-key`: Maps Demo Key supports 2D/3D rendering without billing details, for eligible personal accounts and prototyping only.
 
 Installed package inspected: `@types/google.maps` 3.66.10, including actual Maps3DLibrary, Map3DElement, Marker3DInteractiveElement and LocationClickEvent exports. Live browser check on the configured build rendered Google satellite imagery, mounted the native map, enabled all five custom controls and reported no uncaught browser exceptions. No key is recorded here. See `docs/google-earth.md` for setup and the online/offline boundary.
+
+## New design completion, 15 November 2026
+
+Live browser checks of the configured Google build completed successfully:
+- Satellite tiles load with place labels; analog-site selection populates the original coordinate inputs.
+- The Maps3D `gmp-steadychange` event reported `isSteady: true` with rendered imagery. Native 3D controls wait for this event.
+- An elevated saved site focuses within the expected visual range, and zoom and overview reset work after sending a complete camera command. The camera's zero altitude is relative to ground for local views and absolute for the overview.
+- Satellite / 3D globe / original score-map switching, comparison views and explicit authentication-failure recovery pass without uncaught browser errors.
+
+These are rendering and interaction observations, not new scientific measurements. The implementation still uses the existing grid-cell lookup, score functions, sources and missing-data rules. Reproduction: `npm run build` and `npm run check:ui` in `app/` with a local key. The key remains outside Git. The browser test is `tools/check-new-design.mjs`.

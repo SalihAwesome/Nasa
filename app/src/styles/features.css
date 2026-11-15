@@ -11,7 +11,7 @@
 .theme-toggle:hover, .feature-panel button:hover { border-color: var(--color-accent); }
 .app-nav .ask-nav { color: var(--color-accent); }
 h1 { font-weight: 700; }
-main > h1 { max-inline-size: 50ch; font-size: clamp(1.8rem, 2.6vw, 2.4rem); }
+main > h1 { max-inline-size: 60ch; font-size: clamp(1.8rem, 2.6vw, 2.2rem); }
 main > .view-description { font-size: var(--text-body); line-height: 1.6; max-width: 85ch; }
 main h2, main :is(.map-caption, .rank-panel) h2, .app-footer h2 {
   font-size: clamp(1.15rem, 1.6vw, 1.4rem);
@@ -86,7 +86,7 @@ p { text-wrap: pretty; }
 .assistant-setup p { margin-block: var(--space-2); }
 .assistant-setup input { min-height: var(--control-min); width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-small); background: var(--color-background); color: var(--color-text); padding: var(--space-2); font: inherit; }
 .comparison-globes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); margin-block: var(--space-6); }
-.location-picker { min-width: 0; }
+.location-picker { min-width: 0; padding: var(--space-6); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-panel); }
 .location-selectors { display: grid; grid-template-columns: minmax(6rem, .6fr) minmax(0, 1.4fr); gap: var(--space-3); margin-block: var(--space-3); }
 .location-selectors label, .compare-run label, .compare-settings label { display: grid; gap: var(--space-1); min-width: 0; }
 .compare-workspace :is(select, button, input) { font: inherit; min-height: var(--control-min); border: 1px solid var(--color-border); border-radius: var(--radius-small); background: var(--color-surface); color: var(--color-text); padding: var(--space-2); min-width: 0; }
@@ -115,4 +115,6 @@ p { text-wrap: pretty; }
 .assistant-panel .feature-primary { justify-self: start; }
 @media (max-width: 47rem) {
   .compare-pickers, .compare-settings { grid-template-columns: minmax(0, 1fr); }
+  .location-picker { padding: var(--space-4); }
+  .location-selectors { grid-template-columns: minmax(0, 1fr); }
 }

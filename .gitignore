@@ -8,3 +8,10 @@ __pycache__/
 /app/.env
 /app/.env.*
 !/app/.env.example
+
+# Local design review output (the design-system source remains tracked).
+/app/.impeccable/review/
+/app/.impeccable/check-*.mjs
+/app/.impeccable/diagnose-*.mjs
+/app/.impeccable/VERIFICATION.md
+/app/.taste-skill/

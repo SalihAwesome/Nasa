@@ -13,28 +13,31 @@ type GoogleEarthProps = {
   onSelect: (point: Cell) => void
   initialRange?: number
   focusRange?: number
+  view?: { mode: 'satellite' | 'terrain'; onChange: (mode: 'satellite' | 'terrain') => void }
 }
 
 export function GoogleEarthView(props: GoogleEarthProps) {
   const [terrain, setTerrain] = useState(false)
+  const showTerrain = props.view ? props.view.mode === 'terrain' : terrain
+  const chooseSatellite = () => props.view ? props.view.onChange('satellite') : setTerrain(false)
   const initialRange = props.initialRange ?? 18000000
   return <>
-    <div className="google-earth-toolbar" role="group" aria-label="Google imagery view">
+    {!props.view && <div className="google-earth-toolbar" role="group" aria-label="Google imagery view">
       <button type="button" aria-pressed={!terrain} onClick={() => setTerrain(false)}>Satellite</button>
-      <button type="button" aria-pressed={terrain} onClick={() => setTerrain(true)}>3D terrain</button>
-    </div>
-    {terrain ? <Google3DEarthView {...props} initialRange={initialRange} />
+      <button type="button" aria-pressed={terrain} onClick={() => setTerrain(true)}>3D globe</button>
+    </div>}
+    {showTerrain ? <Google3DEarthView {...props} initialRange={initialRange} onSatellite={chooseSatellite} />
       : <GoogleSatelliteView {...props} initialRange={initialRange} />}
   </>
 }
 
-function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 18000000, focusRange }: GoogleEarthProps) {
+function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 18000000, focusRange, onSatellite }: GoogleEarthProps & { onSatellite: () => void }) {
   const host = useRef<HTMLDivElement>(null)
   const map = useRef<google.maps.maps3d.Map3DElement | null>(null)
   const sdk = useRef<google.maps.Maps3DLibrary | null>(null)
   const callbacks = useRef(onSelect)
   const initial = useRef({ selection, initialRange })
-  const previousSelection = useRef(selection)
+  const previousSelection = useRef<Cell | null>(null)
   const [status, setStatus] = useState<LoadState>('loading')
   const [labels, setLabels] = useState(true)
   useLayoutEffect(() => { callbacks.current = onSelect }, [onSelect])
@@ -43,8 +46,9 @@ function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 1800
     const element = host.current
     if (!element) return
     let active = true
+    let failed = false
     let removeListeners = () => {}
-    const fail = () => { if (active) setStatus('error') }
+    const fail = () => { failed = true; if (active) setStatus('error') }
     window.addEventListener('google-maps-auth-failure', fail)
     const timeout = window.setTimeout(fail, 45000)
     loadGoogleEarth().then(library => {
@@ -59,19 +63,24 @@ function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 1800
         gestureHandling: library.GestureHandling.COOPERATIVE,
       })
       view.setAttribute('aria-label', 'Google satellite 3D Earth map')
+      const ready = (event: Event) => {
+        if (active && !failed && 'isSteady' in event && event.isSteady === true) {
+          window.clearTimeout(timeout)
+          setStatus('ready')
+        }
+      }
       const choose = (event: Event) => {
         if (event instanceof library.LocationClickEvent && event.position) {
           callbacks.current({ lat: event.position.lat, lon: event.position.lng })
         }
       }
       view.addEventListener('gmp-error', fail)
+      view.addEventListener('gmp-steadychange', ready)
       view.addEventListener('gmp-click', choose)
       element.replaceChildren(view)
       map.current = view
-      // Camera controls work while Google progressively streams sharper imagery.
-      window.clearTimeout(timeout)
-      setStatus('ready')
       removeListeners = () => {
+        view.removeEventListener('gmp-steadychange', ready)
         view.removeEventListener('gmp-error', fail)
         view.removeEventListener('gmp-click', choose)
         view.remove()
@@ -89,9 +98,11 @@ function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 1800
 
   useEffect(() => {
     const view = map.current
-    if (!view) return
-    if (previousSelection.current.lat === selection.lat && previousSelection.current.lon === selection.lon) return
+    if (!view || status !== 'ready') return
+    const previous = previousSelection.current
+    if (previous?.lat === selection.lat && previous.lon === selection.lon) return
     previousSelection.current = selection
+    if (!previous && focusRange === undefined) return
     // Apply the camera atomically and target the terrain, rather than sea level.
     // Independent center/range writes can put the camera below elevated sites.
     moveCamera({ center: { lat: selection.lat, lng: selection.lon },
@@ -118,11 +129,18 @@ function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 1800
     return () => markers.forEach(marker => marker.remove())
   }, [landmarks, status])
 
-  function moveCamera(camera: google.maps.maps3d.CameraOptions) {
+  function moveCamera(camera: Pick<google.maps.maps3d.CameraOptions, 'range' | 'tilt' | 'heading'> & { center?: google.maps.LatLngLiteral }) {
     const view = map.current
     if (!view || !sdk.current) return
-    Promise.resolve(view.flyCameraTo({ endCamera: { ...camera,
-      altitudeMode: sdk.current.AltitudeMode.RELATIVE_TO_GROUND }, durationMillis: 0 })).catch(() => setStatus('error'))
+    const center = camera.center ?? view.center ?? { lat: initial.current.selection.lat, lng: initial.current.selection.lon }
+    const range = camera.range ?? view.range ?? initialRange
+    // Always send a complete camera. A previous center's absolute elevation must
+    // not be reinterpreted as a height above ground on subsequent zoom commands.
+    Promise.resolve(view.flyCameraTo({ endCamera: {
+      center: { lat: center.lat, lng: center.lng, altitude: 0 }, range,
+      tilt: camera.tilt ?? view.tilt ?? 0, heading: camera.heading ?? view.heading ?? 0,
+      altitudeMode: range > 1000000 ? sdk.current.AltitudeMode.ABSOLUTE : sdk.current.AltitudeMode.RELATIVE_TO_GROUND,
+    }, durationMillis: 0 })).catch(() => setStatus('error'))
   }
 
   function overview() {
@@ -135,9 +153,9 @@ function Google3DEarthView({ selection, landmarks, onSelect, initialRange = 1800
       <div ref={host} className="google-earth-host" />
       {status === 'loading' && <p className="google-earth-status" role="status">Loading Google satellite imagery…</p>}
       {status === 'error' && <div className="google-earth-status google-earth-error" role="alert">
-        <strong>Google’s map could not load</strong>
-        <p>Check your internet connection and that the Google Maps key allows this website and the Maps JavaScript API.</p>
-        <button type="button" onClick={() => window.location.reload()}>Retry map</button>
+        <strong>The 3D view could not finish loading</strong>
+        <p>Continue with satellite imagery, or check your connection and browser’s 3D graphics support.</p>
+        <button type="button" onClick={onSatellite}>Return to satellite</button>
       </div>}
     </div>
     <div className="google-earth-toolbar" role="group" aria-label="Google Earth view controls">
