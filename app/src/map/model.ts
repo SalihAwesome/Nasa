@@ -32,10 +32,14 @@ export function readTargetNumbers(input: unknown, target: Target, missingReason:
   }))
 }
 
+function toleranceSettings(target: Target): Record<string, { tolerance: number }> {
+  return { ...target.channels, ...target.sun, ...terrainTolerances, ...(target.mobility ? { dryness: { tolerance: target.mobility.dryness.tolerance.value } } : {}) }
+}
+
 export function computeScores(month: EarthMonth, target: Target, numbers: TargetNumbers, definition: TestDefinition): CellScore[] {
   if (!definition.enabled) return Array.from({ length: month.cellCount }, () => ({ score: null, reason: definition.reason ?? 'Test not built.', missing: [] }))
   const weighted = Object.entries(definition.weights).filter(([, weight]) => weight && weight.value > 0)
-  const settingsById: Record<string, { tolerance: number }> = { ...target.channels, ...target.sun, ...terrainTolerances, ...(target.mobility ? { dryness: { tolerance: target.mobility.dryness.tolerance.value } } : {}) }
+  const settingsById = toleranceSettings(target)
   // A missing target is shared by every cell. Preserve it without constructing
   // the same reasons and arithmetic objects tens of thousands of times.
   if (weighted.every(([id]) => !settingsById[id] || numbers[id]?.value == null)) {
@@ -86,41 +90,28 @@ export function computeScores(month: EarthMonth, target: Target, numbers: Target
 
 type Ranked = { index: number; score: number; missing: string[] }
 
-export function rankCells(scores: readonly CellScore[], cells?: readonly Cell[], limit = 20): Ranked[] {
-  const ranked = scores.flatMap((result, index) => result.score === null ? [] : [{ index, score: result.score, missing: result.missing }])
-    .sort((a, b) => b.score - a.score || a.index - b.index)
-  if (!cells) return ranked.slice(0, limit)
-  // When a tie is larger than the slots left (e.g. a score that varies only with
-  // latitude), take tied cells spread across the globe instead of the first
-  // neighbours by index. Every chosen cell still has a top-ranked score.
-  const top: Ranked[] = []
-  for (let start = 0; start < ranked.length && top.length < limit;) {
-    let end = start
-    while (end < ranked.length && ranked[end].score === ranked[start].score) end++
-    const group = ranked.slice(start, end)
-    top.push(...(group.length <= limit - top.length ? group : spread(group, cells, limit - top.length)))
-    start = end
-  }
-  return top
+/** Weighted mean of |Earth - target| / tolerance, without the score's clamp at zero.
+ * Used only to order cells whose scores tie; the scores themselves are unchanged. */
+export function computeDistances(month: EarthMonth, target: Target, numbers: TargetNumbers, definition: TestDefinition): Float64Array {
+  const settingsById = toleranceSettings(target)
+  const quantities = Object.entries(definition.weights).flatMap(([id, weight]) => {
+    const tolerance = settingsById[id]?.tolerance, goal = numbers[id]?.value, layer = month.layers[id]
+    return weight && weight.value > 0 && tolerance && goal != null && layer ? [{ weight: weight.value, tolerance, goal, values: layer.values }] : []
+  })
+  return Float64Array.from({ length: month.cellCount }, (_, index) => {
+    let sum = 0, weights = 0
+    for (const { weight, tolerance, goal, values } of quantities) {
+      const value = values[index]
+      if (value == null) continue
+      sum += weight * Math.abs(value - goal) / tolerance
+      weights += weight
+    }
+    return weights ? sum / weights : Infinity
+  })
 }
 
-function spread(group: Ranked[], cells: readonly Cell[], count: number) {
-  const radians = Math.PI / 180
-  const unit = group.map(({ index }) => {
-    const lat = cells[index].lat * radians, lon = cells[index].lon * radians
-    return [Math.cos(lat) * Math.cos(lon), Math.cos(lat) * Math.sin(lon), Math.sin(lat)]
-  })
-  const nearest = new Float64Array(group.length).fill(Infinity)
-  const chosen: number[] = []
-  for (let pick = 0; chosen.length < count; ) {
-    chosen.push(pick)
-    let best = -1
-    for (let i = 0; i < group.length; i++) {
-      const d = 1 - (unit[i][0] * unit[pick][0] + unit[i][1] * unit[pick][1] + unit[i][2] * unit[pick][2])
-      if (d < nearest[i]) nearest[i] = d
-      if (best < 0 || nearest[i] > nearest[best]) best = i
-    }
-    pick = best
-  }
-  return chosen.sort((a, b) => a - b).map(i => group[i])
+export function rankCells(scores: readonly CellScore[], distances?: ArrayLike<number>, limit = 20): Ranked[] {
+  return scores.flatMap((result, index) => result.score === null ? [] : [{ index, score: result.score, missing: result.missing }])
+    .sort((a, b) => b.score - a.score || (distances ? distances[a.index] - distances[b.index] : 0) || a.index - b.index)
+    .slice(0, limit)
 }

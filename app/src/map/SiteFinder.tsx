@@ -8,7 +8,7 @@ import { terrainSettings } from '../data/terrain'
 import { coverage } from '../score/combine'
 import { cachedMapData } from './data'
 import type { MapData } from './data'
-import { computeScores, rankCells } from './model'
+import { computeDistances, computeScores, rankCells } from './model'
 import type { TestDefinition } from './model'
 import { EarthGlobe } from './EarthGlobe'
 import { fieldSites } from './fieldSites'
@@ -73,7 +73,7 @@ export function MapView({ data }: { data: MapData }) {
   let result = results.get(month)
   if (!result) {
     const scores = computeScores(layer, target, numbers, definition)
-    const top = rankCells(scores, data.cells)
+    const top = rankCells(scores, computeDistances(layer, target, numbers, definition))
     result = { scores, top, scoredCount: scores.filter(row => row.score !== null).length,
       tiedAtTop: top.length ? scores.filter(row => row.score === top[0].score).length : 0 }
     results.set(month, result)
@@ -155,7 +155,7 @@ export function MapView({ data }: { data: MapData }) {
         <p className="section-explanation">Open an area to inspect its conditions and missing measurements.</p>
         <div className="rank-context"><strong>{targetLabel}</strong><span>{testLabels[testId]} · {monthLabels[month - 1]}</span></div>
         <p className="map-meta rank-count" role="status">{scoredCount.toLocaleString('en')} cells with a score</p>
-        {tiedAtTop > 1 && <p className="rank-tie-note">{tiedAtTop.toLocaleString('en')} areas share the top score of {matchPercent(top[0].score)}. The list spreads tied areas around the world rather than showing neighbours.</p>}
+        {tiedAtTop > 1 && <p className="rank-tie-note">{tiedAtTop.toLocaleString('en')} areas share the top score of {matchPercent(top[0].score)}. Tied areas are listed by how close their measured conditions come to the target, including conditions outside tolerance that score 0.</p>}
         {top.length ? <>
           <ol id="ranked-results" className="ranked-cells">{top.map((entry, index) => {
             const place = nearestPlace(data.cells[entry.index], cities)
