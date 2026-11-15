@@ -1,319 +1,132 @@
 ---
 name: Proving Ground
-description: A readable Earth and planetary field-test workspace.
+description: A clear mission-planning workspace for comparing Earth, Moon and Mars conditions.
 colors:
-  background: "#101822"
-  surface: "#182430"
-  text: "#edf3fa"
-  muted: "#b8c6d4"
-  border: "#374957"
-  accent: "#8cdbed"
-  accent-soft: "#203646"
-  focus: "#ffcf52"
-  score-0: "#172e35"
-  score-025: "#24504e"
-  score-05: "#357d70"
-  score-075: "#53b69a"
-  score-1: "#83f1c7"
-  no-score: "#6f7886"
-  pod: "#66e0c2"
-  satellite: "#77bbff"
-  mars: "#ffaa7c"
-  sun: "#ffcf52"
-  sun-outline: "#ffbb45"
-  sky-glow: "#162a3b"
-  temperature-plot: "#0c1520"
-  temperature-text: "#e0f1fa"
-  temperature-grid: "#355669"
-  temperature-cold: "#44baff"
-  temperature-mild: "#40e5bd"
-  temperature-warm: "#ff9c49"
-  estimate-text: "#acd4ff"
-  estimate-background: "#18334e"
-  measured-text: "#96efd2"
-  measured-background: "#153c31"
-  simulated-text: "#ffdc8a"
-  simulated-background: "#46361c"
-  light-background: "#eef2f5"
-  light-surface: "#ffffff"
-  light-text: "#172c3c"
-  light-muted: "#4e6272"
-  light-border: "#bdcbd6"
-  light-accent: "#14627a"
-  light-accent-soft: "#dcecf2"
-  light-focus: "#17654c"
-  light-pod: "#17654c"
-  light-satellite: "#175f9a"
-  light-mars: "#984522"
-  light-sun: "#986100"
-  light-sun-outline: "#784500"
-  light-sky-glow: "#e7edf1"
-  light-temperature-plot: "#f0f4f5"
-  light-temperature-text: "#253747"
-  light-temperature-grid: "#81929e"
-  light-temperature-cold: "#126390"
-  light-temperature-mild: "#147057"
-  light-temperature-warm: "#a5481c"
-  light-estimate-text: "#1c5074"
-  light-estimate-background: "#e1eef8"
-  light-measured-text: "#14543c"
-  light-measured-background: "#e1f1e6"
-  light-simulated-text: "#6e480e"
-  light-simulated-background: "#f8ebd2"
+  background: "#f4f7f7"
+  surface: "#ffffff"
+  text: "#1c3237"
+  accent: "#176653"
 typography:
-  headline:
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif"
-    fontSize: "clamp(1.8rem, 2.6vw, 2.2rem)"
-    fontWeight: 700
-    lineHeight: 1.15
-    letterSpacing: "-.03em"
-  title:
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif"
-    fontSize: "clamp(1.15rem, 1.6vw, 1.4rem)"
-    fontWeight: 700
-    lineHeight: 1.15
   body:
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.6
-  label:
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 500
-  metadata:
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, Segoe UI, system-ui, sans-serif"
     fontSize: "0.9375rem"
-    fontWeight: 400
-  data:
-    fontFamily: "Consolas, monospace"
-    fontSize: "1rem"
+    lineHeight: 1.6
 rounded:
-  "small": "0.25rem"
-  "panel": "1rem"
-spacing:
-  "1": "0.25rem"
-  "2": "0.5rem"
-  "3": "0.75rem"
-  "4": "1rem"
-  "6": "1.5rem"
-  "8": "2rem"
-  "12": "3rem"
-  "16": "4rem"
-components:
-  button-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.background}"
-    rounded: "{rounded.small}"
-    padding: "0.5rem 0.75rem"
-  button-primary-light:
-    backgroundColor: "{colors.light-accent}"
-    textColor: "{colors.light-surface}"
-    rounded: "{rounded.small}"
-    padding: "0.5rem 0.75rem"
-  button-secondary:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.small}"
-    padding: "0.5rem 0.75rem"
-  input:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.small}"
-    padding: "0.5rem 0.75rem"
-  nav-active:
-    backgroundColor: "{colors.accent-soft}"
-    textColor: "{colors.text}"
-    height: "64px"
-    padding: "0.75rem"
-  evidence-measured:
-    backgroundColor: "{colors.measured-background}"
-    textColor: "{colors.measured-text}"
-    rounded: "{rounded.small}"
-    padding: "0.25rem 0.5rem"
-  panel:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.panel}"
-    padding: "1.5rem"
+  control: "0.5rem"
+  panel: "0.75rem"
 ---
 
-# Design System: Proving Ground
+# Design system: Proving Ground
 
-## Overview
+## Direction
 
-**Creative North Star: "The Proving Ground"**
+A mission planner uses a laptop in a bright project room to compare potential field sites; a colleague opens the same tools on a phone outdoors. Light surfaces keep controls and evidence readable in those settings. The existing teal identity carries actions and selection, while the scientific globe keeps its own dark canvas. A saved dark-theme preference is respected.
 
-Proving Ground is a working application for comparing Earth field-test conditions with Moon and Mars targets. The NASA Eyes reference informs the exploration canvas: dark blue ground, readable slate surfaces, bright neutral type and restrained teal actions. The light theme uses cool white surfaces with the same information hierarchy.
+The reference is Croptions' planning flow: clear inputs, geography, then an inspectable result. This is the working application. There is no marketing screen between the planner and the tools. Product context is in `../PRODUCT.md`; scientific requirements remain in `../docs/mission-plan.md` and `../docs/project-brief.md`.
 
-The interface gives the map, comparison controls and scientific evidence room to be read on a laptop or phone. Presentation choices do not change source data, scoring weights, thresholds or missing-data semantics. Product context lives in `../docs/project-brief.md` and `../docs/mission-plan.md`; measured facts live in `../docs/verified-facts.md`. This document records the implemented system, not a paused design draft.
+## Layout and navigation
 
-**Key Characteristics:**
-- Separate identity/actions row and five tool tabs.
-- Local IBM Plex Sans, clear hierarchy and generous control targets.
-- Explicit score coverage, evidence labels and missing-data reasons.
-- Real Google imagery when configured; local scientific views remain available.
+Desktop uses a fixed 244px sidebar, a 76px workspace toolbar, and a content area with 36px gutters. Five tools remain available through their original hash routes. The assistant and theme control live in the toolbar. At 1088px and below, the sidebar becomes a compact brand header and a Menu disclosure. Opening the menu focuses a navigation link; Escape closes it and restores focus to the trigger. Route changes focus the page heading. The skip link remains the first keyboard target.
 
-## Colors
+The finder groups target, equipment test and month in one form surface. A large map sits beside ranked results; the columns stack at 960px. The form stacks at 640px. Every ranked grid cell keeps its original link, percentage and quantity coverage. Five results appear per page. A place name identifies the nearest mapped place, with its distance shown explicitly; it does not rename the grid cell or imply that the named place has that score. Coordinates identify the actual result. Score tracks repeat the existing numeric index visually.
 
-Teal identifies actions and active states; blue-slate neutrals separate the workspace from its panels. The following table preserves the exact CSS token names and both theme values from `src/styles/tokens.css`. A dash means the light theme inherits the root value.
-
-### Primary
-
-The accent and accent-soft pair marks links, selected map modes and active navigation. Focus has a separate high-contrast color. Use the theme-specific values rather than reducing text opacity.
-
-### Neutral
-
-Background, surface, text, muted and border form the page hierarchy. Muted text remains readable supporting copy. The map viewport can contain a gradient for depth; that gradient is presentation, not a measurement.
-
-### Scientific and evidence roles
-
-The score scale increases in brightness at five equally spaced stops from 0 to 1. Missing scores use their own neutral color, distinct from zero. Pod, satellite and Mars curves keep their source identities in every view, with theme-specific contrast adjustments. Sun, temperature and evidence colors retain their existing meanings.
-
-| CSS token | Dark / root | Light override | Role |
-|---|---|---|---|
-| `--color-background` | #101822 | #eef2f5 | Page ground |
-| `--color-surface` | #182430 | #ffffff | Content surface |
-| `--color-text` | #edf3fa | #172c3c | Primary text |
-| `--color-muted` | #b8c6d4 | #4e6272 | Supporting text |
-| `--color-border` | #374957 | #bdcbd6 | Dividers |
-| `--color-accent` | #8cdbed | #14627a | Links and selected controls |
-| `--color-accent-soft` | #203646 | #dcecf2 | Selected surface |
-| `--color-focus` | #ffcf52 | #17654c | Keyboard focus |
-| `--color-score-0` | #172e35 | â€” | Score 0 |
-| `--color-score-025` | #24504e | â€” | Score 0.25 |
-| `--color-score-05` | #357d70 | â€” | Score 0.5 |
-| `--color-score-075` | #53b69a | â€” | Score 0.75 |
-| `--color-score-1` | #83f1c7 | â€” | Score 1 |
-| `--color-no-score` | #6f7886 | â€” | Missing score, distinct from zero |
-| `--color-pod` | #66e0c2 | #17654c | Pod curve |
-| `--color-satellite` | #77bbff | #175f9a | Satellite curve |
-| `--color-mars` | #ffaa7c | #984522 | Mars curve |
-| `--color-sun` | #ffcf52 | #986100 | Sun marker and glow |
-| `--color-sun-outline` | #ffbb45 | #784500 | Sun marker edge |
-| `--color-sky-glow` | #162a3b | #e7edf1 | Local sky gradient center |
-| `--color-temperature-plot` | #0c1520 | #f0f4f5 | Temperature plot background |
-| `--color-temperature-text` | #e0f1fa | #253747 | Temperature labels |
-| `--color-temperature-grid` | #355669 | #81929e | Temperature grid |
-| `--color-temperature-cold` | #44baff | #126390 | Cold curve segments |
-| `--color-temperature-mild` | #40e5bd | #147057 | Mild curve segments |
-| `--color-temperature-warm` | #ff9c49 | #a5481c | Warm curve segments |
-| `--color-estimate-text` | #acd4ff | #1c5074 | Estimate label text |
-| `--color-estimate-background` | #18334e | #e1eef8 | Estimate label surface |
-| `--color-measured-text` | #96efd2 | #14543c | Measured label text |
-| `--color-measured-background` | #153c31 | #e1f1e6 | Measured label surface |
-| `--color-simulated-text` | #ffdc8a | #6e480e | Simulated label text |
-| `--color-simulated-background` | #46361c | #f8ebd2 | Simulated label surface |
-
-**The Evidence Rule.** Keep literal Estimate, Measured and Simulated labels visible. A label never changes missing data into data. Show a labelled score legend and the reason a score is missing; curve keys name their sources and distinguish line styles.
+Panels use a fine border, a 12px corner radius and no drop shadow. The map, ranked list and control group each have a distinct job. Source notes, missing-value explanations, evidence labels and the distinction between a match index and a probability remain available. Globe keyboard help uses a native disclosure. Google source attribution is unchanged.
 
 ## Typography
 
-IBM Plex Sans is self-hosted at `public/fonts/ibm-plex-sans.ttf` with a local `@font-face`, variable weights 100â€“700 and `font-display: swap`. No font service is required. Segoe UI and system sans-serif are fallbacks; Consolas supplies readings and code.
+Keep the self-hosted variable IBM Plex Sans, with Segoe UI and system sans-serif as fallbacks. No font service is needed. Body copy is 15px, field and result labels 14px, metadata 13px, navigation 16px, section titles 18px and page titles 32px (28px on phones). Use weight and spacing for hierarchy. Use the existing monospace family for instrument readings. Headings balance; prose wraps prettily. No decorative display type is used in controls.
 
-The operating hierarchy uses 17px body copy, 16px navigation and field labels, and 15px metadata at the default 16px root. Page headings use the implemented responsive clamp in the frontmatter, with 700 weight. Section headings use the smaller responsive title clamp; subheadings use `clamp(1.06rem, 1.5vw, 1.2rem)` at 600 weight and 1.25 line height. These component styles override the larger base heading token where applied.
+## Tokens
 
-| CSS token | Value | Role |
+`src/styles/tokens.css` is authoritative. The score palette and scientific series colors retain their source identities. A dash means the light theme inherits the root value.
+
+| Color token | Dark / root | Light |
 |---|---|---|
-| `--font-body` | 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif | Interface and prose |
-| `--font-heading` | var(--font-body) | Base heading family |
-| `--font-data` | Consolas, monospace | Readings and code |
-| `--text-small` | 0.9375rem | Metadata and evidence tags (15px) |
-| `--text-label` | 1rem | Navigation and supporting labels (16px) |
-| `--text-body` | 1.0625rem | Body copy (17px) |
-| `--text-lead` | 1.125rem | Lead and chart labels |
-| `--text-title` | 1.5rem | Base section/brand size |
-| `--text-heading` | 2.5rem | Base heading size; page heading clamp overrides it |
-| `--weight-regular` | 400 | Body weight |
-| `--weight-medium` | 600 | Controls and subheadings |
-| `--line-body` | 1.6 | Reading rhythm |
-| `--line-heading` | 1.15 | Heading rhythm |
+| `--color-background` | #101c20 | #f4f7f7 |
+| `--color-surface` | #18282d | #ffffff |
+| `--color-text` | #edf4f3 | #1c3237 |
+| `--color-muted` | #b2c4c5 | #53696e |
+| `--color-border` | #35494e | #d9e3e4 |
+| `--color-accent` | #87dcc6 | #176653 |
+| `--color-accent-soft` | #203e3b | #e4f1eb |
+| `--color-sidebar` | #142328 | #ffffff |
+| `--color-surface-subtle` | #1c3035 | #f0f5f4 |
+| `--color-map-ground` | #0c1b24 | — |
+| `--color-on-map` | #d9e7ed | — |
+| `--color-on-accent` | #102b24 | #ffffff |
+| `--color-focus` | #ffcf52 | #17654c |
+| `--color-score-0` | #172e35 | — |
+| `--color-score-025` | #24504e | — |
+| `--color-score-05` | #357d70 | — |
+| `--color-score-075` | #53b69a | — |
+| `--color-score-1` | #83f1c7 | — |
+| `--color-no-score` | #6f7886 | — |
+| `--color-pod` | #66e0c2 | #17654c |
+| `--color-satellite` | #77bbff | #175f9a |
+| `--color-mars` | #ffaa7c | #984522 |
+| `--color-sun` | #ffcf52 | #986100 |
+| `--color-sun-outline` | #ffbb45 | #784500 |
+| `--color-sky-glow` | #162a3b | #e7edf1 |
+| `--color-temperature-plot` | #0c1520 | #f0f4f5 |
+| `--color-temperature-text` | #e0f1fa | #253747 |
+| `--color-temperature-grid` | #355669 | #81929e |
+| `--color-temperature-cold` | #44baff | #126390 |
+| `--color-temperature-mild` | #40e5bd | #147057 |
+| `--color-temperature-warm` | #ff9c49 | #a5481c |
+| `--color-estimate-text` | #acd4ff | #1c5074 |
+| `--color-estimate-background` | #18334e | #e1eef8 |
+| `--color-measured-text` | #96efd2 | #14543c |
+| `--color-measured-background` | #153c31 | #e1f1e6 |
+| `--color-simulated-text` | #ffdc8a | #6e480e |
+| `--color-simulated-background` | #46361c | #f8ebd2 |
 
-**The Reading Rule.** Preserve the distinction between body copy, navigation labels and metadata. Keep numeric comparisons aligned with tabular figures and retain visible units.
+The estimate, measured and simulated pairs retain literal labels. Grey score cells mean unavailable data, not a zero match. `--color-on-accent` supplies primary-button and brand-mark text independently of the page background. `--color-map-ground` stays dark in both themes. Never filter Google imagery or obscure provider attribution.
 
-## Layout
+| Interface token | Value |
+|---|---|
+| `--font-body` | 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif |
+| `--font-heading` | var(--font-body) |
+| `--font-data` | Consolas, monospace |
+| `--text-small` | 0.8125rem |
+| `--text-label` | 0.875rem |
+| `--text-navigation` | 1rem |
+| `--text-body` | 0.9375rem |
+| `--text-lead` | 1.125rem |
+| `--text-title` | 1.5rem |
+| `--text-heading` | 2rem |
+| `--weight-regular` | 400 |
+| `--weight-medium` | 600 |
+| `--line-body` | 1.6 |
+| `--line-heading` | 1.15 |
+| `--space-1` | 0.25rem |
+| `--space-2` | 0.5rem |
+| `--space-3` | 0.75rem |
+| `--space-4` | 1rem |
+| `--space-6` | 1.5rem |
+| `--space-8` | 2rem |
+| `--space-12` | 3rem |
+| `--space-16` | 4rem |
+| `--radius-small` | 0.5rem |
+| `--radius-panel` | 0.75rem |
+| `--border-width` | 1px |
+| `--focus-width` | 3px |
+| `--control-min` | 2.75rem |
+| `--content-max` | 96rem |
+| `--reading-max` | 65ch |
+| `--sidebar-width` | 15.25rem |
+| `--z-navigation` | 20 |
+| `--z-skip-link` | 30 |
 
-The centered shell has a maximum width of 96rem, with 2rem horizontal padding and 1rem padding at widths up to 40rem. The header puts brand, assistant and theme controls above five equally sized tool tabs. Desktop tabs are at least 64px high and use an active underline. At 68rem and below an accessible Menu disclosure replaces the tab row; its open layout has two columns, then one column at 40rem. Menu links are at least 56px high, and Escape closes the menu and returns focus to its trigger.
+## Interaction and motion
 
-The finder uses a flexible map column beside a 23â€“26rem ranked-results column. It stacks at 68rem. At 40rem its three-field controls stack and panels reduce padding from 1.5rem to 1rem. Comparison globes use two equal columns and stack at 55rem; comparison selectors stack at 47rem. Sun comparisons stack at 52rem. Tables retain a horizontal scrolling container when their columns need more width.
+Native selects, range inputs, buttons, links and details provide familiar keyboard behavior. Keep 44px minimum targets, visible focus rings, disabled pagination boundaries and recoverable loading/error states. The saved theme is applied in the HTML head before React paints.
 
-| CSS token | Value | Role |
-|---|---|---|
-| `--space-1` | 0.25rem | Smallest spacing |
-| `--space-2` | 0.5rem | Related inline elements |
-| `--space-3` | 0.75rem | Compact control padding |
-| `--space-4` | 1rem | Default spacing |
-| `--space-6` | 1.5rem | Groups |
-| `--space-8` | 2rem | Large groups |
-| `--space-12` | 3rem | Sections |
-| `--space-16` | 4rem | Major separation |
-| `--control-min` | 2.75rem | Minimum control height (44px) |
-| `--content-max` | 96rem | Maximum shell width |
-| `--reading-max` | 65ch | Default prose measure |
+State transitions last 180ms. Hover movement is limited to small directional arrows. There is no page-entry choreography or continuous decorative animation. Reduced-motion preferences disable interface animations and transitions; the existing scientific playback controls retain their own reduced-motion behavior.
 
-Default prose is limited to 65ch; the view description can extend to 85ch. Use the existing spacing rhythm to group related controls before adding a new container.
+## Implementation and verification
 
-## Elevation & Depth
+`src/styles/shell.css` owns the application shell and shared primitives; `src/map/map.css` owns finder layout; existing feature styles use the same tokens. Lucide React supplies consistent interface icons and the orbit favicon. Its installed license is included in `public/lucide-LICENSE.txt`.
 
-The workspace uses tonal surfaces and fine borders rather than a shadow vocabulary. Local globes and sky viewports supply visual depth inside their own canvas. Earthâ€™s local texture shader has a display-only midtone lift and blue-ocean floor in finder and comparison views, with a brighter blue fallback if the texture is unavailable. Moon and Mars retain their original surface treatment. Google tiles keep their native imagery and attribution; no CSS filter or local Earth shader is applied to them.
+The offline globe remains the default. The existing opt-in Google build, local source files, scoring functions, weights, thresholds, units, missing values and sensor workflows are unchanged. Hardware connections and remote Google services are outside this visual change's smoke check.
 
-For users who allow motion, the main view enters over 420ms with `cubic-bezier(.16,1,.3,1)` from 6px below and 0.65 opacity. Button states transition over 160ms with a 1px pressed movement. Reduced-motion preferences suppress these entry/press effects; Sun playback uses sample stepping instead of continuous playback. Camera defaults are presentation settings, not scientific parameters.
-
-## Shapes
-
-Small-radius controls sit within gently rounded content panels. Preserve explicit field borders and a separate visible keyboard ring.
-
-| CSS token | Value | Role |
-|---|---|---|
-| `--radius-small` | 0.25rem | Controls and evidence tags |
-| `--radius-panel` | 1rem | Content panels |
-| `--border-width` | 1px | Dividers |
-| `--focus-width` | 3px | Keyboard ring |
-
-Desktop tabs have 8px top corners, becoming 8px on all corners in the compact menu. Ranked row links use a 6px radius. These are component values, not additional global tokens. The focus ring has a 0.25rem offset.
-
-## Components
-
-### Buttons and fields
-
-Controls use the small radius, surface background, text color and a visible border. The shared minimum height is 44px, typically with 0.5rem by 0.75rem padding. Primary actions use the accent background; their text uses the page background in dark mode and the white surface in light mode. Secondary actions retain the surface fill and change border color on hover. Disabled states reduce opacity and remove the pointer cursor. All interactive elements retain the shared focus-visible ring.
-
-### Navigation and routing
-
-The five tools are Find test sites, Sunlight, Field measurements, Sensor pod and Compare sites. The assistant is a separate header action; the theme control remains beside it. Current-page state uses both a surface treatment and, on desktop, an underline. Keep actual links and `aria-current` semantics.
-
-The hash remains the route source of truth: `#/map`, `#/card/...`, `#/sun`, `#/truth`, `#/live`, `#/compare` and `#/ask`. Empty hashes open the finder; unknown routes provide a recovery link. Fidelity cards keep the finder navigation active. Route changes update the document title and focus the heading. Direct links, reloads and browser back/forward work without server rewrites.
-
-### Panels and evidence tags
-
-Panels use the surface fill, fine border and panel radius. Finder panels use 1.5rem padding; general feature panels use `clamp(1rem, 3vw, 2rem)`. Comparison pickers share these surfaces and use responsive labelled selectors. Evidence tags use small-radius corners, 0.25rem by 0.5rem padding, metadata size and 600 weight. Keep each tagâ€™s literal evidence text.
-
-### Ranked results
-
-Keep all 20 original cell links and their scores, presented as five rows per page. Each link shows rank, hemisphere coordinates, percentage and available-quantity coverage. Show quantities missing from every result once below the rows; show any row-specific missing quantities beside that row. Full missing-data reasons, defaults and limitations remain available in the details disclosure. Pagination has visible boundary-disabled states. A percentage is a match index, not a probability of mission success.
-
-### Earth imagery and score map
-
-In the opt-in Google build (`VITE_GOOGLE_MAPS=on`), real Google satellite/hybrid tiles are the default Earth view. Satellite, 3D globe and Match colors sit in one mode-control row. Selected state uses `aria-pressed`, accent text and an accent border on the accent-soft surface. At 40rem the finder keeps all three choices in equal columns with 15px labels. Match colors opens the complete local score layer separately; satellite imagery does not claim to show the heatmap.
-
-The optional 3D view waits for `gmp-steadychange` with `isSteady: true` before enabling camera controls. Focus, zoom and reset send complete center/range/tilt/heading camera commands together. Close terrain targets use zero relative-to-ground altitude; ranges above 1,000,000 use absolute altitude for overview. Saved/selected markers avoid duplicate pins and city-pin clutter. A failed 3D view offers Return to satellite; satellite, download and authentication failures have explicit recovery messages. Google attribution remains visible.
-
-With an explicitly empty key override the original local globe and score layer render. The local globe supports drag, pinch, arrow-key rotation, bounded zoom and reset. Country labels provide geographic context, while available named-site cells open their fidelity cards. Earth comparison imagery follows the active Google/local provider; Moon and Mars stay local, and source labels reflect the provider. Synchronized sky rotation, bounded zoom, playback, fullscreen and elevation charts remain available in the Sun view.
-
-The owner explicitly requested a committed public Google Maps browser key. It lives in `google-maps.config.ts`. The default build is offline; `VITE_GOOGLE_MAPS=on` opts in to Google imagery, and `VITE_GOOGLE_MAPS_API_KEY` then replaces the committed key. Other private credentials remain in ignored configuration. Google imagery requires internet access and is neither cached nor redistributed by the application. See `../docs/google-earth.md` for setup and implementation behavior, and `../docs/new-design-verification.md` for completed browser verification and known local-data/backend limits.
-
-## Do's and Don'ts
-
-### Do:
-- **Do** use the actual CSS tokens in both themes and preserve visible focus states.
-- **Do** keep score, coverage, evidence labels, units and missing-data reasons readable together.
-- **Do** retain all ranked cell links, map modes, source attribution and explicit recovery states.
-- **Do** verify changes against the actual application at desktop and narrow widths.
-
-### Don't:
-- **Don't** change scientific values, score weights or missing-data semantics for presentation.
-- **Don't** use the zero-score color for missing scores or color alone to name a curve.
-- **Don't** filter Google imagery, obscure its attribution or present satellite tiles as the score layer.
-- **Don't** commit a real browser key or require a font service for interface type.
-
-`npm test -- src/shell.test.tsx --reporter=verbose` checks that every CSS token documented here exists and verifies base text/background contrast of at least 4.5:1. Full implementation checks and the completed browser-width matrix are recorded in `../docs/new-design-verification.md`; this documentation merge does not substitute for those checks.
+Design sources: installed Impeccable v3.9.1 (product register), Taste's `design-taste-frontend` guidance, and the Croptions reference supplied by the owner. Taste's full-screen marketing templates and extensive finish-gate suite are not used for this working scientific interface; the owner requested only small necessary checks. No reference-site assets or copy are redistributed.
