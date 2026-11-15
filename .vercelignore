@@ -1,0 +1,9 @@
+data/raw/
+**/node_modules/
+app/dist/
+.venv/
+Presentation/
+firmware/
+hardware/
+*.docx
+*.jpeg
