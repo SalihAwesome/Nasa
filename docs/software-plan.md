@@ -1,4 +1,4 @@
-# Proving Ground software plan
+# Tayf software plan
 
 This plan turns the software tasks of the four missions into 31 units. A unit is one change that ends in a check you can run. `docs/mission-plan.md` holds the goals and the "done when" line of each mission. `docs/project-brief.md` holds the idea, the scoring rules, the four known sites, and the limits text. `docs/verified-facts.md` holds every endpoint, file name, column name, and test value that a real call returned. This file says how to build the software side.
 
