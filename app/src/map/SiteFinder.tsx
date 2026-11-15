@@ -65,13 +65,18 @@ export function MapView({ data }: { data: MapData }) {
   }, [targetId, testId, month, point])
   const layer = data.months[month - 1]
   const sites = useMemo(() => fieldSites(data), [data])
-  // Score and rank the shipped months when the target/test changes. Slider
-  // updates reuse these results with the current globe orientation.
-  const results = useMemo(() => data.months.map(layer => {
+  // A point selection needs only the current month. Cache visited months rather
+  // than blocking every surface click on twelve complete global rankings.
+  const results = useMemo(() => new Map<number, {
+    scores: ReturnType<typeof computeScores>; top: ReturnType<typeof rankCells>; scoredCount: number
+  }>(), [data.months, target, numbers, definition])
+  let result = results.get(month)
+  if (!result) {
     const scores = computeScores(layer, target, numbers, definition)
-    return { scores, top: rankCells(scores), scoredCount: scores.filter(result => result.score !== null).length }
-  }), [data.months, target, numbers, definition])
-  const { scores, top, scoredCount } = results[month - 1]
+    result = { scores, top: rankCells(scores), scoredCount: scores.filter(row => row.score !== null).length }
+    results.set(month, result)
+  }
+  const { scores, top, scoredCount } = result
   const rowsPerPage = 5
   const rankPages = Math.max(1, Math.ceil(top.length / rowsPerPage))
   const visibleRankPage = Math.min(rankPage, rankPages - 1)

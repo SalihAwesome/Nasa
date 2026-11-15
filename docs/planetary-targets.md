@@ -5,6 +5,8 @@ the Moon. A world switch selects that world's starting point. Clicking the surfa
 pressing Enter after keyboard rotation, or submitting coordinates selects a new point.
 The app preserves that point in the map URL, ranked-result links, fidelity cards,
 and the side-by-side comparison. Earth rankings use the selected point's data.
+Point selection calculates the selected month's ranking and caches visited months,
+avoiding twelve global ranking calculations on each surface click.
 
 ## Data and resolution
 

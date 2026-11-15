@@ -264,7 +264,8 @@ try {
   await call('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...targetCanvas});
   await waitFor('document.querySelector(".target-location-settings h3").textContent==="Lunar surface point"', 'selected lunar point');
   const readMissionPoint = '({lat:document.querySelectorAll(".target-location-settings input")[0].value,lon:document.querySelectorAll(".target-location-settings input")[1].value})';
-  const missionPoint = await ev(readMissionPoint);
+  await waitFor('(()=>{const p=new URLSearchParams(location.hash.split("?")[1]);return document.querySelector(".target-coordinates").textContent===Number(p.get("targetLat")).toFixed(4)+"°, "+Number(p.get("targetLon")).toFixed(4)+"°"})()', 'point URL reflects the selected coordinates');
+  const missionPoint = await ev('(()=>{const p=new URLSearchParams(location.hash.split("?")[1]);return {lat:Number(p.get("targetLat")).toFixed(4),lon:Number(p.get("targetLon")).toFixed(4)}})()');
   const pointMapHash = await ev('location.hash');
   await screenshot('target-moon.png', true);
   const firstScore = await ev('document.querySelector(".ranked-cells li:not([hidden]) .rank-score").firstChild.textContent');
@@ -274,8 +275,14 @@ try {
   assert.ok(await ev('document.querySelector(".card-heading").textContent.includes("Moon · ")'), 'Card names the selected world and point');
   assert.ok(await ev('location.hash.includes("targetLat=")&&location.hash.includes("targetLon=")'), 'Card link keeps point coordinates');
   await call('Page.navigate', {url:origin+'/'+pointMapHash});
+  await call('Page.reload');
   await waitFor('!!document.querySelector(".target-picker")', 'point deep link');
-  await waitFor('JSON.stringify(' + readMissionPoint + ')===' + JSON.stringify(JSON.stringify(missionPoint)), 'Deep link restores selected point');
+  try {
+    await waitFor('JSON.stringify(' + readMissionPoint + ')===' + JSON.stringify(JSON.stringify(missionPoint)), 'Deep link restores selected point');
+  } catch (error) {
+    console.log('Deep-link diagnostic', {expected:missionPoint,hash:pointMapHash,actual:await ev(readMissionPoint)});
+    throw error;
+  }
   await clickText('.target-worlds button', 'Mars');
   await waitFor('document.querySelector(".target-location-settings h3").textContent==="Jezero crater"', 'Mars starting point');
   assert.ok(!await ev('document.querySelector(".target-picker").textContent.includes("(default)")'), 'Starting point has no default suffix');

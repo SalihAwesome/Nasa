@@ -1,8 +1,9 @@
 # Planetary target verification
 
 Verified on 15 November 2026 against the actual production build and the generated
-datasets. The new branch starts from main after PR #37 merged. This change preserves
-the incumbent visual system and its design files.
+datasets. The branch includes the workspace redesign merged in PR #38 while this
+feature was being built. Its sidebar, themes, nearest-place labels, score tracks
+and design files are preserved.
 
 ## Behavior
 
@@ -23,7 +24,7 @@ existing recovery states.
 npm test -- --maxWorkers=2
 Test Files  32 passed (32)
 Tests       231 passed (231)
-Duration    19.71s
+Duration    20.89s
 
 pipeline/.venv/Scripts/python.exe -m pytest -q
 117 passed in 54.61s
@@ -53,9 +54,11 @@ Restoring the guard passes all 14 new target-selection tests. Those tests also
 compare map/card scores for every equipment test on both worlds, verify poles and
 the longitude seam, reject malformed URLs, and prevent rover-weather substitution.
 
-An initial run with Vitest, the Python suite and software-rendered browser checks
-running concurrently hit the existing five-second app-test timeouts. The sequential
-app run above passes without changing test expectations or timeout settings.
+Earlier local runs hit the existing five-second app-test timeouts, including after
+the workspace integration. Point selection previously computed twelve complete
+monthly rankings at once. It now computes the selected month and caches visited
+months. The full app run above passes without changing test expectations or timeout
+settings. The original score formulas and weights are unchanged.
 
 ## Data and visual review
 
@@ -65,14 +68,15 @@ locations per world before writing the datasets. The largest discrepancy is belo
 Raw-response fixtures and unit/cadence checks run in the pipeline test suite.
 Methods and limits are in [planetary-targets.md](planetary-targets.md).
 
-The Impeccable detector found only two advisories on unchanged ranked-result
-component values: its 6px link radius and 1.3rem score type. Both are already
-documented component values. No design-system repair was performed.
+The Impeccable detector ran on the initial feature baseline and found only two
+pre-existing ranked-result component-value advisories. After the upstream redesign
+merged, the integrated captures were reviewed against its updated DESIGN.md.
+No design-system repair was performed.
 
-An independent finish reviewer inspected six supplied captures and both user
+An independent finish reviewer inspected seven supplied captures and both user
 screenshots and returned **ship**, with no material findings. The review covers
 visual finish and supplied interaction evidence, not scientific validation.
-Desktop, 1510px, mobile, narrow, light-theme and selected-Moon captures are local
+Desktop, 1510px, mobile, narrow, light-theme, dark-theme and selected-Moon captures are local
 review artifacts under `app/.impeccable/review/offline/`.
 
 ## Limits
@@ -83,5 +87,5 @@ points. Surface bare-ground/dryness assumptions remain disclosed. The global dat
 are regional screening products and do not resolve rocks, ice cover, terrain
 shadows, atmospheric refraction, engineering tolerances, or operational safety.
 
-No merge or deployment is performed. The pre-existing untracked
+The PR is not merged or deployed. The pre-existing untracked
 `app/figma-preview.html` is excluded.
