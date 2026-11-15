@@ -21,7 +21,7 @@ const helpTopics = [
   { heading: 'Compare two sites', match: /\bcompar(?:e|ing|ison)\b.*\b(?:sites?|locations?|places?|earth|moon|mars)\b|\b(?:sites?|locations?|places?)\b.*\bcompar(?:e|ing|ison)\b/ },
   { heading: 'Find test sites', match: /\b(?:find|rank|ranked|search|choose)\b.*\b(?:sites?|locations?|places?|areas?)\b|\bsite finder\b/ },
   { heading: 'Open field measurements', match: /\b(?:field measurements?|recordings?|csv|sensor logs?)\b/ },
-  { heading: 'Website overview', match: /what.*(?:website|project|app).*|how.*use (?:this|the|our) (?:website|project|app)/ },
+  { heading: 'Website overview', match: /\bwhat\b.*\b(?:website|project|app)\b|\bhow\b.*\buse (?:this|the|our) (?:website|project|app)\b/ },
 ]
 
 export function documentAnswer(messages: Message[], passages: Passage[]): Reply {
